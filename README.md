@@ -1,2 +1,6 @@
-# dorin.lazar-gmail.com
-robotnic
+# Robotnik discord bot
+
+## Features
+
+- nothing
+
