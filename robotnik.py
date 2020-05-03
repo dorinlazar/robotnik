@@ -18,10 +18,12 @@ class MessageHub(object):
 
 
 class RoboClient(discord.Client):
-  def __init__(self):
+  def __init__(self, owner=None):
     discord.Client.__init__(self)
     self.__handlers = {}
     self.__timer_functions = []
+    self.__owner = owner
+    print('Owner:', owner)
 
   def register(self, t: MessageHandler):
     sc = t.shortcode()
@@ -58,23 +60,26 @@ class RoboClient(discord.Client):
       handler = self.__handlers.get(moniker, None)
       if handler:
         await message.channel.send(handler.on_message(payload))
+      elif str(message.author) == self.__owner and txt[1:] == 'quit':
+        print('Logging out on request')
+        await self.logout()
+        print('Done...')
       print('Request from {0.author}: {0.content}'.format(message))
 
-
-client = RoboClient()
-
-# proceed in a dumb way
-client.register(Echo())
 
 with open(os.path.expanduser('~/.robotnik.yml'), 'r') as ymlfile:
   cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 assert 'discord' in cfg
 discordsettings = cfg['discord']
 assert 'key' in discordsettings
+assert 'twitter' in cfg
 
-c = cfg['twitter']
-(ck, cks, at, ats) = (c['ck'], c['cks'], c['at'], c['ats'])
-x = TwitterBot(ck, cks, at, ats)
+kwargs = {}
+if 'client' in cfg:
+  kwargs = cfg['client']
+client = RoboClient(**kwargs)
+client.register(Echo())
+
+x = TwitterBot(**cfg['twitter'])
 client.register_timer(x.on_timer)
-
 client.run(discordsettings['key'])

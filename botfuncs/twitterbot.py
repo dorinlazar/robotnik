@@ -1,12 +1,13 @@
 import twitter
 import html
+import threading
 
 
 class TwitterBot(object):
-  def __init__(self, ck, cks, at, ats):
+  def __init__(self, ck=None, cks=None, at=None, ats=None, throttle=60):
     self.__api = twitter.Api(consumer_key=ck, consumer_secret=cks, access_token_key=at, access_token_secret=ats)
     self.__since = None
-    self.__throttle = 60
+    self.__throttle = throttle
     self.__counter = 0
 
   def on_timer(self):
@@ -26,7 +27,7 @@ class TwitterBot(object):
         for msg in reversed(timeline):
           print('Received tweet: ', msg.text)
           res.append(('tweets', '{}{} {}'.format('RT ' if msg.retweeted else '', html.unescape(msg.text),
-                                                  'https://twitter.com/i/web/status/{}'.format(msg.id) if msg.truncated or len(msg.urls) == 0 else '')))
+                                                 'https://twitter.com/i/web/status/{}'.format(msg.id) if msg.truncated or len(msg.urls) == 0 else '')))
       else:
         print('Last tweet:', timeline[0].id, timeline[0].text)
     return res
