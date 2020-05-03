@@ -1,4 +1,5 @@
 import twitter
+import html
 
 
 class TwitterBot(object):
@@ -24,8 +25,8 @@ class TwitterBot(object):
       if perform_send:
         for msg in reversed(timeline):
           print('Received tweet: ', msg.text)
-          res.append(('tweets', '{} {}'.format('RT' if msg.retweeted else 'TW',
-                                               'https://twitter.com/i/web/status/{}'.format(msg.id) if msg.truncated else msg.text)))
+          res.append(('tweets', '{}{} {}'.format('RT ' if msg.retweeted else '', html.unescape(msg.text),
+                                                  'https://twitter.com/i/web/status/{}'.format(msg.id) if msg.truncated or len(msg.urls) == 0 else '')))
       else:
         print('Last tweet:', timeline[0].id, timeline[0].text)
     return res
