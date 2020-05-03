@@ -9,21 +9,22 @@ class TwitterBot(object):
     self.__counter = 0
 
   def on_timer(self):
-    self.__counter = self.__counter + 1
-    if self.__counter < self.__throttle:
+    self.__counter = self.__counter - 1
+    if self.__counter > 0:
       return []
-    self.__counter = 0
+    self.__counter = self.__throttle
     perform_send = self.__since is not None
     kwargs = {'count': 20, 'screen_name': 'dorinlazar', 'exclude_replies': True}
     if perform_send:
       kwargs['since_id'] = self.__since
     timeline = self.__api.GetUserTimeline(**kwargs)
     res = []
-    if timeline and perform_send:
+    if timeline:
       self.__since = timeline[0].id
-      for msg in reversed(timeline):
-        print('Received tweet: ', msg.text)
-        res.append(('tweets', '{} https://twitter.com/i/web/status/{}'.format('RT' if msg.retweeted else 'TW',  msg.id)))
-    elif timeline:
-      print('Last tweet:', timeline[0].id, timeline[0].text)
+      if perform_send:
+        for msg in reversed(timeline):
+          print('Received tweet: ', msg.text)
+          res.append(('tweets', '{} https://twitter.com/i/web/status/{}'.format('RT' if msg.retweeted else 'TW',  msg.id)))
+      else:
+        print('Last tweet:', timeline[0].id, timeline[0].text)
     return res
