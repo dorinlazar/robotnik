@@ -19,11 +19,15 @@ class RoboClient(discord.Client):
   def __init__(self):
     discord.Client.__init__(self)
     self.__handlers = {}
+    self.loop.create_task()
 
   def register(self, t: MessageHandler):
     sc = t.shortcode()
     assert sc not in self.__handlers
     self.__handlers[sc] = t
+
+  async def on_timer(self):
+    pass
 
   async def on_ready(self):
     print('Logged on as {0}!'.format(self.user))
