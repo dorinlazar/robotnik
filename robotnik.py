@@ -1,8 +1,10 @@
-from botfuncs.echobot import Echo
 import os
 import discord
 import yaml
+import asyncio
 from roboapi import MessageHandler
+from botfuncs.echobot import Echo
+from botfuncs.twitterbot import TwitterBot
 
 
 class MessageHub(object):
@@ -19,17 +21,30 @@ class RoboClient(discord.Client):
   def __init__(self):
     discord.Client.__init__(self)
     self.__handlers = {}
-    self.loop.create_task()
+    self.__timer_functions = []
 
   def register(self, t: MessageHandler):
     sc = t.shortcode()
     assert sc not in self.__handlers
     self.__handlers[sc] = t
 
+  def register_timer(self, function):
+    self.__timer_functions.append(function)
+
   async def on_timer(self):
-    pass
+    while True:
+      await asyncio.sleep(1)
+      stuff_to_send = []
+      for f in self.__timer_functions:
+        stuff_to_send.extend(f())
+      for msg in stuff_to_send:
+        await self.get_channel_by_name(msg[0]).send(msg[1])
+
+  def get_channel_by_name(self, name):
+    return next(c for c in self.get_all_channels() if c.name == name)
 
   async def on_ready(self):
+    self.loop.create_task(self.on_timer())
     print('Logged on as {0}!'.format(self.user))
 
   async def on_message(self, message):
@@ -56,4 +71,10 @@ with open(os.path.expanduser('~/.robotnik.yml'), 'r') as ymlfile:
 assert 'discord' in cfg
 discordsettings = cfg['discord']
 assert 'key' in discordsettings
+
+c = cfg['twitter']
+(ck, cks, at, ats) = (c['ck'], c['cks'], c['at'], c['ats'])
+x = TwitterBot(ck, cks, at, ats)
+client.register_timer(x.on_timer)
+
 client.run(discordsettings['key'])
