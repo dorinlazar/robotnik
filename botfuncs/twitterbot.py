@@ -24,7 +24,8 @@ class TwitterBot(object):
       if perform_send:
         for msg in reversed(timeline):
           print('Received tweet: ', msg.text)
-          res.append(('tweets', '{} https://twitter.com/i/web/status/{}'.format('RT' if msg.retweeted else 'TW',  msg.id)))
+          res.append(('tweets', '{} {}'.format('RT' if msg.retweeted else 'TW',
+                                               'https://twitter.com/i/web/status/{}'.format(msg.id) if msg.truncated else msg.text)))
       else:
         print('Last tweet:', timeline[0].id, timeline[0].text)
     return res
