@@ -5,6 +5,10 @@ import threading
 
 class TwitterBot(object):
   def __init__(self, ck=None, cks=None, at=None, ats=None, throttle=60, users=[]):
+    self.__ck = ck
+    self.__cks = cks
+    self.__at = at
+    self.__ats = ats
     self.__api = twitter.Api(consumer_key=ck, consumer_secret=cks, access_token_key=at, access_token_secret=ats)
     self.__since = {}
     self.__throttle = throttle
@@ -35,6 +39,13 @@ class TwitterBot(object):
       return []
     self.__counter = self.__throttle
     res = []
-    for u in self.__users:
-      res.extend(self.fetch_last_tweets(u))
+    try:
+      if self.__api is None:
+        self.__api = twitter.Api(consumer_key=self.__ck, consumer_secret=self.__cks,
+                                 access_token_key=self.__at, access_token_secret=self.__ats)
+      for u in self.__users:
+        res.extend(self.fetch_last_tweets(u))
+    except Exception as e:
+      res = ["crăpași pe twitter: {0}".format(e)]
+      self.__api = None
     return res
