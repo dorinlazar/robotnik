@@ -48,6 +48,6 @@ class TwitterBot(object):
       for u in self.__users:
         res.extend(self.fetch_last_tweets(u))
     except Exception as e:
-      res = [('tweets', "crăpași pe twitter: {}".format(e))]
+      res = [('tweets', "was ist das, kaput? pe twitter: {}".format(e))]
       self.__api = None
     return res
