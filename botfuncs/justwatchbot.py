@@ -19,7 +19,7 @@ class JustWatchBot(MessageHandler):
 
   def to_info_display(self, info, msg):
     urls = list(set([u['urls']['standard_web'] for u in info['offers']])
-                ) if 'offers' in info else 'Nu e nicăieri la streaming'
+                ) if 'offers' in info else ['Nu e nicăieri la streaming']
     imdb_info = next(filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']))
     imdb_text = '' if imdb_info is None else 'IMDB: ' + str(imdb_info['value'])
     next(filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']))['value']
