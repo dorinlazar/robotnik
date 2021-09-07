@@ -22,4 +22,4 @@ class JustWatchBot(MessageHandler):
     imdb_info = next(filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']))
     imdb_text = '' if imdb_info is None else 'IMDB: ' + str(imdb_info['value'])
     next(filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']))['value']
-    return 'Căutare: ' + msg + '\nTitlu: [' + info.title + '] ' + imdb_text + '\n' + '\n'.join(urls)
+    return 'Căutare: ' + msg + '\nTitlu: [' + info['title'] + '] ' + imdb_text + '\n' + '\n'.join(urls)
