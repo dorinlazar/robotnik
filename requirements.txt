@@ -1,3 +1,4 @@
 pyyaml
 discord.py
 python-twitter
+JustWatch

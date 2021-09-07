@@ -5,6 +5,7 @@ import asyncio
 from roboapi import MessageHandler
 from botfuncs.echobot import Echo
 from botfuncs.twitterbot import TwitterBot
+from botfuncs.justwatchbot import JustWatchBot
 
 
 class MessageHub(object):
@@ -79,6 +80,7 @@ if 'client' in cfg:
   kwargs = cfg['client']
 client = RoboClient(**kwargs)
 client.register(Echo())
+client.register(JustWatchBot())
 
 x = TwitterBot(**cfg['twitter'])
 client.register_timer(x.on_timer)
