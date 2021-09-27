@@ -15,7 +15,7 @@ class JustWatchBot(MessageHandler):
     jw_results = just_watch.search_for_item(query=msg)
     if type(jw_results) != dict or 'items' not in jw_results or len(jw_results['items']) == 0:
       return 'N-am găsit niciun film cu numele [' + msg + ']'
-    return '\n'.join([self.to_info_display(x, msg) for x in jw_results['items'][:3]])
+    return 'Căutare: ' + msg + '\n' + '\n'.join([self.to_info_display(x, msg) for x in jw_results['items'][:3]])
 
   def to_info_display(self, info, msg):
     urls = list(set([u['urls']['standard_web'] for u in info['offers']])
@@ -24,5 +24,6 @@ class JustWatchBot(MessageHandler):
     imdb_text = '' if imdb_info is None else 'IMDB: ' + str(imdb_info['value'])
     next(filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']))['value']
     title = ''
-    if 'title' in info: title = 'Titlu: [' + info['title'] + ']'
-    return 'Căutare: ' + msg + '\n' + title + ' ' + imdb_text + '\n' + '\n'.join(urls)
+    if 'title' in info and 'original_release_year' in info:
+      title = 'Titlu: [' + info['title'] + '(' + info['original_release_year'] + ')]'
+    return title + ' ' + imdb_text + '\n' + '\n'.join(urls)
