@@ -12,10 +12,10 @@ class JustWatchBot(MessageHandler):
       country = spl[0]
       msg = ' '.join(spl[1:])
     just_watch = JustWatch(country=country)
-    results = just_watch.search_for_item(query=msg)
-    if type(results) == dict and 'items' in results and len(results['items']) > 0:
-      return self.to_info_display(results['items'][0], msg)
-    return 'N-am găsit niciun film cu numele [' + msg + ']'
+    jw_results = just_watch.search_for_item(query=msg)
+    if type(jw_results) != dict or 'items' not in jw_results or len(jw_results['items']) == 0:
+      return 'N-am găsit niciun film cu numele [' + msg + ']'
+    return '\n'.join([self.to_info_display(x, msg) for x in jw_results['items'][:3]])
 
   def to_info_display(self, info, msg):
     urls = list(set([u['urls']['standard_web'] for u in info['offers']])
