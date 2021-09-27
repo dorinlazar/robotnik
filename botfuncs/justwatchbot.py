@@ -25,5 +25,5 @@ class JustWatchBot(MessageHandler):
     next(filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']))['value']
     title = ''
     if 'title' in info and 'original_release_year' in info:
-      title = 'Titlu: [' + info['title'] + '(' + info['original_release_year'] + ')]'
+      title = 'Titlu: [' + info['title'] + '(' + str(info['original_release_year']) + ')]'
     return title + ' ' + imdb_text + '\n' + '\n'.join(urls)
