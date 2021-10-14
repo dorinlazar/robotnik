@@ -2,3 +2,4 @@ pyyaml
 discord.py
 python-twitter
 JustWatch
+youtube-search-python
