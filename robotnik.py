@@ -41,7 +41,7 @@ class RoboClient(discord.Client):
       for f in self.__timer_functions:
         stuff_to_send.extend(f())
       for msg in stuff_to_send:
-        await self.get_channel_by_name(msg[0]).send(msg[1])
+          await self.get_channel_by_name(msg[0]).send(msg[1][:1900])
 
   def get_channel_by_name(self, name):
     return next(c for c in self.get_all_channels() if c.name == name)
@@ -60,7 +60,7 @@ class RoboClient(discord.Client):
       payload = '' if pos == -1 else txt[pos+1:].strip()
       handler = self.__handlers.get(moniker, None)
       if handler:
-        await message.channel.send(handler.on_message(payload))
+          await message.channel.send(handler.on_message(payload)[:2000])
       elif str(message.author) == self.__owner and txt[1:] == 'quit':
         print('Logging out on request')
         await self.logout()
