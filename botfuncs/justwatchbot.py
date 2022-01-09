@@ -24,7 +24,7 @@ class JustWatchBot(MessageHandler):
     imdb_info = next(f, None) if f is not None else None
     imdb_value = str(imdb_info['value']) if 'value' in imdb_info else ''
     imdb_text = '' if imdb_info is None else 'IMDB: ' + imdb_value
-    next(filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']))['value']
+    # next(filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']))['value']
     title = ''
     if 'title' in info and 'original_release_year' in info:
       title = 'Titlu: [' + info['title'] + '(' + str(info['original_release_year']) + ')]'
