@@ -31,7 +31,11 @@ class TwitterBot(object):
       if perform_send:
         for msg in reversed(timeline):
           print('Received tweet: ', msg.text)
-          res.append(('tweets', 'https://twitter.com/{}/status/{}'.format(user, msg.id)))
+          if msg.retweet:
+            res.append(('tweets', '{} retweet of {} at https://twitter.com/{}/status/{}'.format(user,
+                       msg.retweeted_status.urls[0].expanded_url, user, msg.id)))
+          else:
+            res.append(('tweets', 'https://twitter.com/{}/status/{}'.format(user, msg.id)))
       else:
         print('Last tweet:', timeline[0].id, timeline[0].text)
     return res
