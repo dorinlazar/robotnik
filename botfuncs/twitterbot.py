@@ -1,6 +1,4 @@
 import twitter
-import html
-import threading
 
 
 class TwitterBot(object):
@@ -31,7 +29,7 @@ class TwitterBot(object):
       if perform_send:
         for msg in reversed(timeline):
           print('Received tweet: ', msg.text)
-          if msg.retweeted:
+          if 'retweeted_status' in msg:
             res.append(('tweets', '{} retweet of https://twitter.com/{}/status/{} at https://twitter.com/{}/status/{}'.format(
                 user, msg.retweeted_status.user.screen_name, msg.retweeted_status.id, user, msg.id)))
           else:
