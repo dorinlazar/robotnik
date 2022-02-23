@@ -61,12 +61,33 @@ class RoboClient(discord.Client):
       payload = '' if pos == -1 else txt[pos+1:].strip()
       handler = self.__handlers.get(moniker, None)
       if handler:
-        await message.channel.send(handler.on_message(payload)[:2000])
+        response = self.__run_command(handler, payload)
+        for line in response:
+          await message.channel.send(line)
       elif str(message.author) == self.__owner and txt[1:] == 'quit':
         print('Logging out on request')
         await self.logout()
         print('Done...')
       print('Request from {0.author}: {0.content}'.format(message))
+
+  def __run_command(self, handler, payload):
+    try:
+      response = handler(payload).split('\n')
+      res = []
+      current = ''
+      for line in response:
+        if len(current) + len(line) + 1 < 2000:
+          if len(current):
+            current = current + '\n'
+          current = current + line
+        else:
+          res.append(current)
+          current = ''
+      if len(current):
+        res.append(current)
+      return res
+    except Exception as e:
+      return ['Excepțional!:', str(e)]
 
 
 with open(os.path.expanduser('~/.robotnik.yml'), 'r') as ymlfile:
