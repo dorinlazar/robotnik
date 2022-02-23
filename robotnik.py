@@ -72,7 +72,7 @@ class RoboClient(discord.Client):
 
   def __run_command(self, handler, payload):
     try:
-      response = handler(payload).split('\n')
+      response = handler.on_message(payload).split('\n')
       res = []
       current = ''
       for line in response:
