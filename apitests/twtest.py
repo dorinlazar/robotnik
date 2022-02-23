@@ -35,8 +35,6 @@ if __name__ == "__main__":
   timeline = get_tweets(api=api, screen_name='dorinlazar')
 
   for tweet in timeline:
-    print(json.dumps(tweet._json))
-    if tweet.retweeted:
-      # print('retweeted status: https://twitter.com/{}/status/{}'.format(tweet.retweeted_status.user.screen_name,
-      #      tweet.retweeted_status.id))
-      print(json.dumps(tweet._json))
+    # print(json.dumps(tweet._json))
+    if 'retweeted_status' in tweet._json:
+      print('retweeted status: https://twitter.com/{}/status/{}'.format(tweet.retweeted_status.user.screen_name, tweet.retweeted_status.id))
