@@ -18,7 +18,7 @@ class JustWatchBot(MessageHandler):
     return 'Căutare: ' + msg + '\n' + '\n'.join([self.to_info_display(x, msg) for x in jw_results['items'][:3]])
 
   def to_info_display(self, info, msg):
-    urls = list(set([u['urls']['standard_web'] for u in info['offers']])
+    urls = list(set(['<' + u['urls']['standard_web'] + '>' for u in info['offers']])
                 ) if 'offers' in info else ['Nu e nicăieri la streaming']
     f = filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']) if 'scoring' in info else None
     imdb_info = next(f, None) if f is not None else None
