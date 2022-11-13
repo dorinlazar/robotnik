@@ -21,7 +21,7 @@ class MessageHub(object):
 
 class RoboClient(discord.Client):
   def __init__(self, owner=None):
-    discord.Client.__init__(self)
+    discord.Client.__init__(self, intents=discord.Intents(messages=True, guilds=True))
     self.__handlers = {}
     self.__timer_functions = []
     self.__owner = owner
