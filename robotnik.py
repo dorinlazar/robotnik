@@ -9,23 +9,20 @@ from botfuncs.justwatchbot import JustWatchBot
 from botfuncs.ytsearch import YTSearch
 
 
-class MessageHub(object):
-  def __init__(self):
-    self.__handlers = {}
-
-  def load(self, t: MessageHandler):
-    sc = t.shortcode()
-    assert sc not in self.__handlers
-    self.__handlers[sc] = t
-
-
 class RoboClient(discord.Client):
-  def __init__(self, owner=None):
+  def __init__(self, owner=None, guildid=None):
     discord.Client.__init__(self, intents=discord.Intents(messages=True, guilds=True))
     self.__handlers = {}
     self.__timer_functions = []
     self.__owner = owner
+    self.__guild_id = discord.Object(id=guildid) if guildid is not None else None
+    self.tree = discord.app_commands.CommandTree(self)
     print('Owner:', owner)
+
+  async def setup_hook(self):
+    if (self.__guild_id is not None):
+      self.tree.copy_global_to(guild=self.__guild_id)
+      await self.tree.sync(guild=self.__guild_id)
 
   def register(self, t: MessageHandler):
     sc = t.shortcode()
@@ -66,7 +63,7 @@ class RoboClient(discord.Client):
           await message.channel.send(line)
       elif str(message.author) == self.__owner and txt[1:] == 'quit':
         print('Logging out on request')
-        await self.logout()
+        await self.close()
         print('Done...')
       print('Request from {0.author}: {0.content}'.format(message))
 
@@ -90,21 +87,38 @@ class RoboClient(discord.Client):
       return ['Excepțional!:', str(e)]
 
 
-with open(os.path.expanduser('~/.robotnik.yml'), 'r') as ymlfile:
-  cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-assert 'discord' in cfg
-discordsettings = cfg['discord']
-assert 'key' in discordsettings
-assert 'twitter' in cfg
+if __name__ == '__main__':
+  with open(os.path.expanduser('~/.robotnik.yml'), 'r') as ymlfile:
+    cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+  assert 'discord' in cfg
+  discordsettings = cfg['discord']
+  assert 'key' in discordsettings
+  assert 'twitter' in cfg
 
-kwargs = {}
-if 'client' in cfg:
-  kwargs = cfg['client']
-client = RoboClient(**kwargs)
-client.register(Echo())
-client.register(JustWatchBot())
-client.register(YTSearch())
+  kwargs = {}
+  if 'client' in cfg:
+    kwargs = cfg['client']
+  client = RoboClient(**kwargs)
 
-x = TwitterBot(**cfg['twitter'])
-client.register_timer(x.on_timer)
-client.run(discordsettings['key'])
+  # client.register(Echo())
+  @client.tree.command()
+  async def echo(interaction: discord.Interaction, what: str):
+    await interaction.response.send_message(f'Hi, {interaction.user.mention}: {what}')
+
+  # client.register(JustWatchBot())
+  justwatch = JustWatchBot()
+
+  @client.tree.command()
+  async def movie(interaction: discord.Interaction, what: str):
+    await interaction.response.send_message(justwatch.on_message(what))
+
+  # client.register(YTSearch())
+  ytclient = YTSearch()
+
+  @client.tree.command()
+  async def yt(interaction: discord.Interaction, what: str):
+    await interaction.response.send_message(ytclient.on_message(what))
+
+  x = TwitterBot(**cfg['twitter'])
+  client.register_timer(x.on_timer)
+  client.run(discordsettings['key'])
