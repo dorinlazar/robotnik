@@ -1,22 +1,20 @@
 import os
 import discord
+from discord.ext import commands
 import yaml
-import asyncio
 from roboapi import MessageHandler
-from botfuncs.echobot import Echo
 from botfuncs.twitterbot import TwitterBot
 from botfuncs.justwatchbot import JustWatchBot
 from botfuncs.ytsearch import YTSearch
 
 
-class RoboClient(discord.Client):
+class RoboClient(commands.Bot):
   def __init__(self, owner=None, guildid=None):
-    discord.Client.__init__(self, intents=discord.Intents(messages=True, guilds=True))
+    commands.Bot.__init__(self, command_prefix='!', intents=discord.Intents(messages=True, guilds=True))
     self.__handlers = {}
-    self.__timer_functions = []
     self.__owner = owner
     self.__guild_id = discord.Object(id=guildid) if guildid is not None else None
-    self.tree = discord.app_commands.CommandTree(self)
+    self.__twitter_cog = None
     print('Owner:', owner)
 
   async def setup_hook(self):
@@ -29,23 +27,15 @@ class RoboClient(discord.Client):
     assert sc not in self.__handlers
     self.__handlers[sc] = t
 
-  def register_timer(self, function):
-    self.__timer_functions.append(function)
-
-  async def on_timer(self):
-    while True:
-      await asyncio.sleep(1)
-      stuff_to_send = []
-      for f in self.__timer_functions:
-        stuff_to_send.extend(f())
-      for msg in stuff_to_send:
-        await self.get_channel_by_name(msg[0]).send(msg[1][:1900])
+  def register_tw(self, x):
+    self.__twitter_cog = x
 
   def get_channel_by_name(self, name):
     return next(c for c in self.get_all_channels() if c.name == name)
 
   async def on_ready(self):
-    self.loop.create_task(self.on_timer())
+    await self.add_cog(self.__twitter_cog)
+    self.__twitter_cog.timer_function.start()
     print('Logged on as {0}!'.format(self.user))
 
   async def on_message(self, message):
@@ -100,25 +90,21 @@ if __name__ == '__main__':
     kwargs = cfg['client']
   client = RoboClient(**kwargs)
 
-  # client.register(Echo())
   @client.tree.command()
   async def echo(interaction: discord.Interaction, what: str):
     await interaction.response.send_message(f'Hi, {interaction.user.mention}: {what}')
 
-  # client.register(JustWatchBot())
   justwatch = JustWatchBot()
 
   @client.tree.command()
   async def movie(interaction: discord.Interaction, what: str):
     await interaction.response.send_message(justwatch.on_message(what))
 
-  # client.register(YTSearch())
   ytclient = YTSearch()
 
   @client.tree.command()
   async def yt(interaction: discord.Interaction, what: str):
     await interaction.response.send_message(ytclient.on_message(what))
 
-  x = TwitterBot(**cfg['twitter'])
-  client.register_timer(x.on_timer)
+  client.register_tw(TwitterBot(bot=client, **cfg['twitter']))
   client.run(discordsettings['key'])

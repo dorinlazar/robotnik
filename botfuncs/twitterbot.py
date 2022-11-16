@@ -1,23 +1,23 @@
 import twitter
+from discord.ext import commands, tasks
 
 
-class TwitterBot(object):
-  def __init__(self, ck=None, cks=None, at=None, ats=None, throttle=60, users=[]):
+class TwitterBot(commands.Cog):
+  def __init__(self, bot=None, ck=None, cks=None, at=None, ats=None, users=[]):
     self.__ck = ck
     self.__cks = cks
     self.__at = at
     self.__ats = ats
     self.__api = None
     self.__since = {}
-    self.__throttle = throttle
-    self.__counter = 0
     self.__users = users
+    self.__bot = bot
 
-  def __reinit_api(self):
+  async def __reinit_api(self):
     self.__api = twitter.Api(consumer_key=self.__ck, consumer_secret=self.__cks,
                              access_token_key=self.__at, access_token_secret=self.__ats)
 
-  def fetch_last_tweets(self, user):
+  async def fetch_last_tweets(self, user):
     perform_send = user in self.__since
     kwargs = {'count': 20, 'screen_name': user, 'exclude_replies': True}
     if perform_send:
@@ -30,27 +30,27 @@ class TwitterBot(object):
         for msg in reversed(timeline):
           print('Received tweet: ', msg.text)
           if 'retweeted_status' in msg._json:
-            res.append(('tweets', '{} retweet of https://twitter.com/{}/status/{} at https://twitter.com/{}/status/{}'.format(
-                user, msg.retweeted_status.user.screen_name, msg.retweeted_status.id, user, msg.id)))
+            screen_name = msg.retweeted_status.user.screen_name
+            status_id = msg.retweeted_status.id
+            res.append(
+                f'{user} retweet of https://twitter.com/{screen_name}/status/{status_id} at https://twitter.com/{user}/status/{msg.id}')
           else:
-            res.append(('tweets', 'https://twitter.com/{}/status/{}'.format(user, msg.id)))
+            res.append(f'https://twitter.com/{user}/status/{msg.id}')
       else:
         print('Last tweet:', timeline[0].id, timeline[0].text)
     return res
 
-  def on_timer(self):
-    self.__counter = self.__counter - 1
-    if self.__counter > 0:
-      return []
-    self.__counter = self.__throttle
-    res = []
+  @tasks.loop(seconds=60.0)
+  async def timer_function(self):
     try:
       if self.__api is None:
-        self.__reinit_api()
+        await self.__reinit_api()
+        if self.__api is not None:
+          await self.__bot.get_channel_by_name(name='robotest').send('M-am reconectat la Twitter')
       for u in self.__users:
-        res.extend(self.fetch_last_tweets(u))
+        msg = await self.fetch_last_tweets(u)
+        for m in msg:
+          await self.__bot.get_channel_by_name(name='tweets').send(m[:1900])
     except Exception as e:
-      # res = [('tweets', "was ist das, kaput? pe twitter: {}".format(e))]
-      res = []
+      await self.__bot.get_channel_by_name(name='robotest').send(f'Twitter e din nou excepțional: {e}')
       self.__api = None
-    return res
