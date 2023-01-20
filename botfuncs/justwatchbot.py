@@ -25,7 +25,7 @@ class JustWatchBot(MessageHandler):
     if 'scoring' in info:
       f = filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring'])
       imdb_info = next(f, None)
-      if imdb_info is not None and 'value' in imdb_info
+      if imdb_info is not None and 'value' in imdb_info:
         imdb_text = 'IMDB: ' + str(imdb_info['value'])
 
     title = ''
