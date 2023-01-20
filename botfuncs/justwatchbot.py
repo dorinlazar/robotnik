@@ -18,13 +18,16 @@ class JustWatchBot(MessageHandler):
     return 'Căutare: ' + msg + '\n' + '\n'.join([self.to_info_display(x, msg) for x in jw_results['items'][:3]])
 
   def to_info_display(self, info, msg):
-    urls = list(set(['<' + u['urls']['standard_web'] + '>' for u in info['offers']])
-                ) if 'offers' in info else ['Nu e nicăieri la streaming']
-    f = filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']) if 'scoring' in info else None
-    imdb_info = next(f, None) if f is not None else None
-    imdb_value = str(imdb_info['value']) if 'value' in imdb_info else ''
-    imdb_text = '' if imdb_info is None else 'IMDB: ' + imdb_value
-    # next(filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring']))['value']
+    urls = ['Nu e nicăieri la streaming']
+    if 'offers' in info:
+      urls = list(set(['<' + u['urls']['standard_web'] + '>' for u in info['offers']]))
+    imdb_text = ''
+    if 'scoring' in info:
+      f = filter(lambda x: x['provider_type'] == 'imdb:score', info['scoring'])
+      imdb_info = next(f, None)
+      if imdb_info is not None and 'value' in imdb_info
+        imdb_text = 'IMDB: ' + str(imdb_info['value'])
+
     title = ''
     if 'title' in info and 'original_release_year' in info:
       title = 'Titlu: [' + info['title'] + '(' + str(info['original_release_year']) + ')]'
