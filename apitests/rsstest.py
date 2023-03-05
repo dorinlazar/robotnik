@@ -3,6 +3,7 @@ import requests
 import datetime
 import dateutil.parser as dtparser
 import xml.parsers.expat as expy
+from dataclasses import dataclass
 
 
 class TestParser(hp.HTMLParser):
@@ -65,27 +66,32 @@ class RssParser:
         self.__in_pub_date = False
         self.__in_guid = False
         self.__current_element = None
+        self.__articles = []
 
     def __start_element(self, name: str, attrs: dict[str, str]]):
         if not self.__in_channel:
-            self.__in_channel = name == 'channel'
+            self.__in_channel= name == 'channel'
             return
         if not self.__in_item:
-            self.__in_item= name == 'item'
+            self.__in_item = name == 'item'
             if self.__in_item:
-                self.__current_element= ArticleInfo()
+                self.__current_element = ArticleInfo()
             return
-        self.__in_link = name == 'link'
-        self.__in_guid = name == 'guid'
-        self.__in_pub_date = name == 'pubDate'
+        self.__in_link= name == 'link'
+        self.__in_guid= name == 'guid'
+        self.__in_pub_date= name == 'pubDate'
     def __end_element(self, name: str):
-        self.__in_link = False
-        self.__in_guid = False
-        self.__in_pub_date = False
+        self.__in_link= False
+        self.__in_guid= False
+        self.__in_pub_date= False
         if self.__in_item:
-            if name == 'item': self.__in_item= False
+            if name == 'item':
+                self.__in_item = False
+                if self.__current_element and self.__current_element.link:
+                    self.__articles.append(self.__current_element)
+
         if self.__in_channel:
-            if name == 'channel': self.__in_channel= False
+            if name == 'channel': self.__in_channel = False
     def __char_data(self, data: str):
 
 
@@ -96,14 +102,14 @@ class RssParser:
 
 class RssController:
     def __init__(self, url: str):
-        self.__url = url
-        self.__last_updated = datetime.datetime.min()
+        self.__url= url
+        self.__last_updated= datetime.datetime.min()
 
     def updated(self) -> bool:
         try:
-            r = requests.head(self.__url)
+            r= requests.head(self.__url)
             if r.ok:
-                dt = dtparser.parse(r.headers['last-modified'])
+                dt= dtparser.parse(r.headers['last-modified'])
                 return dt > self.__last_updated
         except Exception:
             print(f'Unable to reach {self.__url}')
@@ -111,7 +117,7 @@ class RssController:
 
     def __get_article_list(self, rss_feed):
         try:
-            parser = expy.ParserCreate()
+            parser= expy.ParserCreate()
             parser.StartElementHandler
         except Exception:
             pass
@@ -119,10 +125,10 @@ class RssController:
 
     def update(self, notifier: callable[str]):
         try:
-            r = requests.get(self.__url)
+            r= requests.get(self.__url)
             if not r.ok:
                 return
-            articles = self.__get_article_list(r.content)
+            articles= self.__get_article_list(r.content)
             for article in articles:
                 print(f'{article.timestamp} {article.title} {article.id}')
         except Exception:
