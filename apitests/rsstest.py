@@ -1,8 +1,8 @@
 import html.parser as hp
 import requests
 import datetime
-import xml
 import dateutil.parser as dtparser
+import xml.parsers.expat as expy
 
 
 class TestParser(hp.HTMLParser):
@@ -46,7 +46,55 @@ def test_run(site: str):
         print(f'Rss feed not found')
 
 
+@dataclass
+class ArticleInfo:
+    link: str
+    guid: str
+    pub_date: datetime.datetime
+
+
 class RssParser:
+    def __init__(self):
+        self.__parser = expy.ParserCreate()
+        self.__parser.StartElementHandler = self.__start_element
+        self.__parser.EndElementHandler = self.__end_element
+        self.__parser.CharacterDataHandler = self.__char_data
+        self.__in_channel = False
+        self.__in_item = False
+        self.__in_link = False
+        self.__in_pub_date = False
+        self.__in_guid = False
+        self.__current_element = None
+
+    def __start_element(self, name: str, attrs: dict[str, str]]):
+        if not self.__in_channel:
+            self.__in_channel = name == 'channel'
+            return
+        if not self.__in_item:
+            self.__in_item= name == 'item'
+            if self.__in_item:
+                self.__current_element= ArticleInfo()
+            return
+        self.__in_link = name == 'link'
+        self.__in_guid = name == 'guid'
+        self.__in_pub_date = name == 'pubDate'
+    def __end_element(self, name: str):
+        self.__in_link = False
+        self.__in_guid = False
+        self.__in_pub_date = False
+        if self.__in_item:
+            if name == 'item': self.__in_item= False
+        if self.__in_channel:
+            if name == 'channel': self.__in_channel= False
+    def __char_data(self, data: str):
+
+
+
+
+
+
+
+class RssController:
     def __init__(self, url: str):
         self.__url = url
         self.__last_updated = datetime.datetime.min()
@@ -61,12 +109,22 @@ class RssParser:
             print(f'Unable to reach {self.__url}')
         return False
 
+    def __get_article_list(self, rss_feed):
+        try:
+            parser = expy.ParserCreate()
+            parser.StartElementHandler
+        except Exception:
+            pass
+        return []
+
     def update(self, notifier: callable[str]):
         try:
             r = requests.get(self.__url)
             if not r.ok:
                 return
-
+            articles = self.__get_article_list(r.content)
+            for article in articles:
+                print(f'{article.timestamp} {article.title} {article.id}')
         except Exception:
             print(f'Unable to process {self.__url}')
 
