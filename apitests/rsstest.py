@@ -1,5 +1,8 @@
 import html.parser as hp
 import requests
+import datetime
+import xml
+import dateutil.parser as dtparser
 
 
 class TestParser(hp.HTMLParser):
@@ -41,6 +44,31 @@ def test_run(site: str):
         print(f'Identified rss feed: {address}')
     else:
         print(f'Rss feed not found')
+
+
+class RssParser:
+    def __init__(self, url: str):
+        self.__url = url
+        self.__last_updated = datetime.datetime.min()
+
+    def updated(self) -> bool:
+        try:
+            r = requests.head(self.__url)
+            if r.ok:
+                dt = dtparser.parse(r.headers['last-modified'])
+                return dt > self.__last_updated
+        except Exception:
+            print(f'Unable to reach {self.__url}')
+        return False
+
+    def update(self, notifier: callable[str]):
+        try:
+            r = requests.get(self.__url)
+            if not r.ok:
+                return
+
+        except Exception:
+            print(f'Unable to process {self.__url}')
 
 
 if __name__ == '__main__':
