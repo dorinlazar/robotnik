@@ -35,20 +35,8 @@ class TestParser(hp.HTMLParser):
             self.__process_attributes(attrs)
 
 
-def test_run(site: str):
-    r = requests.get(f'https://{site}/')
-    print(f'read {site}: {r.status_code}')
-    tp = TestParser()
-    tp.feed(r.text)
-    if tp.rss_address:
-        address = tp.rss_address if tp.rss_address.startswith('http') else f'https://{site}{tp.rss_address}'
-        print(f'Identified rss feed: {address}')
-    else:
-        print(f'Rss feed not found')
-
-
-@dataclass
 class ArticleInfo:
+    title: str
     link: str
     guid: str
     pub_date: datetime.datetime
@@ -62,54 +50,63 @@ class RssParser:
         self.__parser.CharacterDataHandler = self.__char_data
         self.__in_channel = False
         self.__in_item = False
-        self.__in_link = False
-        self.__in_pub_date = False
-        self.__in_guid = False
         self.__current_element = None
+        self.__current_data = ''
         self.__articles = []
 
-    def __start_element(self, name: str, attrs: dict[str, str]]):
+    def parse(self, content: str):
+        # print(f'Parsing {content}')
+        self.__parser.Parse(content, 1)
+
+    def __start_element(self, name: str, attrs: dict[str, str]):
+        # print(f'start element: {name}')
         if not self.__in_channel:
-            self.__in_channel= name == 'channel'
+            self.__in_channel = name == 'channel'
             return
         if not self.__in_item:
             self.__in_item = name == 'item'
             if self.__in_item:
                 self.__current_element = ArticleInfo()
-            return
-        self.__in_link= name == 'link'
-        self.__in_guid= name == 'guid'
-        self.__in_pub_date= name == 'pubDate'
+        self.__current_data = ''
+
     def __end_element(self, name: str):
-        self.__in_link= False
-        self.__in_guid= False
-        self.__in_pub_date= False
+        # print(f'end element: {name}')
         if self.__in_item:
             if name == 'item':
                 self.__in_item = False
                 if self.__current_element and self.__current_element.link:
                     self.__articles.append(self.__current_element)
-
+            else:
+                match(name):
+                    case 'link':
+                        print(f'link: {self.__current_data}')
+                        self.__current_element.link = self.__current_data
+                    case 'pubDate':
+                        self.__current_element.pub_date = dtparser.parse(self.__current_data)
+                    case 'guid':
+                        self.__current_element.guid = self.__current_data
+                    case 'title':
+                        self.__current_element.title = self.__current_data
         if self.__in_channel:
-            if name == 'channel': self.__in_channel = False
+            if name == 'channel':
+                self.__in_channel = False
+
     def __char_data(self, data: str):
+        self.__current_data += data
 
-
-
-
-
+    def articles(self): return self.__articles
 
 
 class RssController:
     def __init__(self, url: str):
-        self.__url= url
-        self.__last_updated= datetime.datetime.min()
+        self.__url = url
+        self.__last_updated = datetime.datetime.min
 
     def updated(self) -> bool:
         try:
-            r= requests.head(self.__url)
+            r = requests.head(self.__url)
             if r.ok:
-                dt= dtparser.parse(r.headers['last-modified'])
+                dt = dtparser.parse(r.headers['last-modified'])
                 return dt > self.__last_updated
         except Exception:
             print(f'Unable to reach {self.__url}')
@@ -117,22 +114,37 @@ class RssController:
 
     def __get_article_list(self, rss_feed):
         try:
-            parser= expy.ParserCreate()
-            parser.StartElementHandler
+            parser = RssParser()
+            parser.parse(rss_feed)
+            return parser.articles()
         except Exception:
             pass
         return []
 
-    def update(self, notifier: callable[str]):
+    def update(self):
         try:
-            r= requests.get(self.__url)
+            r = requests.get(self.__url)
             if not r.ok:
                 return
-            articles= self.__get_article_list(r.content)
+            articles = self.__get_article_list(r.content)
             for article in articles:
-                print(f'{article.timestamp} {article.title} {article.id}')
-        except Exception:
-            print(f'Unable to process {self.__url}')
+                print(f'{article.pub_date} {article.title} {article.guid}')
+        except Exception as e:
+            print(f'Unable to process {self.__url} {str(e)}')
+
+
+def test_run(site: str):
+    r = requests.get(f'https://{site}/')
+    print(f'read {site}: {r.status_code}')
+    tp = TestParser()
+    tp.feed(r.text)
+    if tp.rss_address:
+        address = tp.rss_address if tp.rss_address.startswith('http') else f'https://{site}{tp.rss_address}'
+        print(f'Identified rss feed: {address}')
+        controller = RssController(address)
+        controller.update()
+    else:
+        print(f'Rss feed not found')
 
 
 if __name__ == '__main__':
