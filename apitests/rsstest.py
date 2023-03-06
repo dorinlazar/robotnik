@@ -42,6 +42,11 @@ class ArticleInfo:
     pub_date: datetime.datetime
 
 
+class FeedDigest:
+    build_date: datetime.datetime = datetime.datetime.min
+    articles: list[ArticleInfo] = []
+
+
 class RssParser:
     def __init__(self):
         self.__parser = expy.ParserCreate()
@@ -52,7 +57,7 @@ class RssParser:
         self.__in_item = False
         self.__current_element = None
         self.__current_data = ''
-        self.__articles = []
+        self.__feed_digest = FeedDigest()
 
     def parse(self, content: str):
         # print(f'Parsing {content}')
@@ -75,11 +80,11 @@ class RssParser:
             if name == 'item':
                 self.__in_item = False
                 if self.__current_element and self.__current_element.link:
-                    self.__articles.append(self.__current_element)
+                    self.__feed_digest.articles.append(self.__current_element)
             else:
                 match(name):
                     case 'link':
-                        print(f'link: {self.__current_data}')
+                        # print(f'link: {self.__current_data}')
                         self.__current_element.link = self.__current_data
                     case 'pubDate':
                         self.__current_element.pub_date = dtparser.parse(self.__current_data)
@@ -87,6 +92,9 @@ class RssParser:
                         self.__current_element.guid = self.__current_data
                     case 'title':
                         self.__current_element.title = self.__current_data
+        else:
+            if name == 'lastBuildDate':
+                self.__feed_digest.build_date = dtparser.parse(self.__current_data)
         if self.__in_channel:
             if name == 'channel':
                 self.__in_channel = False
@@ -94,7 +102,7 @@ class RssParser:
     def __char_data(self, data: str):
         self.__current_data += data
 
-    def articles(self): return self.__articles
+    def digest(self): return self.__feed_digest
 
 
 class RssController:
@@ -116,7 +124,9 @@ class RssController:
         try:
             parser = RssParser()
             parser.parse(rss_feed)
-            return parser.articles()
+            digest = parser.digest()
+            print(f'Last build date: {digest.build_date}')
+            return digest.articles
         except Exception:
             pass
         return []
