@@ -109,6 +109,8 @@ class RssController:
     def __init__(self, url: str):
         self.__url = url
         self.__last_updated = datetime.datetime.min
+        self.__already_posted_guids = []
+        self.__already_posted_links = []
 
     def updated(self) -> bool:
         try:
@@ -132,15 +134,28 @@ class RssController:
         return []
 
     def update(self):
+        count = 0
         try:
             r = requests.get(self.__url)
             if not r.ok:
                 return
             articles = self.__get_article_list(r.content)
             for article in articles:
-                print(f'{article.pub_date} {article.title} {article.guid}')
+                new_article = False
+                if article.guid:
+                    new_article = article.guid not in self.__already_posted_guids
+                else:
+                    new_article = article.link not in self.__already_posted_link
+                if new_article:
+                    print(f'{article.pub_date} {article.title} {article.guid}')
+                    count = count+1
+                if article.guid:
+                    self.__already_posted_guids.append(article.guid)
+                else:
+                    self.__already_posted_links.append(article.link)
         except Exception as e:
             print(f'Unable to process {self.__url} {str(e)}')
+        print(f'{count} new articles found')
 
 
 def test_run(site: str):
@@ -152,6 +167,7 @@ def test_run(site: str):
         address = tp.rss_address if tp.rss_address.startswith('http') else f'https://{site}{tp.rss_address}'
         print(f'Identified rss feed: {address}')
         controller = RssController(address)
+        controller.update()
         controller.update()
     else:
         print(f'Rss feed not found')
