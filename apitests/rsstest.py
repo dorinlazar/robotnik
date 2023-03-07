@@ -4,6 +4,8 @@ import datetime
 import dateutil.parser as dtparser
 import xml.parsers.expat as expy
 from dataclasses import dataclass
+import dbm.gnu as gdbm
+import json
 
 
 class TestParser(hp.HTMLParser):
@@ -105,19 +107,55 @@ class RssParser:
     def digest(self): return self.__feed_digest
 
 
+class StorageData:
+    guids: list[str] = []
+    links: list[str] = []
+    last_updated: datetime.datetime = datetime.datetime.min
+
+    def __init__(self, data: dict = None):
+        if data:
+            guids = data['guids']
+            links = data['links']
+            last_updated = dtparser.parse(data['last_updated'])
+
+
+class Storage:
+    def __init__(self, path: str):
+        self.__path = path
+
+    def restore(self, feed: str) -> StorageData:
+        try:
+            with gdbm.open(self.__path, 'c') as db:
+                result = StorageData(json.loads(db[feed]))
+                print(f'restored: {len(result.guids)} guids')
+                return result
+        except Exception:
+            pass
+        return StorageData()
+
+    def store(self, feed: str, data: StorageData) -> None:
+        try:
+            with gdbm.open(self.__path, 'c') as db:
+                writer = json.dumps({'guids': data.guids, 'links': data.links,
+                                     'last_updated': str(data.last_updated)})
+                print(f'storing {len(data.guids)} guids: {writer}')
+                db[feed] = writer
+        except Exception as e:
+            print(f'Unable to write to storage: {self.__path} feed: {feed}: {str(e)}')
+
+
 class RssController:
-    def __init__(self, url: str):
+    def __init__(self, url: str, store: Storage):
         self.__url = url
-        self.__last_updated = datetime.datetime.min
-        self.__already_posted_guids = []
-        self.__already_posted_links = []
+        self.__storage = store
+        self.__storage_data = self.__storage.restore(url)
 
     def updated(self) -> bool:
         try:
             r = requests.head(self.__url)
             if r.ok:
                 dt = dtparser.parse(r.headers['last-modified'])
-                return dt > self.__last_updated
+                return dt > self.__storage_data.last_updated
         except Exception:
             print(f'Unable to reach {self.__url}')
         return False
@@ -143,19 +181,21 @@ class RssController:
             for article in articles:
                 new_article = False
                 if article.guid:
-                    new_article = article.guid not in self.__already_posted_guids
+                    new_article = article.guid not in self.__storage_data.guids
                 else:
-                    new_article = article.link not in self.__already_posted_link
+                    new_article = article.link not in self.__storage_data.links
                 if new_article:
                     print(f'{article.pub_date} {article.title} {article.guid}')
                     count = count+1
                 if article.guid:
-                    self.__already_posted_guids.append(article.guid)
+                    self.__storage_data.guids.append(article.guid)
                 else:
-                    self.__already_posted_links.append(article.link)
+                    self.__storage_data.links.append(article.link)
         except Exception as e:
             print(f'Unable to process {self.__url} {str(e)}')
         print(f'{count} new articles found')
+        if count > 0:
+            self.__storage.store(self.__url, self.__storage_data)
 
 
 def test_run(site: str):
@@ -166,7 +206,7 @@ def test_run(site: str):
     if tp.rss_address:
         address = tp.rss_address if tp.rss_address.startswith('http') else f'https://{site}{tp.rss_address}'
         print(f'Identified rss feed: {address}')
-        controller = RssController(address)
+        controller = RssController(address, Storage('/home/spooky/test.gdbm'))
         controller.update()
         controller.update()
     else:
