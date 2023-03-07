@@ -1,0 +1,14 @@
+# this should be /etc/systemd/system/robotnik.service
+# Run: `systemctl enable robotnik` and then `systemctl start robotnik`
+[Unit]
+Description=Robotnik service
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=on-failure
+ExecStart=/usr/bin/python3 /home/robotnik/robotnik/robotnik.py
+User=robotnik
+
+[Install]
+WantedBy=multi-user.target
