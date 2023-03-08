@@ -114,9 +114,9 @@ class StorageData:
 
     def __init__(self, data: dict = None):
         if data:
-            guids = data['guids']
-            links = data['links']
-            last_updated = dtparser.parse(data['last_updated'])
+            self.guids = data['guids']
+            self.links = data['links']
+            self.last_updated = dtparser.parse(data['last_updated'])
 
 
 class Storage:
