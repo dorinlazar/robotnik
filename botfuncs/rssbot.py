@@ -74,100 +74,126 @@ class RssParser:
     def digest(self): return self.__feed_digest
 
 
-class StorageData:
+class FeedData:
     guids: list[str] = []
     links: list[str] = []
     last_updated: datetime.datetime = datetime.datetime.min
+    feed: str = ''
 
-    def __init__(self, data: dict = None):
+    def __init__(self, f: str, data: dict = None):
+        self.feed = f
         if data:
             self.guids = data['guids']
             self.links = data['links']
             self.last_updated = dtparser.parse(data['last_updated'])
 
+    def to_json(self) -> str:
+        return json.dumps({'guids': self.guids, 'links': self.links,
+                           'last_updated': str(self.last_updated)})
 
-class Storage:
-    def __init__(self, path: str):
-        self.__path = path
+    def __get_article_list(self, rss_feed):
+        parser = RssParser()
+        parser.parse(rss_feed)
+        digest = parser.digest()
+        print(f'Last build date: {digest.build_date}')
+        return digest.articles
 
-    def restore(self, feed: str) -> StorageData:
+    def __updated(self) -> bool:
         try:
-            with gdbm.open(self.__path, 'c') as db:
-                result = StorageData(json.loads(db[feed]))
-                print(f'restored: {len(result.guids)} guids')
-                return result
-        except Exception:
-            pass
-        return StorageData()
-
-    def store(self, feed: str, data: StorageData) -> None:
-        try:
-            with gdbm.open(self.__path, 'c') as db:
-                writer = json.dumps({'guids': data.guids, 'links': data.links,
-                                     'last_updated': str(data.last_updated)})
-                print(f'storing {len(data.guids)} guids: {writer}')
-                db[feed] = writer
-        except Exception as e:
-            print(f'Unable to write to storage: {self.__path} feed: {feed}: {str(e)}')
-
-
-class RssController:
-    def __init__(self, url: str, store: Storage):
-        self.__url = url
-        self.__storage = store
-        self.__storage_data = self.__storage.restore(url)
-
-    def updated(self) -> bool:
-        try:
-            r = requests.head(self.__url)
+            r = requests.head(self.feed)
             if r.ok:
                 dt = dtparser.parse(r.headers['last-modified'])
-                return dt > self.__storage_data.last_updated
+                return dt > self.last_updated
         except Exception:
             print(f'Unable to reach {self.__url}')
         return False
 
-    def __get_article_list(self, rss_feed):
+    def update(self) -> list[ArticleInfo]:
+        if not self.__updated():
+            return []
+
+        retval = []
+        r = requests.get(self.__url)
+        if not r.ok:
+            return
+        articles = self.__get_article_list(r.content)
+        for article in articles:
+            new_article = False
+            if article.guid:
+                new_article = article.guid not in self.guids
+            else:
+                new_article = article.link not in self.links
+            if new_article:
+                retval.append(article)
+                if article.guid:
+                    self.guids.append(article.guid)
+                else:
+                    self.links.append(article.link)
+        print(f'{len(retval)} new articles found in {self.feed}')
+        return retval
+
+
+class FeedCollection:
+    def __init__(self, storage_file: str):
+        self.__path = storage_file
+
+    def __restore(self) -> list[FeedData]:
         try:
-            parser = RssParser()
-            parser.parse(rss_feed)
-            digest = parser.digest()
-            print(f'Last build date: {digest.build_date}')
-            return digest.articles
+            with gdbm.open(self.__path) as db:
+                keys = []
+                key = db.firstkey()
+                while key is not None:
+                    keys.append(key)
+                    key = db.nextkey()
+                for key in keys:
+                    feeds = FeedData(key, json.loads(db[key]))
         except Exception:
             pass
-        return []
+        return feeds
 
-    def update(self):
-        count = 0
+    def __store(self, feeds: list[FeedData]) -> None:
         try:
-            r = requests.get(self.__url)
-            if not r.ok:
-                return
-            articles = self.__get_article_list(r.content)
-            for article in articles:
-                new_article = False
-                if article.guid:
-                    new_article = article.guid not in self.__storage_data.guids
-                else:
-                    new_article = article.link not in self.__storage_data.links
-                if new_article:
-                    print(f'{article.pub_date} {article.title} {article.guid}')
-                    count = count+1
-                if article.guid:
-                    self.__storage_data.guids.append(article.guid)
-                else:
-                    self.__storage_data.links.append(article.link)
-        except Exception as e:
-            print(f'Unable to process {self.__url} {str(e)}')
-        print(f'{count} new articles found')
-        if count > 0:
-            self.__storage.store(self.__url, self.__storage_data)
+            with gdbm.open(self.__path, 'c') as db:
+                for f in feeds:
+                    db[f.feed] = json.dumps(f.to_json())
+        except Exception:
+            pass
+
+    def add_feed(self, feed: str) -> None:
+        feed_data = FeedData()
+        feed_data.feed = feed
+        feed_data.update()
+        return self.__store([feed_data])
+
+    def update(self) -> list[ArticleInfo]:
+        feeds = self.__restore()
+        to_store = []
+        retval = []
+        for f in feeds:
+            try:
+                articles = f.update()
+                if articles:
+                    to_store.append(f)
+                    retval.extend(articles)
+            except Exception as e:
+                raise RuntimeError(error=f'Error while retrieving {f.feed}: {str(e)}')
+        self.__store(to_store)
+        return retval
 
 
 class RssBot(commands.Cog):
     def __init__(self, storage_file: str):
-        self.__storage_file = storage_file
+        self.__feeds = FeedCollection(storage_file)
+
+    @tasks.loop(hours=1)
+    async def timer_function(self):
+        try:
+            updates = self.__feeds.update()
+            for item in updates:
+                message = f'{item.title} {item.link}'
+                await self.__bot.get_channel_by_name(name='tweets').send(message[:1900])
+        except Exception as e:
+            await self.__bot.get_channel_by_name(name='robotest').send(f'Am căzut și m-am împiedicat în RSS-uri: {e}')
 
     # async def fetch_last_tweets(self, user):
     #     perform_send = user in self.__since

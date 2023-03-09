@@ -6,6 +6,7 @@ from roboapi import MessageHandler
 from botfuncs.twitterbot import TwitterBot
 from botfuncs.justwatchbot import JustWatchBot
 from botfuncs.ytsearch import YTSearch
+from botfuncs.rssbot import RssBot
 
 
 class RoboClient(commands.Bot):
@@ -15,6 +16,7 @@ class RoboClient(commands.Bot):
         self.__owner = owner
         self.__guild_id = discord.Object(id=guildid) if guildid is not None else None
         self.__twitter_cog = None
+        self.__rss_cog = None
         print('Owner:', owner)
 
     async def setup_hook(self):
@@ -30,12 +32,20 @@ class RoboClient(commands.Bot):
     def register_tw(self, x):
         self.__twitter_cog = x
 
+    def register_rss(self, x):
+        self.__rss_cog = x
+
     def get_channel_by_name(self, name):
         return next(c for c in self.get_all_channels() if c.name == name)
 
     async def on_ready(self):
-        await self.add_cog(self.__twitter_cog)
-        self.__twitter_cog.timer_function.start()
+        if self.__twitter_cog:
+            await self.add_cog(self.__twitter_cog)
+            self.__twitter_cog.timer_function.start()
+        if self.__rss_cog:
+            await self.add_cog(self.__rss_cog)
+            self.__rss_cog.timer_function.start()
+
         print('Logged on as {0}!'.format(self.user))
 
     async def on_message(self, message):
@@ -105,6 +115,12 @@ if __name__ == '__main__':
     @client.tree.command()
     async def yt(interaction: discord.Interaction, what: str):
         await interaction.response.send_message(ytclient.on_message(what))
+
+    rssbot = RssBot(os.path.expanduser('~/.robotnik.rss.gdbm'))
+
+    @client.tree.command()
+    async def addfeed(interaction: discord.Interaction, what: str):
+        await interaction.response.send_message(rssbot.add_feed(what, interaction.channel.name))
 
     client.register_tw(TwitterBot(bot=client, **cfg['twitter']))
     client.run(discordsettings['key'])
