@@ -244,5 +244,5 @@ class RssBot(commands.Cog):
             pass
         return f'Unable to parse {what} rss feed'
 
-    def add_site(self, what: str) -> str:
+    def add_feed(self, what: str) -> str:
         return self.__feeds.add_feed(what)
