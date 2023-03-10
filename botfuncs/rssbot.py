@@ -190,8 +190,7 @@ class FeedCollection:
             pass
 
     def add_feed(self, feed: str) -> str:
-        feed_data = FeedData()
-        feed_data.feed = feed
+        feed_data = FeedData(feed)
         articles = feed_data.update()
         if articles:
             self.__store([feed_data])
