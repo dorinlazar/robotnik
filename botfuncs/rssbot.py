@@ -131,6 +131,8 @@ class FeedData:
         try:
             r = requests.head(self.feed)
             if r.ok:
+                if self.last_updated == datetime.datetime.min:
+                    return True
                 dt = dtparser.parse(r.headers['last-modified'])
                 return dt > self.last_updated
         except Exception as e:
