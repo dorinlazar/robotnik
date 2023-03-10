@@ -133,8 +133,8 @@ class FeedData:
             if r.ok:
                 dt = dtparser.parse(r.headers['last-modified'])
                 return dt > self.last_updated
-        except Exception:
-            print(f'Unable to reach {self.feed}')
+        except Exception as e:
+            print(f'Unable to reach {self.feed}: {str(e)}')
         return False
 
     def update(self) -> list[ArticleInfo]:
@@ -196,7 +196,7 @@ class FeedCollection:
             self.__store([feed_data])
             return f'Feed {feed} successfully added, {len(articles)} pre-scanned (and skipped)'
         else:
-            return f'Feed {feed} doesn''t seem to be ok'
+            return f"Feed {feed} doesn't seem to be ok"
 
     def update(self) -> list[ArticleInfo]:
         feeds = self.__restore()
