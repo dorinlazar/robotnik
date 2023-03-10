@@ -229,6 +229,7 @@ class RssBot(commands.Cog):
             await self.__bot.get_channel_by_name(name='robotest').send(f'Am căzut și m-am împiedicat în RSS-uri: {e}')
 
     def add_site(self, what: str) -> str:
+        error = ''
         try:
             if what.startswith('http'):
                 what = what[what.find('//')+2:]
@@ -240,9 +241,9 @@ class RssBot(commands.Cog):
             if tp.rss_address:
                 address = tp.rss_address if tp.rss_address.startswith('http') else f'https://{site}{tp.rss_address}'
                 return self.add_site(address)
-        except Exception:
-            pass
-        return f'Unable to parse {what} rss feed'
+        except Exception as e:
+            error = str(e)
+        return f'Unable to parse {what} rss feed: {error}'
 
     def add_feed(self, what: str) -> str:
         return self.__feeds.add_feed(what)
