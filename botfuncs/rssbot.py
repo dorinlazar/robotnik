@@ -8,6 +8,35 @@ import json
 from discord.ext import commands, tasks
 
 
+class TestParser(hp.HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.__rss_address = ''
+
+    @property
+    def rss_address(self): return self.__rss_address
+
+    def __process_attributes(self, attrs: list[tuple[str, str | None]]) -> None:
+        found_alternate = False
+        found_rss = False
+        href = ''
+        for t in attrs:
+            if t:
+                if t[0] == 'rel' and t[1] == 'alternate':
+                    found_alternate = True
+                if t[0] == 'type' and t[1] == 'application/rss+xml':
+                    found_rss = True
+                if t[0] == 'href':
+                    href = t[1]
+        if found_alternate and found_rss and href:
+            self.__rss_address = href
+            # self.close()
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag == 'link':
+            self.__process_attributes(attrs)
+
+
 class ArticleInfo:
     title: str
     link: str
@@ -159,11 +188,15 @@ class FeedCollection:
         except Exception:
             pass
 
-    def add_feed(self, feed: str) -> None:
+    def add_feed(self, feed: str) -> str:
         feed_data = FeedData()
         feed_data.feed = feed
-        feed_data.update()
-        return self.__store([feed_data])
+        articles = feed_data.update()
+        if articles:
+            self.__store([feed_data])
+            return f'Feed {feed} successfully added, {len(articles)} pre-scanned (and skipped)'
+        else:
+            return f'Feed {feed} doesn''t seem to be ok'
 
     def update(self) -> list[ArticleInfo]:
         feeds = self.__restore()
@@ -195,40 +228,21 @@ class RssBot(commands.Cog):
         except Exception as e:
             await self.__bot.get_channel_by_name(name='robotest').send(f'Am căzut și m-am împiedicat în RSS-uri: {e}')
 
-    # async def fetch_last_tweets(self, user):
-    #     perform_send = user in self.__since
-    #     kwargs = {'count': 20, 'screen_name': user, 'exclude_replies': True}
-    #     if perform_send:
-    #         kwargs['since_id'] = self.__since[user]
-    #     res = []
-    #     timeline = self.__api.GetUserTimeline(**kwargs)
-    #     if timeline:
-    #         self.__since[user] = timeline[0].id
-    #         if perform_send:
-    #             for msg in reversed(timeline):
-    #                 print('Received tweet: ', msg.text)
-    #                 if 'retweeted_status' in msg._json:
-    #                     screen_name = msg.retweeted_status.user.screen_name
-    #                     status_id = msg.retweeted_status.id
-    #                     res.append(
-    #                         f'{user} retweet of https://twitter.com/{screen_name}/status/{status_id} at https://twitter.com/{user}/status/{msg.id}')
-    #                 else:
-    #                     res.append(f'https://twitter.com/{user}/status/{msg.id}')
-    #         else:
-    #             print('Last tweet:', timeline[0].id, timeline[0].text)
-    #     return res
+    def add_site(self, what: str) -> str:
+        try:
+            if what.startswith('http'):
+                what = what[what.find('//')+2:]
+                if '/' in what:
+                    what = what[:what.find('/')]
+            r = requests.get(f'https://{what}/')
+            tp = TestParser()
+            tp.feed(r.text)
+            if tp.rss_address:
+                address = tp.rss_address if tp.rss_address.startswith('http') else f'https://{site}{tp.rss_address}'
+                return self.add_site(address)
+        except Exception:
+            pass
+        return f'Unable to parse {what} rss feed'
 
-    # @tasks.loop(seconds=3600.0)
-    # async def timer_function(self):
-    #     try:
-    #         if self.__api is None:
-    #             await self.__reinit_api()
-    #             if self.__api is not None:
-    #                 await self.__bot.get_channel_by_name(name='robotest').send('M-am reconectat la Twitter')
-    #         for u in self.__users:
-    #             msg = await self.fetch_last_tweets(u)
-    #             for m in msg:
-    #                 await self.__bot.get_channel_by_name(name='tweets').send(m[:1900])
-    #     except Exception as e:
-    #         await self.__bot.get_channel_by_name(name='robotest').send(f'Twitter e din nou excepțional: {e}')
-    #         self.__api = None
+    def add_site(self, what: str) -> str:
+        return self.__feeds.add_feed(what)
