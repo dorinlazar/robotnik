@@ -134,7 +134,7 @@ class FeedData:
                 dt = dtparser.parse(r.headers['last-modified'])
                 return dt > self.last_updated
         except Exception:
-            print(f'Unable to reach {self.__url}')
+            print(f'Unable to reach {self.feed}')
         return False
 
     def update(self) -> list[ArticleInfo]:
@@ -142,7 +142,7 @@ class FeedData:
             return []
 
         retval = []
-        r = requests.get(self.__url)
+        r = requests.get(self.feed)
         if not r.ok:
             return
         articles = self.__get_article_list(r.content)
