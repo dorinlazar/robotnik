@@ -116,7 +116,7 @@ if __name__ == '__main__':
     async def yt(interaction: discord.Interaction, what: str):
         await interaction.response.send_message(ytclient.on_message(what))
 
-    rssbot = RssBot(os.path.expanduser('~/.robotnik.rss.gdbm'))
+    rssbot = RssBot(client, os.path.expanduser('~/.robotnik.rss.gdbm'))
 
     @client.tree.command()
     async def addsite(interaction: discord.Interaction, what: str):

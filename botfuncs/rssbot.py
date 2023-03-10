@@ -217,8 +217,9 @@ class FeedCollection:
 
 
 class RssBot(commands.Cog):
-    def __init__(self, storage_file: str):
+    def __init__(self, bot, storage_file: str):
         self.__feeds = FeedCollection(storage_file)
+        self.__bot = bot
 
     @tasks.loop(seconds=600)
     async def timer_function(self):
@@ -227,8 +228,6 @@ class RssBot(commands.Cog):
             for item in updates:
                 message = f'{item.title} {item.link}'
                 await self.__bot.get_channel_by_name(name='tweets').send(message[:1900])
-            if not updates:
-                await self.__bot.get_channel_by_name(name='tweets').send('Nimic nou pe frontul de RSS-uri')
         except Exception as e:
             await self.__bot.get_channel_by_name(name='robotest').send(f'Am căzut și m-am împiedicat în RSS-uri: {e}')
 
