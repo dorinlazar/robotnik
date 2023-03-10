@@ -167,6 +167,7 @@ class FeedCollection:
         self.__path = storage_file
 
     def __restore(self) -> list[FeedData]:
+        feeds = []
         try:
             with gdbm.open(self.__path) as db:
                 keys = []
@@ -175,7 +176,7 @@ class FeedCollection:
                     keys.append(key)
                     key = db.nextkey()
                 for key in keys:
-                    feeds = FeedData(key, json.loads(db[key]))
+                    feeds.append(FeedData(key, json.loads(db[key])))
         except Exception:
             pass
         return feeds
