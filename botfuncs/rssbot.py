@@ -239,7 +239,7 @@ class RssBot(commands.Cog):
             tp = TestParser()
             tp.feed(r.text)
             if tp.rss_address:
-                address = tp.rss_address if tp.rss_address.startswith('http') else f'https://{site}{tp.rss_address}'
+                address = tp.rss_address if tp.rss_address.startswith('http') else f'https://{what}{tp.rss_address}'
                 return self.add_site(address)
         except Exception as e:
             error = str(e)
