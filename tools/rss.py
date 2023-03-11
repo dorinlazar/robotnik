@@ -8,10 +8,10 @@ from typing import Optional, Any
 
 
 class ArticleInfo:
-    title: str
-    link: str
-    guid: str
-    pub_date: dtime
+    title: str = ""
+    link: str = ""
+    guid: str = ""
+    pub_date: dtime = dtime.min.replace(tzinfo=tzutc())
 
 
 class FeedDigest:
