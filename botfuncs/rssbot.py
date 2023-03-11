@@ -1,5 +1,5 @@
 from tools.html import HtmlProcessor
-from tools.rss import FeedData
+from tools.rss import FeedData, ArticleInfo
 from tools.storage import Storage
 import requests
 import json
@@ -15,21 +15,15 @@ class FeedCollection:
         return [FeedData(item[0], json.loads(item[1])) for item in config]
 
     def __store(self, feeds: list[FeedData]) -> None:
-        try:
-            with gdbm.open(self.__path, "c") as db:
-                for f in feeds:
-                    db[f.feed] = json.dumps(f.to_json())
-        except Exception:
-            pass
+        self.__storage.store_all([(f.feed, f.to_json()) for f in feeds])
 
     def add_feed(self, feed: str) -> str:
         feed_data = FeedData(feed)
-        articles = feed_data.update()
+        articles = feed_data.get_new_articles()
         if articles:
             self.__store([feed_data])
             return f"Feed {feed} successfully added, {len(articles)} pre-scanned (and skipped)"
-        else:
-            return f"Feed {feed} doesn't seem to be ok"
+        return f"Feed {feed} doesn't seem to be ok"
 
     def update(self) -> list[ArticleInfo]:
         feeds = self.__restore()
@@ -37,12 +31,12 @@ class FeedCollection:
         retval = []
         for f in feeds:
             try:
-                articles = f.update()
+                articles = f.get_new_articles()
                 if articles:
                     to_store.append(f)
                     retval.extend(articles)
             except Exception as e:
-                raise RuntimeError(error=f"Error while retrieving {f.feed}: {str(e)}")
+                raise Exception(f"Error while retrieving {f.feed}: {str(e)}")
         self.__store(to_store)
         return retval
 
@@ -64,21 +58,26 @@ class RssBot(commands.Cog):
                 f"Am căzut și m-am împiedicat în RSS-uri: {e}"
             )
 
+    @staticmethod
+    def __site_name(url: str) -> str:
+        if url.startswith("http"):
+            url = url[url.find("//") + 2 :]
+            if "/" in url:
+                url = url[: url.find("/")]
+        return url
+
     def add_site(self, what: str) -> str:
         error = ""
         try:
-            if what.startswith("http"):
-                what = what[what.find("//") + 2 :]
-                if "/" in what:
-                    what = what[: what.find("/")]
-            r = requests.get(f"https://{what}/")
-            tp = TestParser()
+            site_name = RssBot.__site_name(what)
+            r = requests.get(f"https://{site_name}/")
+            tp = HtmlProcessor()
             tp.feed(r.text)
             if tp.rss_address:
                 address = (
                     tp.rss_address
                     if tp.rss_address.startswith("http")
-                    else f"https://{what}{tp.rss_address}"
+                    else f"https://{site_name}{tp.rss_address}"
                 )
                 return self.add_feed(address)
         except Exception as e:
@@ -86,4 +85,7 @@ class RssBot(commands.Cog):
         return f"Unable to parse {what} rss feed: {error}"
 
     def add_feed(self, what: str) -> str:
-        return self.__feeds.add_feed(what)
+        try:
+            return self.__feeds.add_feed(what)
+        except Exception as e:
+            return f"Unable to parse {what} rss feed: {str(e)}"

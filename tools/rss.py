@@ -107,6 +107,10 @@ class FeedData:
             self.__article_ids = set(stored_data["ids"])
             self.__last_updated = dtparser.parse(stored_data["last_updated"])
 
+    @property
+    def feed(self) -> str:
+        return self.__feed
+
     def to_json(self) -> str:
         return json.dumps(
             {"ids": list(self.__article_ids), "last_updated": str(self.__last_updated)}
