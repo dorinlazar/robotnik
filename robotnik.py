@@ -116,16 +116,16 @@ if __name__ == '__main__':
     async def yt(interaction: discord.Interaction, what: str):
         await interaction.response.send_message(ytclient.on_message(what))
 
-    rssbot = RssBot(client, os.path.expanduser('~/.robotnik.rss.gdbm'))
+    # rssbot = RssBot(client, os.path.expanduser('~/.robotnik.rss.gdbm'))
 
-    @client.tree.command()
-    async def addsite(interaction: discord.Interaction, what: str):
-        await interaction.response.send_message(rssbot.add_site(what))
+    # @client.tree.command()
+    # async def addsite(interaction: discord.Interaction, what: str):
+    #     await interaction.response.send_message(rssbot.add_site(what))
 
-    @client.tree.command()
-    async def addfeed(interaction: discord.Interaction, what: str):
-        await interaction.response.send_message(rssbot.add_feed(what))
+    # @client.tree.command()
+    # async def addfeed(interaction: discord.Interaction, what: str):
+    #     await interaction.response.send_message(rssbot.add_feed(what))
 
-    client.register_rss(rssbot)
+    # client.register_rss(rssbot)
     client.register_tw(TwitterBot(bot=client, **cfg['twitter']))
     client.run(discordsettings['key'])
