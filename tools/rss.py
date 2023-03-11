@@ -28,7 +28,7 @@ class RssParser:
         self.__in_channel = False
         self.__in_item = False
         self.__current_element: ArticleInfo
-        self.__current_data: str
+        self.__current_data: str = ""
         self.__feed_digest = FeedDigest()
 
     def parse(self, content: str):
