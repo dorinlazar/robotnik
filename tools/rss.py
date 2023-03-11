@@ -82,7 +82,9 @@ class FeedFetcher:
         try:
             r = requests.head(url)
             if r.ok:
-                return dtparser.parse(r.headers["last-modified"])
+                if "last-modified" in r.headers:
+                    return dtparser.parse(r.headers["last-modified"])
+                return dtime.now(tz=tzutc())
         except Exception as e:
             print(f"Unable to reach url {url}: {str(e)}")
         return dtime.min.replace(tzinfo=tzutc())
