@@ -46,7 +46,7 @@ class RssBot(commands.Cog):
         self.__feeds = FeedCollection(storage_file)
         self.__bot = bot
 
-    @tasks.loop(seconds=600)
+    @tasks.loop(seconds=6000)
     async def timer_function(self):
         try:
             updates = self.__feeds.update()
@@ -61,7 +61,7 @@ class RssBot(commands.Cog):
     @staticmethod
     def __site_name(url: str) -> str:
         if url.startswith("http"):
-            url = url[url.find("//") + 2 :]
+            url = url[url.find("//") + 2:]
             if "/" in url:
                 url = url[: url.find("/")]
         return url
