@@ -57,14 +57,14 @@ class RssParser:
                     case "pubDate":
                         self.__current_element.pub_date = dtparser.parse(
                             self.__current_data
-                        )
+                        ).replace(tzinfo=tzutc())
                     case "guid":
                         self.__current_element.guid = self.__current_data
                     case "title":
                         self.__current_element.title = self.__current_data
         else:
             if name == "lastBuildDate":
-                self.__feed_digest.build_date = dtparser.parse(self.__current_data)
+                self.__feed_digest.build_date = dtparser.parse(self.__current_data).replace(tzinfo=tzutc())
         if self.__in_channel:
             if name == "channel":
                 self.__in_channel = False
@@ -83,7 +83,7 @@ class FeedFetcher:
             r = requests.head(url)
             if r.ok:
                 if "last-modified" in r.headers:
-                    return dtparser.parse(r.headers["last-modified"])
+                    return dtparser.parse(r.headers["last-modified"]).replace(tzinfo=tzutc())
                 return dtime.now(tz=tzutc())
         except Exception as e:
             print(f"Unable to reach url {url}: {str(e)}")
@@ -107,7 +107,7 @@ class FeedData:
         self.__last_updated: dtime = dtime.min.replace(tzinfo=tzutc())
         if stored_data:
             self.__article_ids = set(stored_data["ids"])
-            self.__last_updated = dtparser.parse(stored_data["last_updated"])
+            self.__last_updated = dtparser.parse(stored_data["last_updated"]).replace(tzinfo=tzutc())
 
     @property
     def feed(self) -> str:
