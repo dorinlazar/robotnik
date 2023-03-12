@@ -2,10 +2,9 @@ import html.parser as hp
 
 
 class HtmlProcessor(hp.HTMLParser):
-    rss_address: str = ""
-
     def __init__(self):
         super().__init__()
+        self.rss_address = ""
 
     def __process_attributes(self, attrs: list[tuple[str, str | None]]) -> None:
         found_alternate = False

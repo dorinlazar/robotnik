@@ -8,15 +8,65 @@ from typing import Optional, Any
 
 
 class ArticleInfo:
-    title: str = ""
-    link: str = ""
-    guid: str = ""
-    pub_date: dtime = dtime.min.replace(tzinfo=tzutc())
+    def __init__(self):
+        self.__title: str = ""
+        self.__link: str = ""
+        self.__guid: str = ""
+        self.__pub_date: dtime = dtime.min.replace(tzinfo=tzutc())
+
+    @property
+    def title(self) -> str:
+        return self.__title
+
+    @title.setter
+    def title(self, value: str):
+        self.__title = value
+
+    @property
+    def link(self) -> str:
+        return self.__link
+
+    @link.setter
+    def link(self, value: str):
+        self.__link = value
+
+    @property
+    def guid(self) -> str:
+        return self.__guid
+
+    @guid.setter
+    def guid(self, value: str):
+        self.__guid = value
+
+    @property
+    def pub_date(self) -> dtime:
+        return self.__pub_date
+
+    @pub_date.setter
+    def pub_date(self, value: dtime):
+        self.__pub_date = value
 
 
 class FeedDigest:
-    build_date: dtime = dtime.min.replace(tzinfo=tzutc())
-    articles: list[ArticleInfo] = []
+    def __init__(self):
+        self.__build_date = dtime.min.replace(tzinfo=tzutc())
+        self.__articles: list[ArticleInfo] = []
+
+    @property
+    def articles(self) -> list[ArticleInfo]:
+        return self.__articles
+
+    @articles.setter
+    def articles(self, value: list[ArticleInfo]):
+        self.__articles = value
+
+    @property
+    def build_date(self) -> dtime:
+        return self.__build_date
+
+    @build_date.setter
+    def build_date(self, value: dtime):
+        self.__build_date = value
 
 
 class RssParser:
@@ -30,6 +80,7 @@ class RssParser:
         self.__current_element: ArticleInfo
         self.__current_data: str = ""
         self.__feed_digest = FeedDigest()
+        print(f"{len(self.__feed_digest.articles)} already found?")
 
     def parse(self, content: str):
         self.__parser.Parse(content, True)
@@ -64,7 +115,9 @@ class RssParser:
                         self.__current_element.title = self.__current_data
         else:
             if name == "lastBuildDate":
-                self.__feed_digest.build_date = dtparser.parse(self.__current_data).replace(tzinfo=tzutc())
+                self.__feed_digest.build_date = dtparser.parse(
+                    self.__current_data
+                ).replace(tzinfo=tzutc())
         if self.__in_channel:
             if name == "channel":
                 self.__in_channel = False
@@ -83,7 +136,9 @@ class FeedFetcher:
             r = requests.head(url)
             if r.ok:
                 if "last-modified" in r.headers:
-                    return dtparser.parse(r.headers["last-modified"]).replace(tzinfo=tzutc())
+                    return dtparser.parse(r.headers["last-modified"]).replace(
+                        tzinfo=tzutc()
+                    )
                 return dtime.now(tz=tzutc())
         except Exception as e:
             print(f"Unable to reach url {url}: {str(e)}")
@@ -107,7 +162,9 @@ class FeedData:
         self.__last_updated: dtime = dtime.min.replace(tzinfo=tzutc())
         if stored_data:
             self.__article_ids = set(stored_data["ids"])
-            self.__last_updated = dtparser.parse(stored_data["last_updated"]).replace(tzinfo=tzutc())
+            self.__last_updated = dtparser.parse(stored_data["last_updated"]).replace(
+                tzinfo=tzutc()
+            )
 
     @property
     def feed(self) -> str:
@@ -169,6 +226,12 @@ def __test02():
         print(f"Article: {article.title} on {article.pub_date}: {article.link}")
     updates = feed_data.get_new_articles()
     print(f">> Second reading, {len(updates)} updates found")
+    feed_data2 = FeedData("https://mastodon.social/@dorinlazar.rss")
+    updates2 = feed_data2.get_new_articles()
+    for article in updates2:
+        print(f"Article: {article.title} on {article.pub_date}: {article.link}")
+    updates2 = feed_data.get_new_articles()
+    print(f">> Second reading, {len(updates2)} updates found")
 
 
 if __name__ == "__main__":

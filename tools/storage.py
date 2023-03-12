@@ -29,3 +29,13 @@ class Storage:
                     db[item[0]] = item[1]
         except Exception as e:
             print(f"error opening file {self.__path}: {str(e)}")
+
+
+if __name__ == "__main__":
+    import os
+
+    storage = Storage(os.path.expanduser("~/.robotnik.rss.gdbm"))
+    items = storage.restore()
+    for x in items:
+        print(f"{x[0]}:: {x[1]}")
+        print("")
