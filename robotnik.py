@@ -133,5 +133,5 @@ if __name__ == "__main__":
         await interaction.response.send_message(rssbot.add_feed(what))
 
     client.register_rss(rssbot)
-    client.register_tw(TwitterBot(bot=client, **cfg["twitter"]))
+    # client.register_tw(TwitterBot(bot=client, **cfg["twitter"]))
     client.run(discordsettings["key"])
