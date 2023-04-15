@@ -125,7 +125,9 @@ class RssParser:
     def __char_data(self, data: str):
         self.__current_data += data
 
-    def digest(self):
+    def digest(self, update_time: dtime = dtime.utcnow().replace(tzinfo=tzutc())):
+        if self.__feed_digest.build_date == dtime.min.replace(tzinfo=tzutc()):
+            self.__feed_digest.build_date = update_time
         return self.__feed_digest
 
 
@@ -160,6 +162,7 @@ class FeedData:
         self.__feed = feed
         self.__article_ids: set[str] = set()
         self.__last_updated: dtime = dtime.min.replace(tzinfo=tzutc())
+        self.__last_touched: dtime = dtime.min.replace(tzinfo=tzutc())
         if stored_data:
             self.__article_ids = set(stored_data["ids"])
             self.__last_updated = dtparser.parse(stored_data["last_updated"]).replace(
@@ -178,12 +181,13 @@ class FeedData:
     def __get_digest(self, rss_feed_content: str) -> FeedDigest:
         parser = RssParser()
         parser.parse(rss_feed_content)
-        digest = parser.digest()
+        digest = parser.digest(self.__last_touched)
         print(f"Last build date: {digest.build_date}")
         return digest
 
     def __updated(self) -> bool:
-        return FeedFetcher.url_last_modified(self.__feed) > self.__last_updated
+        self.__last_touched = FeedFetcher.url_last_modified(self.__feed)
+        return self.__last_touched > self.__last_updated
 
     def get_new_articles(self) -> list[ArticleInfo]:
         if not self.__updated():
@@ -209,13 +213,20 @@ class FeedData:
 def __test01():
     import requests
 
-    address = "https://dorinlazar.ro/index.xml"
+    address = "https://world-nuclear-news.org/?rss=FullFeed"
     r = requests.get(address)
     parser = RssParser()
     parser.parse(r.content.decode())
     digest = parser.digest()
     print(f"Last build time: {digest.build_date}")
     for article in digest.articles:
+        print(f"Article: {article.title} on {article.pub_date}: {article.link}")
+
+
+def __test03():
+    feed_data = FeedData("https://world-nuclear-news.org/?rss=FullFeed")
+    updates = feed_data.get_new_articles()
+    for article in updates:
         print(f"Article: {article.title} on {article.pub_date}: {article.link}")
 
 
@@ -235,4 +246,4 @@ def __test02():
 
 
 if __name__ == "__main__":
-    __test02()
+    __test03()
