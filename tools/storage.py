@@ -22,6 +22,15 @@ class Storage:
     def store(self, key: str, value: str):
         self.store_all([(key, value)])
 
+    def delete(self, key: str) -> bool:
+        try:
+            with gdbm.open(self.__path) as db:
+                del db[key]
+            return True
+        except Exception as e:
+            print(f"error opening file {self.__path}: {str(e)}")
+        return False
+
     def store_all(self, items: list[tuple[str, str]]):
         try:
             with gdbm.open(self.__path, "c") as db:

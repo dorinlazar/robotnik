@@ -132,6 +132,14 @@ if __name__ == "__main__":
     async def addfeed(interaction: discord.Interaction, what: str):
         await interaction.response.send_message(rssbot.add_feed(what))
 
+    @client.tree.command()
+    async def listfeeds(interaction: discord.Interaction):
+        await interaction.response.send_message(rssbot.list_feeds())
+
+    @client.tree.command()
+    async def delfeed(interaction: discord.Interaction, what: str):
+        await interaction.response.send_message(rssbot.del_feed(what))
+
     client.register_rss(rssbot)
     # client.register_tw(TwitterBot(bot=client, **cfg["twitter"]))
     client.run(discordsettings["key"])

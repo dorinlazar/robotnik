@@ -25,6 +25,11 @@ class FeedCollection:
             return f"Feed {feed} successfully added, {len(articles)} pre-scanned (and skipped)"
         return f"Feed {feed} doesn't seem to be ok"
 
+    def delete_feed(self, feed: str) -> str:
+        if self.__storage.delete(feed):
+            return f"Successfully removed feed {feed}"
+        return f"Failed to remove feed {feed}"
+
     def update(self) -> list[ArticleInfo]:
         feeds = self.__restore()
         to_store = []
@@ -39,6 +44,9 @@ class FeedCollection:
                 raise Exception(f"Error while retrieving {f.feed}: {str(e)}")
         self.__store(to_store)
         return retval
+
+    def list_feeds(self) -> list[str]:
+        return [f[0] for f in self.__storage.restore()]
 
 
 class RssBot(commands.Cog):
@@ -89,3 +97,16 @@ class RssBot(commands.Cog):
             return self.__feeds.add_feed(what)
         except Exception as e:
             return f"Unable to parse {what} rss feed: {str(e)}"
+
+    def del_feed(self, what: str) -> str:
+        try:
+            return self.__feeds.delete_feed(what)
+        except Exception as e:
+            return f"Unable to parse {what} rss feed: {str(e)}"
+
+    def list_feeds(self) -> str:
+        try:
+            feeds = self.__feeds.list_feeds()
+            return "\n".join(feeds)
+        except Exception as e:
+            return f"Error reading feeds : {str(e)}"
