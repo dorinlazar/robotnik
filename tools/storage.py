@@ -1,3 +1,4 @@
+import logging
 import dbm.gnu as gdbm
 
 
@@ -16,7 +17,7 @@ class Storage:
 
                 return [(key, db[key].decode()) for key in keys]
         except Exception as e:
-            print(f"error opening file {self.__path}: {str(e)}")
+            logging.log(logging.ERROR, f"error opening file {self.__path}: {str(e)}")
         return []
 
     def store(self, key: str, value: str):
@@ -28,7 +29,7 @@ class Storage:
                 del db[key]
             return True
         except Exception as e:
-            print(f"error opening file {self.__path}: {str(e)}")
+            logging.log(logging.ERROR, f"error opening file {self.__path}: {str(e)}")
         return False
 
     def store_all(self, items: list[tuple[str, str]]):
@@ -37,7 +38,7 @@ class Storage:
                 for item in items:
                     db[item[0]] = item[1]
         except Exception as e:
-            print(f"error opening file {self.__path}: {str(e)}")
+            logging.log(logging.ERROR, f"error opening file {self.__path}: {str(e)}")
 
 
 if __name__ == "__main__":
