@@ -25,7 +25,7 @@ class Storage:
 
     def delete(self, key: str) -> bool:
         try:
-            with gdbm.open(self.__path) as db:
+            with gdbm.open(self.__path, "w") as db:
                 del db[key]
             return True
         except Exception as e:
