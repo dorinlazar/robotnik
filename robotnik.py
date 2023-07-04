@@ -83,7 +83,7 @@ class RoboClient(commands.Bot):
                     current = current + line
                 else:
                     res.append(current)
-                    current = ""
+                    current = line
             if len(current):
                 res.append(current)
             return res
@@ -114,7 +114,21 @@ if __name__ == "__main__":
 
     @client.tree.command()
     async def movie(interaction: discord.Interaction, what: str):
-        await interaction.response.send_message(justwatch.on_message(what))
+        response = justwatch.on_message(what)
+        current = ""
+        res = []
+        for line in response.splitlines():
+            if len(current) + len(line) + 1 < 2000:
+                if len(current):
+                    current = current + "\n"
+                current = current + line
+            else:
+                res.append(current)
+                current = line
+        if len(current):
+            res.append(current)
+        for x in res:
+            await interaction.response.send_message(x)
 
     ytclient = YTSearch()
 
