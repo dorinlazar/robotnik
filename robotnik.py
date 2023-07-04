@@ -113,8 +113,8 @@ if __name__ == "__main__":
     justwatch = JustWatchBot()
 
     @client.tree.command()
-    async def movie(interaction: discord.Interaction, what: str):
-        response = justwatch.on_message(what)
+    async def movie(interaction: discord.Interaction, what: str, country: str = "RO"):
+        response = justwatch.on_country_message(what, country)
         current = ""
         res = []
         for line in response.splitlines():
@@ -127,8 +127,10 @@ if __name__ == "__main__":
                 current = line
         if len(current):
             res.append(current)
+        if not res:
+            res = [f"No response for query: {what}@{country}"]
         for x in res:
-            await interaction.response.send_message(x)
+            await interaction.response.send_message(x, suppress_embeds=True)
 
     ytclient = YTSearch()
 
