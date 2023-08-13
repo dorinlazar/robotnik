@@ -141,12 +141,16 @@ if __name__ == "__main__":
     rssbot = RssBot(client, os.path.expanduser("~/.robotnik.rss.gdbm"))
 
     @client.tree.command()
-    async def addsite(interaction: discord.Interaction, what: str):
-        await interaction.response.send_message(rssbot.add_site(what))
+    async def addsite(
+        interaction: discord.Interaction, what: str, where: str = "#shorts"
+    ):
+        await interaction.response.send_message(rssbot.add_site(what, where))
 
     @client.tree.command()
-    async def addfeed(interaction: discord.Interaction, what: str):
-        await interaction.response.send_message(rssbot.add_feed(what))
+    async def addfeed(
+        interaction: discord.Interaction, what: str, where: str = "#shorts"
+    ):
+        await interaction.response.send_message(rssbot.add_feed(what, where))
 
     @client.tree.command()
     async def listfeeds(interaction: discord.Interaction):

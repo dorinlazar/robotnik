@@ -163,11 +163,13 @@ class FeedData:
         self.__article_ids: set[str] = set()
         self.__last_updated: dtime = dtime.min.replace(tzinfo=tzutc())
         self.__last_touched: dtime = dtime.min.replace(tzinfo=tzutc())
+        self.__destination: str = "#shorts"
         if stored_data:
             self.__article_ids = set(stored_data["ids"])
             self.__last_updated = dtparser.parse(stored_data["last_updated"]).replace(
                 tzinfo=tzutc()
             )
+            self.__destination = stored_data["dest"]
 
     @property
     def feed(self) -> str:
@@ -175,7 +177,11 @@ class FeedData:
 
     def to_json(self) -> str:
         return json.dumps(
-            {"ids": list(self.__article_ids), "last_updated": str(self.__last_updated)}
+            {
+                "ids": list(self.__article_ids),
+                "last_updated": str(self.__last_updated),
+                "dest": self.__destination,
+            }
         )
 
     def __get_digest(self, rss_feed_content: str) -> FeedDigest:

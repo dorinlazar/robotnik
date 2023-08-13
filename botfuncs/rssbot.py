@@ -74,7 +74,7 @@ class RssBot(commands.Cog):
                 url = url[: url.find("/")]
         return url
 
-    def add_site(self, what: str) -> str:
+    def add_site(self, what: str, where: str) -> str:
         error = ""
         try:
             site_name = RssBot.__site_name(what)
@@ -87,12 +87,12 @@ class RssBot(commands.Cog):
                     if tp.rss_address.startswith("http")
                     else f"https://{site_name}{tp.rss_address}"
                 )
-                return self.add_feed(address)
+                return self.add_feed(address, where)
         except Exception as e:
             error = str(e)
         return f"Unable to parse {what} rss feed: {error}"
 
-    def add_feed(self, what: str) -> str:
+    def add_feed(self, what: str, where: str) -> str:
         try:
             return self.__feeds.add_feed(what)
         except Exception as e:
