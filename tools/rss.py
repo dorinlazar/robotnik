@@ -6,7 +6,14 @@ from dateutil.tz import tzutc
 import json
 import requests
 from typing import Optional, Any
-from htmlhelpers import HtmlTextFilter
+import html.parser as hp
+
+
+class HtmlTextFilter(hp.HTMLParser):
+    text = ""
+
+    def handle_data(self, data):
+        self.text += data
 
 
 class ArticleInfo:
