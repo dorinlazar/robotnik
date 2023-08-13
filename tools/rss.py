@@ -1,5 +1,6 @@
 from datetime import datetime as dtime
 import xml.parsers.expat as expy
+from dataclasses import dataclass
 import dateutil.parser as dtparser
 from dateutil.tz import tzutc
 import json
@@ -69,6 +70,43 @@ class FeedDigest:
         self.__build_date = value
 
 
+@dataclass
+class FeedSystem:
+    name: str
+    channel_tag_name: str
+    item_name: str
+    last_build_date_name: str
+    guid_name: str
+
+
+def create_rss_system() -> FeedSystem:
+    return FeedSystem(
+        name="RSS",
+        channel_tag_name="channel",
+        item_name="item",
+        last_build_date_name="lastBuildDate",
+        guid_name="guid",
+    )
+
+
+def create_atom_system() -> FeedSystem:
+    return FeedSystem(
+        name="ATOM",
+        channel_tag_name="feed",
+        item_name="entry",
+        last_build_date_name="updated",
+        guid_name="id",
+    )
+
+
+def create_system(type: str) -> FeedSystem:
+    if type == "RSS":
+        return create_rss_system()
+    if type == "ATOM":
+        return create_atom_system()
+    raise Exception(f"Invalid system: {type}")
+
+
 class RssParser:
     def __init__(self):
         self.__parser = expy.ParserCreate()
@@ -80,24 +118,29 @@ class RssParser:
         self.__current_element: ArticleInfo
         self.__current_data: str = ""
         self.__feed_digest = FeedDigest()
+        self.__system: FeedSystem = create_system("RSS")
         print(f"{len(self.__feed_digest.articles)} already found?")
 
-    def parse(self, content: str):
+    def parse(self, content: str) -> None:
         self.__parser.Parse(content, True)
 
     def __start_element(self, name: str, attrs: dict[str, str]):
+        if name == "feed" and attrs.get("xmlns", "") == "http://www.w3.org/2005/Atom":
+            self.__system = create_system("ATOM")
+        if name == "rss" and attrs.get("version", "") == "2.0":
+            self.__system = create_system("RSS")
         if not self.__in_channel:
-            self.__in_channel = name == "channel"
+            self.__in_channel = name == self.__system.channel_tag_name
             return
         if not self.__in_item:
-            self.__in_item = name == "item"
+            self.__in_item = name == self.__system.item_name
             if self.__in_item:
                 self.__current_element = ArticleInfo()
         self.__current_data = ""
 
     def __end_element(self, name: str):
         if self.__in_item:
-            if name == "item":
+            if name == self.__system.item_name:
                 self.__in_item = False
                 if self.__current_element and self.__current_element.link:
                     self.__feed_digest.articles.append(self.__current_element)
@@ -109,18 +152,17 @@ class RssParser:
                         self.__current_element.pub_date = dtparser.parse(
                             self.__current_data
                         ).replace(tzinfo=tzutc())
-                    case "guid":
+                    case self.__system.guid_name:
                         self.__current_element.guid = self.__current_data
                     case "title":
                         self.__current_element.title = self.__current_data
         else:
-            if name == "lastBuildDate":
+            if name == self.__system.last_build_date_name:
                 self.__feed_digest.build_date = dtparser.parse(
                     self.__current_data
                 ).replace(tzinfo=tzutc())
-        if self.__in_channel:
-            if name == "channel":
-                self.__in_channel = False
+        if self.__in_channel and name == self.__system.channel_tag_name:
+            self.__in_channel = False
 
     def __char_data(self, data: str):
         self.__current_data += data
@@ -219,7 +261,7 @@ class FeedData:
 def __test01():
     import requests
 
-    address = "https://world-nuclear-news.org/?rss=FullFeed"
+    address = "https://krossfire.ro/feed/"
     r = requests.get(address)
     parser = RssParser()
     parser.parse(r.content.decode())
@@ -252,4 +294,4 @@ def __test02():
 
 
 if __name__ == "__main__":
-    __test03()
+    __test01()
