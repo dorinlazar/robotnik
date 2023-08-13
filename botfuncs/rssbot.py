@@ -1,4 +1,4 @@
-from tools.html import HtmlProcessor
+from tools.htmlhelpers import HtmlProcessor
 from tools.rss import FeedData, ArticleInfo
 from tools.storage import Storage
 import requests

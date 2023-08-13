@@ -6,6 +6,7 @@ from dateutil.tz import tzutc
 import json
 import requests
 from typing import Optional, Any
+from htmlhelpers import HtmlTextFilter
 
 
 class ArticleInfo:
@@ -77,6 +78,7 @@ class FeedSystem:
     item_name: str
     last_build_date_name: str
     guid_name: str
+    publish_item_date_name: str
 
 
 def create_rss_system() -> FeedSystem:
@@ -86,6 +88,7 @@ def create_rss_system() -> FeedSystem:
         item_name="item",
         last_build_date_name="lastBuildDate",
         guid_name="guid",
+        publish_item_date_name="pubDate",
     )
 
 
@@ -96,6 +99,7 @@ def create_atom_system() -> FeedSystem:
         item_name="entry",
         last_build_date_name="updated",
         guid_name="id",
+        publish_item_date_name="published",
     )
 
 
@@ -136,6 +140,9 @@ class RssParser:
             self.__in_item = name == self.__system.item_name
             if self.__in_item:
                 self.__current_element = ArticleInfo()
+        if self.__in_item:
+            if name == "link" and attrs.get("rel", "") == "alternate":
+                self.__current_element.link = attrs.get("href", "")
         self.__current_data = ""
 
     def __end_element(self, name: str):
@@ -147,15 +154,18 @@ class RssParser:
             else:
                 match (name):
                     case "link":
-                        self.__current_element.link = self.__current_data
-                    case "pubDate":
+                        if not self.__current_element.link:
+                            self.__current_element.link = self.__current_data
+                    case self.__system.publish_item_date_name:
                         self.__current_element.pub_date = dtparser.parse(
                             self.__current_data
                         ).replace(tzinfo=tzutc())
                     case self.__system.guid_name:
                         self.__current_element.guid = self.__current_data
                     case "title":
-                        self.__current_element.title = self.__current_data
+                        f = HtmlTextFilter()
+                        f.feed(self.__current_data)
+                        self.__current_element.title = f.text
         else:
             if name == self.__system.last_build_date_name:
                 self.__feed_digest.build_date = dtparser.parse(

@@ -24,3 +24,10 @@ class HtmlProcessor(hp.HTMLParser):
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         if tag == "link":
             self.__process_attributes(attrs)
+
+
+class HtmlTextFilter(hp.HTMLParser):
+    text = ""
+
+    def handle_data(self, data):
+        self.text += data
