@@ -46,7 +46,7 @@ class FeedCollection:
         return retval
 
     def list_feeds(self) -> list[str]:
-        return [f[0] for f in self.__storage.restore()]
+        return [f"{f.feed} -> {f.destination}" for f in self.__restore()]
 
 
 class RssBot(commands.Cog):

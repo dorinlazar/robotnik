@@ -243,6 +243,10 @@ class FeedData:
     def feed(self) -> str:
         return self.__feed
 
+    @property
+    def destination(self) -> str:
+        return self.__destination
+
     def to_json(self) -> str:
         return json.dumps(
             {
