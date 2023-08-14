@@ -22,6 +22,7 @@ class ArticleInfo:
         self.__link: str = ""
         self.__guid: str = ""
         self.__pub_date: dtime = dtime.min.replace(tzinfo=tzutc())
+        self.__target: str = "#shorts"
 
     @property
     def title(self) -> str:
@@ -30,6 +31,14 @@ class ArticleInfo:
     @title.setter
     def title(self, value: str):
         self.__title = value
+
+    @property
+    def target(self) -> str:
+        return self.__target
+
+    @target.setter
+    def target(self, value: str):
+        self.__target = value
 
     @property
     def link(self) -> str:
@@ -264,6 +273,7 @@ class FeedData:
         if digest.build_date > self.__last_updated:
             articles: dict[str, ArticleInfo] = dict()
             for article in digest.articles:
+                article.target = self.__destination
                 id = article.guid if article.guid else article.link
                 articles[id] = article
             new_ids = set(articles.keys())

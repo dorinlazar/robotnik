@@ -3,7 +3,6 @@ import discord
 from discord.ext import commands
 import yaml
 from roboapi import MessageHandler
-from botfuncs.twitterbot import TwitterBot
 from botfuncs.justwatchbot import JustWatchBot
 from botfuncs.ytsearch import YTSearch
 from botfuncs.rssbot import RssBot
@@ -161,5 +160,4 @@ if __name__ == "__main__":
         await interaction.response.send_message(rssbot.del_feed(what))
 
     client.register_rss(rssbot)
-    # client.register_tw(TwitterBot(bot=client, **cfg["twitter"]))
     client.run(discordsettings["key"])

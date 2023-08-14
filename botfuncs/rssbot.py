@@ -60,7 +60,8 @@ class RssBot(commands.Cog):
             updates = self.__feeds.update()
             for item in updates:
                 message = f"{item.title} {item.link}"
-                await self.__bot.get_channel_by_name(name="tweets").send(message[:1900])
+                channel = item.target.strip(" #")
+                await self.__bot.get_channel_by_name(name=channel).send(message[:1900])
         except Exception as e:
             await self.__bot.get_channel_by_name(name="robotest").send(
                 f"Am căzut și m-am împiedicat în RSS-uri: {e}"
