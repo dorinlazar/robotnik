@@ -39,7 +39,7 @@ class RoboClient(commands.Bot):
         self.__rss_cog = x
 
     def get_channel_by_name(self, name):
-        return next(c for c in self.get_all_channels() if c.name == name)
+        return next(c for c in self.get_all_channels() if c.name == name or str(c.id)==name)
 
     async def on_ready(self):
         if self.__twitter_cog:

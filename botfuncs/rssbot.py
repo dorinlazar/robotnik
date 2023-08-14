@@ -4,6 +4,7 @@ from tools.storage import Storage
 import requests
 import json
 from discord.ext import commands, tasks
+import robotnik
 
 
 class FeedCollection:
@@ -51,7 +52,7 @@ class FeedCollection:
 
 
 class RssBot(commands.Cog):
-    def __init__(self, bot, storage_file: str):
+    def __init__(self, bot: robotnik.RoboClient, storage_file: str):
         self.__feeds = FeedCollection(storage_file)
         self.__bot = bot
 
@@ -61,7 +62,7 @@ class RssBot(commands.Cog):
             updates = self.__feeds.update()
             for item in updates:
                 message = f"{item.title} {item.link}"
-                channel = item.target.strip(" #")
+                channel = item.target.strip(" #<>")
                 await self.__bot.get_channel_by_name(name=channel).send(message[:1900])
         except Exception as e:
             await self.__bot.get_channel_by_name(name="robotest").send(
