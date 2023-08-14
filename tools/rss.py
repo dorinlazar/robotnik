@@ -247,6 +247,10 @@ class FeedData:
     def destination(self) -> str:
         return self.__destination
 
+    @destination.setter
+    def destination(self, value: str):
+        self.__destination = value
+
     def to_json(self) -> str:
         return json.dumps(
             {

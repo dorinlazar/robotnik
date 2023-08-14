@@ -17,8 +17,9 @@ class FeedCollection:
     def __store(self, feeds: list[FeedData]) -> None:
         self.__storage.store_all([(f.feed, f.to_json()) for f in feeds])
 
-    def add_feed(self, feed: str) -> str:
+    def add_feed(self, feed: str, where: str) -> str:
         feed_data = FeedData(feed)
+        feed_data.destination = where
         articles = feed_data.get_new_articles()
         if articles:
             self.__store([feed_data])
@@ -95,7 +96,7 @@ class RssBot(commands.Cog):
 
     def add_feed(self, what: str, where: str) -> str:
         try:
-            return self.__feeds.add_feed(what)
+            return self.__feeds.add_feed(what, where)
         except Exception as e:
             return f"Unable to parse {what} rss feed: {str(e)}"
 
