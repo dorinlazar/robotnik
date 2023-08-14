@@ -159,6 +159,8 @@ class RssParser:
         if self.__in_item:
             if name == "link" and attrs.get("rel", "") == "alternate":
                 self.__current_element.link = attrs.get("href", "")
+            if name == "enclosure" and not self.__current_element.link:
+                self.__current_element.link = attrs.get("url", "")
         self.__current_data = ""
 
     def __end_element(self, name: str):
@@ -170,7 +172,7 @@ class RssParser:
             else:
                 match (name):
                     case "link":
-                        if not self.__current_element.link:
+                        if not self.__current_element.link and self.__current_data:
                             self.__current_element.link = self.__current_data
                     case self.__system.publish_item_date_name:
                         self.__current_element.pub_date = dtparser.parse(
@@ -296,7 +298,7 @@ class FeedData:
 def __test01():
     import requests
 
-    address = "https://krossfire.ro/feed/"
+    address = "https://feeds.buzzsprout.com/644326.rss"
     r = requests.get(address)
     parser = RssParser()
     parser.parse(r.content.decode())
