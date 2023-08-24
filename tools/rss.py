@@ -214,6 +214,7 @@ class FeedFetcher:
     @staticmethod
     def url_last_modified(url: str) -> dtime:
         try:
+            if 'rachelbythebay' in url: return dtime.now(tz=tzutc())
             r = requests.head(url)
             if r.ok:
                 if "last-modified" in r.headers:

@@ -1,8 +1,8 @@
 pyyaml
 discord.py
-python-twitter
 JustWatch
 youtube-search-python
 Mastodon.py
 python-dateutil
 black
+pycurl
