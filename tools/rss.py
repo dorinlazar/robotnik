@@ -146,8 +146,10 @@ class RssParser:
 
     def __start_element(self, name: str, attrs: dict[str, str]):
         if name == "feed" and attrs.get("xmlns", "") == "http://www.w3.org/2005/Atom":
+            print("Using ATOM reader")
             self.__system = create_system("ATOM")
         if name == "rss" and attrs.get("version", "") == "2.0":
+            print("Using RSS reader")
             self.__system = create_system("RSS")
         if not self.__in_channel:
             self.__in_channel = name == self.__system.channel_tag_name
@@ -157,8 +159,9 @@ class RssParser:
             if self.__in_item:
                 self.__current_element = ArticleInfo()
         if self.__in_item:
-            if name == "link" and attrs.get("rel", "") == "alternate":
+            if name == "link" and attrs.get("rel", "alternate") == "alternate":
                 self.__current_element.link = attrs.get("href", "")
+                print(f"Adding {self.__current_element.link}")
             if name == "enclosure" and not self.__current_element.link:
                 self.__current_element.link = attrs.get("url", "")
         self.__current_data = ""
@@ -169,12 +172,18 @@ class RssParser:
                 self.__in_item = False
                 if self.__current_element and self.__current_element.link:
                     self.__feed_digest.articles.append(self.__current_element)
+                else:
+                    print("Current element is not good")
             else:
                 match (name):
                     case "link":
                         if not self.__current_element.link and self.__current_data:
                             self.__current_element.link = self.__current_data
                     case self.__system.publish_item_date_name:
+                        self.__current_element.pub_date = dtparser.parse(
+                            self.__current_data
+                        ).replace(tzinfo=tzutc())
+                    case "updated":
                         self.__current_element.pub_date = dtparser.parse(
                             self.__current_data
                         ).replace(tzinfo=tzutc())
@@ -298,7 +307,7 @@ class FeedData:
 def __test01():
     import requests
 
-    address = "https://feeds.buzzsprout.com/644326.rss"
+    address = "https://rachelbythebay.com/w/atom.xml"
     r = requests.get(address)
     parser = RssParser()
     parser.parse(r.content.decode())
@@ -330,5 +339,17 @@ def __test02():
     print(f">> Second reading, {len(updates2)} updates found")
 
 
+def __test04():
+    content = ""
+    with open("input.xml", encoding="utf-8") as f:
+        content = f.read()
+    parser = RssParser()
+    parser.parse(content=content)
+    digest = parser.digest()
+    print(f"Last build time: {digest.build_date}")
+    for article in digest.articles:
+        print(f"Article: {article.title} on {article.pub_date}: {article.link}")
+
+
 if __name__ == "__main__":
-    __test01()
+    __test04()
