@@ -214,7 +214,6 @@ class FeedFetcher:
     @staticmethod
     def url_last_modified(url: str) -> dtime:
         try:
-            if 'rachelbythebay' in url: return dtime.now(tz=tzutc())
             r = requests.head(url)
             if r.ok:
                 if "last-modified" in r.headers:
@@ -227,10 +226,15 @@ class FeedFetcher:
         return dtime.min.replace(tzinfo=tzutc())
 
     @staticmethod
-    def get_content(url: str) -> str:
+    def get_content(url: str, timestamp: dtime) -> str:
         try:
-            r = requests.get(url)
-            if r.ok:
+            headers: dict[str, str] = {}
+            if timestamp.year > 2020:
+                headers["If-Modified-Since"] = timestamp.strftime(
+                    "%a, %d %b %Y %H:%M:%S GMT"
+                )
+            r = requests.get(url, headers=headers)
+            if r.status_code < 299:
                 return r.content.decode()
         except Exception as e:
             print(f"Unable to reach url {url}: {str(e)}")
@@ -284,11 +288,8 @@ class FeedData:
         return self.__last_touched > self.__last_updated
 
     def get_new_articles(self) -> list[ArticleInfo]:
-        if not self.__updated():
-            return []
-
         retval: list[ArticleInfo] = []
-        feed_content = FeedFetcher.get_content(self.__feed)
+        feed_content = FeedFetcher.get_content(self.__feed, self.__last_updated)
         digest = self.__get_digest(feed_content)
         if digest.build_date > self.__last_updated:
             articles: dict[str, ArticleInfo] = dict()
@@ -308,7 +309,7 @@ class FeedData:
 def __test01():
     import requests
 
-    address = "https://rachelbythebay.com/w/atom.xml"
+    address = "https://www.cristinachipurici.ro/feed/"
     r = requests.get(address)
     parser = RssParser()
     parser.parse(r.content.decode())
@@ -353,4 +354,4 @@ def __test04():
 
 
 if __name__ == "__main__":
-    __test04()
+    __test01()

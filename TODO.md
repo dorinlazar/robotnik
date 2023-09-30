@@ -1,0 +1,3 @@
+- use pycurl
+- see about  https://rachelbythebay.com/w/atom.xml (requests fail often)
+- see about https://tapas.io/rss/series/35182 (requests.get fail)
