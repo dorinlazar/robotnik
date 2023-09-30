@@ -55,7 +55,7 @@ class RssBot(commands.Cog):
         self.__feeds = FeedCollection(storage_file)
         self.__bot = bot
 
-    @tasks.loop(seconds=1200)
+    @tasks.loop(seconds=3600)
     async def timer_function(self):
         try:
             updates = self.__feeds.update()

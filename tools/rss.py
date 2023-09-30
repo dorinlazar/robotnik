@@ -290,6 +290,8 @@ class FeedData:
     def get_new_articles(self) -> list[ArticleInfo]:
         retval: list[ArticleInfo] = []
         feed_content = FeedFetcher.get_content(self.__feed, self.__last_updated)
+        if len(feed_content) < 20:
+            return retval
         digest = self.__get_digest(feed_content)
         if digest.build_date > self.__last_updated:
             articles: dict[str, ArticleInfo] = dict()
