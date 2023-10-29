@@ -4,6 +4,7 @@ from discord.ext import commands
 import yaml
 from botfuncs.ytsearch import YTSearch
 from botfuncs.rssbot import RssBot
+from botfuncs.tmdb import Tmdb
 
 
 class RoboClient(commands.Bot):
@@ -27,7 +28,9 @@ class RoboClient(commands.Bot):
         self.__rss_cog = x
 
     def get_channel_by_name(self, name):
-        return next(c for c in self.get_all_channels() if c.name == name or str(c.id)==name)
+        return next(
+            c for c in self.get_all_channels() if c.name == name or str(c.id) == name
+        )
 
     async def on_ready(self):
         if self.__rss_cog:
@@ -63,6 +66,24 @@ class RoboClient(commands.Bot):
             return ["Excepțional!:", str(e)]
 
 
+async def send_response(interaction: discord.Interaction, response: list[str]):
+    res: list[str] = []
+    current = ""
+    for line in response:
+        if len(current) + len(line) + 1 < 2000:
+            if len(current):
+                current = current + "\n"
+            current = current + line
+        else:
+            res.append(current)
+            current = line
+    if len(current):
+        res.append(current)
+    await interaction.response.send_message(res[0], suppress_embeds=True)
+    for x in res[1:]:
+        await interaction.followup.send(x, suppress_embeds=True)
+
+
 if __name__ == "__main__":
     with open(os.path.expanduser("~/.robotnik.yml"), "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
@@ -81,25 +102,32 @@ if __name__ == "__main__":
             f"Hi, {interaction.user.mention}: {what}"
         )
 
+    assert "key" in cfg["tmdb"]
+    tmdb_client = Tmdb(cfg["tmdb"]["key"])
+
     @client.tree.command()
-    async def movie(interaction: discord.Interaction, what: str, country: str = "RO"):
-        response = justwatch.on_country_message(what, country)
-        current = ""
-        res = []
-        for line in response.splitlines():
-            if len(current) + len(line) + 1 < 2000:
-                if len(current):
-                    current = current + "\n"
-                current = current + line
-            else:
-                res.append(current)
-                current = line
-        if len(current):
-            res.append(current)
-        if not res:
-            res = [f"No response for query: {what}@{country}"]
-        for x in res:
-            await interaction.response.send_message(x, suppress_embeds=True)
+    async def movie(
+        interaction: discord.Interaction,
+        what: str,
+        country: str = "RO",
+        show_max: int = 5,
+    ):
+        result = tmdb_client.search_movie(name=what, country=country, show_max=show_max)
+        if not result:
+            result = [f"No response for query: {what}@{country}"]
+        await send_response(interaction, result)
+
+    @client.tree.command()
+    async def tv(
+        interaction: discord.Interaction,
+        what: str,
+        country: str = "RO",
+        show_max: int = 5,
+    ):
+        result = tmdb_client.search_tv(name=what, country=country, show_max=show_max)
+        if not result:
+            result = [f"No response for query: {what}@{country}"]
+        await send_response(interaction, result)
 
     ytclient = YTSearch()
 

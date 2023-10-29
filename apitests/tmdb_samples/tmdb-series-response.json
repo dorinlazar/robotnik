@@ -1,0 +1,49 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/sMPGLb2cjsE7K4T0h4Vsiv93V5J.jpg",
+      "genre_ids": [
+        35,
+        9648,
+        80
+      ],
+      "id": 107113,
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Only Murders in the Building",
+      "overview": "Three strangers share an obsession with true crime and suddenly find themselves wrapped up in one.",
+      "popularity": 205.988,
+      "poster_path": "/yhx6PnU3L2a6FnEFGOlBKTZ8TSD.jpg",
+      "first_air_date": "2021-08-31",
+      "name": "Only Murders in the Building",
+      "vote_average": 8.444,
+      "vote_count": 1141
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/w9W1ds4jHtLZk0jxAjj0XZN4Mzc.jpg",
+      "genre_ids": [
+        10767
+      ],
+      "id": 210426,
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "One Killer Question",
+      "overview": "The Only Murders in the Building aftershow that isn't afraid to tackle the hard question. One question. That's it. Featuring host Ali Stroker, the show's actors, a slew of celebrity superfans and one big murder to solve it just might be the only Only Murders In the Building aftershow you need to watch.",
+      "popularity": 33.828,
+      "poster_path": "/rhY1sOMxkQG7nLQ70jOgJ501MVN.jpg",
+      "first_air_date": "2022-06-28",
+      "name": "One Killer Question",
+      "vote_average": 5.7,
+      "vote_count": 3
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 2
+}

@@ -1,6 +1,5 @@
 pyyaml
 discord.py
-JustWatch
 youtube-search-python
 Mastodon.py
 python-dateutil
