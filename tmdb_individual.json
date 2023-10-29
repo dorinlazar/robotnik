@@ -1,0 +1,1287 @@
+{
+  "adult": false,
+  "backdrop_path": "/35z8hWuzfFUZQaYog8E9LsXW3iI.jpg",
+  "belongs_to_collection": {
+    "id": 84,
+    "name": "Indiana Jones Collection",
+    "poster_path": "/lpxDrACKJhbbGOlwVMNz5YCj6SI.jpg",
+    "backdrop_path": "/6kh59mZizZsttZPR0HAdXk6Ve2n.jpg"
+  },
+  "budget": 294700000,
+  "genres": [
+    {
+      "id": 12,
+      "name": "Adventure"
+    },
+    {
+      "id": 28,
+      "name": "Action"
+    }
+  ],
+  "homepage": "https://movies.disney.com/indiana-jones-and-the-dial-of-destiny",
+  "id": 335977,
+  "imdb_id": "tt1462764",
+  "original_language": "en",
+  "original_title": "Indiana Jones and the Dial of Destiny",
+  "overview": "Finding himself in a new era, and approaching retirement, Indy wrestles with fitting into a world that seems to have outgrown him. But as the tentacles of an all-too-familiar evil return in the form of an old rival, Indy must don his hat and pick up his whip once more to make sure an ancient and powerful artifact doesn't fall into the wrong hands.",
+  "popularity": 367.745,
+  "poster_path": "/Af4bXE63pVsb2FtbW8uYIyPBadD.jpg",
+  "production_companies": [
+    {
+      "id": 1,
+      "logo_path": "/o86DbpburjxrqAzEDhXZcyE8pDb.png",
+      "name": "Lucasfilm Ltd.",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2023-06-28",
+  "revenue": 382891104,
+  "runtime": 155,
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "A legend will face his destiny.",
+  "title": "Indiana Jones and the Dial of Destiny",
+  "video": false,
+  "vote_average": 6.682,
+  "vote_count": 1955,
+  "watch/providers": {
+    "results": {
+      "AT": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=AT",
+        "buy": [
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 8
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 11
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 14
+          },
+          {
+            "logo_path": "/2PTFxgrswnEuK0szl87iSd8Yszz.jpg",
+            "provider_id": 20,
+            "provider_name": "maxdome Store",
+            "display_priority": 16
+          },
+          {
+            "logo_path": "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+            "provider_id": 130,
+            "provider_name": "Sky Store",
+            "display_priority": 23
+          }
+        ]
+      },
+      "AU": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=AU",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 10
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 12
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 14
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 18
+          },
+          {
+            "logo_path": "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+            "provider_id": 192,
+            "provider_name": "YouTube",
+            "display_priority": 22
+          },
+          {
+            "logo_path": "/zXDDsD9M5vO7lqoqlBQCOcZtKBS.jpg",
+            "provider_id": 429,
+            "provider_name": "Telstra TV",
+            "display_priority": 32
+          }
+        ]
+      },
+      "AZ": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=AZ",
+        "buy": [
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 1
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 1000
+          }
+        ]
+      },
+      "BE": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=BE",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 6
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 10
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 48
+          }
+        ]
+      },
+      "BG": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=BG",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 2
+          }
+        ]
+      },
+      "CA": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=CA",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 6
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 8
+          },
+          {
+            "logo_path": "/yNr05VQlKK4dI0Ncwf9InIVGKs9.jpg",
+            "provider_id": 140,
+            "provider_name": "Cineplex",
+            "display_priority": 14
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 17
+          },
+          {
+            "logo_path": "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+            "provider_id": 192,
+            "provider_name": "YouTube",
+            "display_priority": 31
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 58
+          }
+        ]
+      },
+      "CH": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=CH",
+        "buy": [
+          {
+            "logo_path": "/rVOOhp6V8FheEAKtFAJMLMbnaMZ.jpg",
+            "provider_id": 150,
+            "provider_name": "blue TV",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 6
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 10
+          },
+          {
+            "logo_path": "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+            "provider_id": 130,
+            "provider_name": "Sky Store",
+            "display_priority": 18
+          }
+        ]
+      },
+      "CV": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=CV",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 13
+          }
+        ]
+      },
+      "CY": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=CY",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 0
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 1
+          }
+        ]
+      },
+      "CZ": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=CZ",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 5
+          }
+        ]
+      },
+      "DE": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=DE",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 9
+          },
+          {
+            "logo_path": "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+            "provider_id": 192,
+            "provider_name": "YouTube",
+            "display_priority": 12
+          },
+          {
+            "logo_path": "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+            "provider_id": 130,
+            "provider_name": "Sky Store",
+            "display_priority": 13
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 14
+          },
+          {
+            "logo_path": "/2PTFxgrswnEuK0szl87iSd8Yszz.jpg",
+            "provider_id": 20,
+            "provider_name": "maxdome Store",
+            "display_priority": 16
+          },
+          {
+            "logo_path": "/uULoezj2skPc6amfwru72UPjYXV.jpg",
+            "provider_id": 178,
+            "provider_name": "MagentaTV",
+            "display_priority": 23
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 34
+          }
+        ]
+      },
+      "DK": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=DK",
+        "buy": [
+          {
+            "logo_path": "/cvl65OJnz14LUlC3yGK1KHj8UYs.jpg",
+            "provider_id": 76,
+            "provider_name": "Viaplay",
+            "display_priority": 6
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 8
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 10
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 18
+          },
+          {
+            "logo_path": "/dNcz2AZHPEgt4BIKJe56r4visuK.jpg",
+            "provider_id": 426,
+            "provider_name": "SF Anytime",
+            "display_priority": 21
+          }
+        ]
+      },
+      "EE": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=EE",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 4
+          }
+        ]
+      },
+      "EG": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=EG",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 2
+          }
+        ]
+      },
+      "ES": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=ES",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 11
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 13
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 14
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 35
+          }
+        ]
+      },
+      "FI": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=FI",
+        "buy": [
+          {
+            "logo_path": "/cvl65OJnz14LUlC3yGK1KHj8UYs.jpg",
+            "provider_id": 76,
+            "provider_name": "Viaplay",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 10
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 11
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 12
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 17
+          },
+          {
+            "logo_path": "/dNcz2AZHPEgt4BIKJe56r4visuK.jpg",
+            "provider_id": 426,
+            "provider_name": "SF Anytime",
+            "display_priority": 19
+          }
+        ]
+      },
+      "FR": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=FR",
+        "buy": [
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/ddWcbe8fYAfcQMjighzWGLjjyip.jpg",
+            "provider_id": 61,
+            "provider_name": "Orange VOD",
+            "display_priority": 10
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 14
+          },
+          {
+            "logo_path": "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+            "provider_id": 192,
+            "provider_name": "YouTube",
+            "display_priority": 15
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 22
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 46
+          }
+        ]
+      },
+      "GB": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=GB",
+        "buy": [
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 12
+          },
+          {
+            "logo_path": "/2pCbao1J9s0DMak2KKnEzmzHni8.jpg",
+            "provider_id": 130,
+            "provider_name": "Sky Store",
+            "display_priority": 14
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 16
+          },
+          {
+            "logo_path": "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+            "provider_id": 192,
+            "provider_name": "YouTube",
+            "display_priority": 22
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 29
+          }
+        ]
+      },
+      "GH": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=GH",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 17
+          }
+        ]
+      },
+      "GR": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=GR",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 2
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 3
+          }
+        ]
+      },
+      "HK": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=HK",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 12
+          }
+        ]
+      },
+      "HU": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=HU",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+            "provider_id": 192,
+            "provider_name": "YouTube",
+            "display_priority": 1000
+          }
+        ]
+      },
+      "IE": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=IE",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 12
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 14
+          }
+        ]
+      },
+      "IL": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=IL",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 28
+          }
+        ]
+      },
+      "IN": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=IN",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 9
+          },
+          {
+            "logo_path": "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+            "provider_id": 192,
+            "provider_name": "YouTube",
+            "display_priority": 12
+          }
+        ]
+      },
+      "IS": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=IS",
+        "buy": [
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/cvl65OJnz14LUlC3yGK1KHj8UYs.jpg",
+            "provider_id": 76,
+            "provider_name": "Viaplay",
+            "display_priority": 29
+          }
+        ]
+      },
+      "IT": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=IT",
+        "buy": [
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 22
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 40
+          }
+        ]
+      },
+      "JP": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=JP",
+        "buy": [
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 6
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 9
+          }
+        ]
+      },
+      "KR": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=KR",
+        "buy": [
+          {
+            "logo_path": "/a4ciTQc27FsgdUp7PCrToHPygcw.jpg",
+            "provider_id": 96,
+            "provider_name": "Naver Store",
+            "display_priority": 6
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 7
+          }
+        ]
+      },
+      "LT": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=LT",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 4
+          }
+        ]
+      },
+      "LU": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=LU",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 0
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 1
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 2
+          }
+        ]
+      },
+      "LV": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=LV",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 4
+          }
+        ]
+      },
+      "MD": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=MD",
+        "buy": [
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 1000
+          }
+        ]
+      },
+      "MT": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=MT",
+        "buy": [
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 1000
+          }
+        ]
+      },
+      "MZ": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=MZ",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 16
+          }
+        ]
+      },
+      "NL": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=NL",
+        "buy": [
+          {
+            "logo_path": "/llmnYOyknekZsXtkCaazKjhTLvG.jpg",
+            "provider_id": 71,
+            "provider_name": "Pathé Thuis",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 8
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 11
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 12
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 13
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 39
+          }
+        ]
+      },
+      "NO": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=NO",
+        "buy": [
+          {
+            "logo_path": "/cvl65OJnz14LUlC3yGK1KHj8UYs.jpg",
+            "provider_id": 76,
+            "provider_name": "Viaplay",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 6
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 8
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 9
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 16
+          },
+          {
+            "logo_path": "/dNcz2AZHPEgt4BIKJe56r4visuK.jpg",
+            "provider_id": 426,
+            "provider_name": "SF Anytime",
+            "display_priority": 19
+          },
+          {
+            "logo_path": "/5nECaP8nhtrzZfx7oG0yoFMfqiA.jpg",
+            "provider_id": 431,
+            "provider_name": "TV 2 Play",
+            "display_priority": 20
+          }
+        ]
+      },
+      "NZ": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=NZ",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 10
+          }
+        ]
+      },
+      "PL": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=PL",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 2
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+            "provider_id": 192,
+            "provider_name": "YouTube",
+            "display_priority": 9
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 36
+          }
+        ]
+      },
+      "PT": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=PT",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 4
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+            "provider_id": 192,
+            "provider_name": "YouTube",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 8
+          }
+        ]
+      },
+      "SE": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=SE",
+        "buy": [
+          {
+            "logo_path": "/cvl65OJnz14LUlC3yGK1KHj8UYs.jpg",
+            "provider_id": 76,
+            "provider_name": "Viaplay",
+            "display_priority": 5
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 6
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 7
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 8
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 17
+          },
+          {
+            "logo_path": "/dNcz2AZHPEgt4BIKJe56r4visuK.jpg",
+            "provider_id": 426,
+            "provider_name": "SF Anytime",
+            "display_priority": 19
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 47
+          }
+        ]
+      },
+      "SI": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=SI",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 31
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 1000
+          }
+        ]
+      },
+      "SK": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=SK",
+        "buy": [
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 6
+          }
+        ]
+      },
+      "TW": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=TW",
+        "buy": [
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 7
+          }
+        ]
+      },
+      "UA": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=UA",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 2
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/5GEbAhFW2S5T8zVc1MNvz00pIzM.jpg",
+            "provider_id": 35,
+            "provider_name": "Rakuten TV",
+            "display_priority": 4
+          }
+        ]
+      },
+      "UG": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=UG",
+        "buy": [
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 1000
+          }
+        ]
+      },
+      "US": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=US",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 6
+          },
+          {
+            "logo_path": "/5NyLm42TmCqCMOZFvH4fcoSNKEW.jpg",
+            "provider_id": 10,
+            "provider_name": "Amazon Video",
+            "display_priority": 15
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 16
+          },
+          {
+            "logo_path": "/oIkQkEkwfmcG7IGpRR1NB8frZZM.jpg",
+            "provider_id": 192,
+            "provider_name": "YouTube",
+            "display_priority": 17
+          },
+          {
+            "logo_path": "/21dEscfO8n1tL35k4DANixhffsR.jpg",
+            "provider_id": 7,
+            "provider_name": "Vudu",
+            "display_priority": 42
+          },
+          {
+            "logo_path": "/shq88b09gTBYC4hA7K7MUL8Q4zP.jpg",
+            "provider_id": 68,
+            "provider_name": "Microsoft Store",
+            "display_priority": 53
+          }
+        ]
+      },
+      "ZA": {
+        "link": "https://www.themoviedb.org/movie/335977-indiana-jones-and-the-dial-of-destiny/watch?locale=ZA",
+        "buy": [
+          {
+            "logo_path": "/peURlLlr8jggOwK53fJ5wdQl05y.jpg",
+            "provider_id": 2,
+            "provider_name": "Apple TV",
+            "display_priority": 2
+          },
+          {
+            "logo_path": "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg",
+            "provider_id": 3,
+            "provider_name": "Google Play Movies",
+            "display_priority": 3
+          }
+        ]
+      }
+    }
+  }
+}

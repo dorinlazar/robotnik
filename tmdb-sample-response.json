@@ -1,0 +1,403 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/35z8hWuzfFUZQaYog8E9LsXW3iI.jpg",
+      "genre_ids": [
+        12,
+        28
+      ],
+      "id": 335977,
+      "original_language": "en",
+      "original_title": "Indiana Jones and the Dial of Destiny",
+      "overview": "Finding himself in a new era, and approaching retirement, Indy wrestles with fitting into a world that seems to have outgrown him. But as the tentacles of an all-too-familiar evil return in the form of an old rival, Indy must don his hat and pick up his whip once more to make sure an ancient and powerful artifact doesn't fall into the wrong hands.",
+      "popularity": 412.17,
+      "poster_path": "/Af4bXE63pVsb2FtbW8uYIyPBadD.jpg",
+      "release_date": "2023-06-30",
+      "title": "Indiana Jones and the Dial of Destiny",
+      "video": false,
+      "vote_average": 6.684,
+      "vote_count": 1956
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ofRUyIddC3iE7hXGETqPAMUqy3P.jpg",
+      "genre_ids": [
+        99,
+        10770
+      ],
+      "id": 827007,
+      "original_language": "fr",
+      "original_title": "Indiana Jones : à la recherche de l'âge d'or perdu",
+      "overview": "Hawaii, May 1977. After the success of Star Wars, George Lucas and Steven Spielberg meet to find a new project to work on together, the former as producer, the latter as director. The story of how the charismatic archaeologist Indiana Jones was born and how his first adventure, released in 1981, triumphed at box offices around the world.",
+      "popularity": 8.146,
+      "poster_path": "/r3iQkvEU50t87oiKq6seLJFZMgF.jpg",
+      "release_date": "2021-05-07",
+      "title": "Indiana Jones: The Search for the Lost Golden Age",
+      "video": false,
+      "vote_average": 7.6,
+      "vote_count": 24
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/2Y7nbXrDtHwAfcTX7KBN0z40OAy.jpg",
+      "genre_ids": [
+        12,
+        28
+      ],
+      "id": 89,
+      "original_language": "en",
+      "original_title": "Indiana Jones and the Last Crusade",
+      "overview": "In 1938, an art collector appeals to eminent archaeologist Dr. Indiana Jones to embark on a search for the Holy Grail. Indy learns that a medieval historian has vanished while searching for it, and the missing man is his own father, Dr. Henry Jones Sr.. He sets out to rescue his father by following clues in the old man's notebook, which his father had mailed to him before he went missing. Indy arrives in Venice, where he enlists the help of a beautiful academic, Dr. Elsa Schneider, along with Marcus Brody and Sallah. Together they must stop the Nazis from recovering the power of eternal life and taking over the world!",
+      "popularity": 47.328,
+      "poster_path": "/npUCnxl1fqgt3aQiMQq0iJdZMZp.jpg",
+      "release_date": "1989-05-24",
+      "title": "Indiana Jones and the Last Crusade",
+      "video": false,
+      "vote_average": 7.847,
+      "vote_count": 9365
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/bXH4lyFS6tctnBgxK1eYRuwekR0.jpg",
+      "genre_ids": [
+        12,
+        28
+      ],
+      "id": 217,
+      "original_language": "en",
+      "original_title": "Indiana Jones and the Kingdom of the Crystal Skull",
+      "overview": "Set during the Cold War, the Soviets—led by sword-wielding Irina Spalko—are in search of a crystal skull which has supernatural powers related to a mystical Lost City of Gold. Indy is coerced to head to Peru at the behest of a young man whose friend—and Indy's colleague—Professor Oxley has been captured for his knowledge of the skull's whereabouts.",
+      "popularity": 41.538,
+      "poster_path": "/56As6XEM1flWvprX4LgkPl8ii4K.jpg",
+      "release_date": "2008-05-21",
+      "title": "Indiana Jones and the Kingdom of the Crystal Skull",
+      "video": false,
+      "vote_average": 5.999,
+      "vote_count": 7667
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/2hMt6zKQsvYvH3ZRe8T6RzAD2XB.jpg",
+      "genre_ids": [
+        12,
+        28
+      ],
+      "id": 87,
+      "original_language": "en",
+      "original_title": "Indiana Jones and the Temple of Doom",
+      "overview": "After arriving in India, Indiana Jones is asked by a desperate village to find a mystical stone. He agrees – and stumbles upon a secret cult plotting a terrible plan in the catacombs of an ancient palace.",
+      "popularity": 37.017,
+      "poster_path": "/n9WlJCilqSZ3m1ROSzv31v7KVOf.jpg",
+      "release_date": "1984-05-23",
+      "title": "Indiana Jones and the Temple of Doom",
+      "video": false,
+      "vote_average": 7.294,
+      "vote_count": 8555
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/qzfeY0HqK19pwUlOpHWJU8G8WW6.jpg",
+      "genre_ids": [
+        99
+      ],
+      "id": 319600,
+      "original_language": "en",
+      "original_title": "Indiana Jones: Making the Trilogy",
+      "overview": "George Lucas and Steven Spielberg share the struggles and the passion that went into making the \"Indiana Jones\" trilogy.",
+      "popularity": 6.991,
+      "poster_path": "/w5ExrwXX70RifTfPvfRjrfRjIko.jpg",
+      "release_date": "2003-10-21",
+      "title": "Indiana Jones: Making the Trilogy",
+      "video": false,
+      "vote_average": 7.42,
+      "vote_count": 44
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/rm854zFFhgk34ID2KVUogKsVmM6.jpg",
+      "genre_ids": [
+        28,
+        12,
+        10751,
+        18,
+        10770,
+        37
+      ],
+      "id": 222046,
+      "original_language": "en",
+      "original_title": "The Adventures of Young Indiana Jones: Spring Break Adventure",
+      "overview": "In the sixth film in the series, in February 1916, high school student Indy's plan of taking his girlfriend Nancy is sidetracked when a mysterious break-in, the theft of an electric motor, and rumors of German spies result in a mystery that only young Indy and Nancy can unravel. Indy and his father then head to the southwest to visit family in Albuquerque, where Junior is taken captive by Pancho Villa and his riders.",
+      "popularity": 3.721,
+      "poster_path": "/tlOaqpezRuzyrrfJfKwnKfMhzmd.jpg",
+      "release_date": "1999-10-17",
+      "title": "The Adventures of Young Indiana Jones: Spring Break Adventure",
+      "video": true,
+      "vote_average": 5.972,
+      "vote_count": 18
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        99
+      ],
+      "id": 1012223,
+      "original_language": "en",
+      "original_title": "Indiana Jones 4: The Return of a Legend",
+      "overview": "Steven Spielberg, George Lucas and Harrison Ford explain why it took so long for Indiana Jones to return to the big screen for a fourth adventure.",
+      "popularity": 3.658,
+      "poster_path": "/xrRORc88Z6EDlG6vGhHobsJ8LyO.jpg",
+      "release_date": "2008-10-14",
+      "title": "Indiana Jones 4: The Return of a Legend",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/zMtkSJfVuiv2I1lKkEnPhBiQagx.jpg",
+      "genre_ids": [
+        99
+      ],
+      "id": 1168918,
+      "original_language": "en",
+      "original_title": "The Making of Indiana Jones and the Dial of Destiny",
+      "overview": "Join the adventure with the cast and crew, showcasing new characters, stunts, music, locations, production design, and visual effects in five chapters that chart the making of Indiana Jones and the Dial of Destiny.",
+      "popularity": 8.056,
+      "poster_path": "/nJeiS9Zi1GTKD7JXFHyVJ1Edd0H.jpg",
+      "release_date": "2023-08-29",
+      "title": "The Making of Indiana Jones and the Dial of Destiny",
+      "video": false,
+      "vote_average": 6.4,
+      "vote_count": 10
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        99
+      ],
+      "id": 590508,
+      "original_language": "en",
+      "original_title": "The Light and Magic of 'Indiana Jones'",
+      "overview": "The men from ILM who contributed to the special effect work of the first three Indiana Jones pictures look back and reveal some of their secrets.",
+      "popularity": 1.4,
+      "poster_path": "/eFkR0MtfZCUd4O3Lro9eyIrO1B8.jpg",
+      "release_date": "2003-10-21",
+      "title": "The Light and Magic of 'Indiana Jones'",
+      "video": false,
+      "vote_average": 6.5,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/iZScbVabDDKlQteQc8dIyqXMDz.jpg",
+      "genre_ids": [
+        28,
+        12,
+        18,
+        10751,
+        10770
+      ],
+      "id": 222041,
+      "original_language": "en",
+      "original_title": "The Adventures of Young Indiana Jones: Travels with Father",
+      "overview": "In the fourth film in the series, in 1910's Russia, a few acts of clumsiness puts Indy at odds with his father who is greatly displeased with Indy. Indy runs away into the Russian countryside and wakes in the morning on a haystack. He encounters colorful Gypsies, fierce Imperial Cossack troops, and an odd, cantankerous old man named Leo Tolstoy, who is in full agreement that \"hell\" is other people. Later, in Greece, Indy meets Nikos Kazantzakis, the writer who would some day write Zorba the Greek.",
+      "popularity": 3.441,
+      "poster_path": "/vOSolQi2mDdTnfbo3C9iEmrFQhe.jpg",
+      "release_date": "1996-06-16",
+      "title": "The Adventures of Young Indiana Jones: Travels with Father",
+      "video": false,
+      "vote_average": 6.2,
+      "vote_count": 17
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        99
+      ],
+      "id": 590516,
+      "original_language": "en",
+      "original_title": "The Music of 'Indiana Jones'",
+      "overview": "In this 2003 featurette, John Williams recalls composing the music for the first three Indiana Jones pictures and alludes to the possibility of scoring a fourth.",
+      "popularity": 1.4,
+      "poster_path": "/vBgeMWX3GXrBtAppeRoJyeOgf66.jpg",
+      "release_date": "2003-10-21",
+      "title": "The Music of 'Indiana Jones'",
+      "video": false,
+      "vote_average": 6,
+      "vote_count": 3
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/zfRNjIG69w76AZsh3p2SGurSE5r.jpg",
+      "genre_ids": [
+        28,
+        12,
+        18,
+        10751,
+        10770
+      ],
+      "id": 222037,
+      "original_language": "en",
+      "original_title": "The Adventures of Young Indiana Jones: My First Adventure",
+      "overview": "In the first film in the series, in May 1908, famed Professor Henry Jones Sr. is invited to give lectures all over the world. He takes along his wife and son, and invites his former tutor Miss Helen Seymour to teach Henry Jr. during the trip. Their first stop is Cairo, Egypt. When Junior, who prefers to be called 'Indy' and Miss Seymour visit the pyramids, they are invited by T.E. Lawrence (another former student of hers) to join an archaeological dig. When the mummy disappears and a priceless headpiece is stolen, young Indy gets his first taste of adventure. On their next stop in Tangiers, the family stays with Professor Jones' former class mate Walter Harris. Indy befriends a young slave named Omar who belongs to Emily Keen. The two of them get into trouble when they Indy insists on visiting the market place to see a salted head displayed on a pole. Caught by slave traders, they are end up at an auction from which only Harris can attempt to rescue them.",
+      "popularity": 3.487,
+      "poster_path": "/4ix8vvraopvfaHSRsQ9ZfO2Ebyo.jpg",
+      "release_date": "2000-07-10",
+      "title": "The Adventures of Young Indiana Jones: My First Adventure",
+      "video": true,
+      "vote_average": 5.905,
+      "vote_count": 21
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ea3eY7YvEX6otpuKcXwckAmHEws.jpg",
+      "genre_ids": [
+        28,
+        12,
+        18,
+        10770
+      ],
+      "id": 222063,
+      "original_language": "en",
+      "original_title": "The Adventures of Young Indiana Jones: Winds of Change",
+      "overview": "In the nineteenth film in the series, in May 1919, Indy is working as a translator at the historic Paris Peace Conference. He meets up with T.E. Lawrence once more, but finds his ideals have changed a lot since the start of the war. Indy then decides to finally head home to Princeton - even though it means having to face his father. He gets reacquainted with his childhood friend Paul Robeson, who becomes the target of racism when they visit New York City.",
+      "popularity": 2.724,
+      "poster_path": "/2KgImBe9ETbZDlJjMRqUaH2C5gg.jpg",
+      "release_date": "1999-01-01",
+      "title": "The Adventures of Young Indiana Jones: Winds of Change",
+      "video": true,
+      "vote_average": 5.9,
+      "vote_count": 11
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/qGZEOvd5ffYZqLZurRNLpPrnyMz.jpg",
+      "genre_ids": [
+        28,
+        12,
+        18,
+        10770
+      ],
+      "id": 222059,
+      "original_language": "en",
+      "original_title": "The Adventures of Young Indiana Jones: Tales of Innocence",
+      "overview": "In the sixteenth film in the series, in 1917, Indiana Jones is working to get Austrian deserters safely to the allies side in the Italian Alps. In his spare time, he is wooing an Italian beauty named Guiletta. When he finds out another man is vying for her attention, Indy and his new pal, ambulance driver Ernest Hemingway, make plans to crush Indiana's competitor by smothering Guiletta with presents and compliments. Afterwards, Indiana is begrudgingly ordered to Casablanca to find a traitor who is selling arms to the Berber rebels. Traveling incognito, he is joined by American novelist Edith Wharton and journalist Lowell Thomas. Indy and Edith soon find themselves attracted to each other despite their age difference.",
+      "popularity": 2.806,
+      "poster_path": "/b9I25upqrx0htgX06tlYAmM09ik.jpg",
+      "release_date": "1999-07-14",
+      "title": "The Adventures of Young Indiana Jones: Tales of Innocence",
+      "video": true,
+      "vote_average": 5.5,
+      "vote_count": 13
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        99,
+        10770
+      ],
+      "id": 184086,
+      "original_language": "en",
+      "original_title": "Indiana Jones and the Ultimate Quest",
+      "overview": "Throughout history there have been legendary artifacts that have captured the imagination of adventurers everywhere. While belief in their existence seems to fly in the face of reason and science, there have been those who have devoted their lives to their discovery. One man has looked for some of these remarkable treasures. He is Indiana Jones--professor of archeology and an adventurer who has uncovered some of the world's greatest mysteries. But Dr. Jones is just a fictitious character and it's widely assumed that the artifacts he searched for were also figments of a writer's imagination. But were they?",
+      "popularity": 0.938,
+      "poster_path": null,
+      "release_date": "2008-05-18",
+      "title": "Indiana Jones and the Ultimate Quest",
+      "video": false,
+      "vote_average": 2.2,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        99
+      ],
+      "id": 590510,
+      "original_language": "en",
+      "original_title": "The Sound of 'Indiana Jones'",
+      "overview": "Ben Burtt reveals which sounds he and his team at Skywalker Sound recorded to incorporate into the Indiana Jones trilogy.",
+      "popularity": 1.268,
+      "poster_path": "/4QQ7BwCpQL9mRSZ8FPczoFt13HW.jpg",
+      "release_date": "2003-10-21",
+      "title": "The Sound of 'Indiana Jones'",
+      "video": false,
+      "vote_average": 6,
+      "vote_count": 3
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/iKBLlsZx9BWHc6tcOBYIRstkHJf.jpg",
+      "genre_ids": [
+        28,
+        12,
+        18,
+        10751,
+        10770
+      ],
+      "id": 222047,
+      "original_language": "en",
+      "original_title": "The Adventures of Young Indiana Jones: Love's Sweet Song",
+      "overview": "In the seventh film in the series, in April 1916, a disillusioned Indy hops the ocean to Europe where he figures the Great War might offer him a greater sense of purpose.",
+      "popularity": 2.604,
+      "poster_path": "/oXdJbIlHUY9xOIHKMYQunCUtTWQ.jpg",
+      "release_date": "2000-10-23",
+      "title": "The Adventures of Young Indiana Jones: Love's Sweet Song",
+      "video": true,
+      "vote_average": 5.2,
+      "vote_count": 9
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/895PZCDt66XoreAcXCgWDQ3gmY3.jpg",
+      "genre_ids": [
+        28,
+        12,
+        10752,
+        10770
+      ],
+      "id": 222051,
+      "original_language": "en",
+      "original_title": "The Adventures of Young Indiana Jones: Demons of Deception",
+      "overview": "In the ninth film in the series, in September 1916, young Indiana Jones - going by the alias of \"Henri Defense\" - has become a motorcycle courier stationed near the trenches at Verdun. His friend Remy is still in the trenches, and both grow more disillusioned about the war each day. Chosen to sneak into enemy territory on account of his gift for languages, Indy overhears German officers speaking of the imminent arrival of their most powerful artillery guns, nicknamed \"Big Bertha.\" A month later, Indy and Remy are granted leave to Paris, where Indiana meets the exotic dancer Mata Hari at a dinner party. He falls for her immediately, but soon finds out she is dating other men as well, including the French Minister of War.",
+      "popularity": 3.029,
+      "poster_path": "/i3zDb6JcGtAlx6Wt0JdLUN3xzRU.jpg",
+      "release_date": "1999-10-31",
+      "title": "The Adventures of Young Indiana Jones: Demons of Deception",
+      "video": true,
+      "vote_average": 5.8,
+      "vote_count": 13
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/fnoZqwrbCVOg1eXQKE3nZMuNmSu.jpg",
+      "genre_ids": [
+        28,
+        12,
+        18,
+        10752,
+        10770
+      ],
+      "id": 222058,
+      "original_language": "en",
+      "original_title": "The Adventures of Young Indiana Jones: Daredevils of the Desert",
+      "overview": "In the fifteenth film in the series, in October 1917, working with a beautiful lady spy, Indiana Jones is assigned to assist the British forces in their attack on the Turkish-occupied town of Beersheba. With a regiment of the Australian Lighthorsemen approaching, Indy must defuse the explosives the Turks have placed throughout the town.",
+      "popularity": 3.264,
+      "poster_path": "/zMbmgY5Tg04BC5bkMGBMqCGImFH.jpg",
+      "release_date": "1999-11-21",
+      "title": "The Adventures of Young Indiana Jones: Daredevils of the Desert",
+      "video": true,
+      "vote_average": 5.4,
+      "vote_count": 18
+    }
+  ],
+  "total_pages": 3,
+  "total_results": 52
+}

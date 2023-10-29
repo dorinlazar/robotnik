@@ -1,8 +1,9 @@
 {
-    "editor.tabSize": 4,
-    "python.analysis.typeCheckingMode": "basic",
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.python"
-    },
-    "python.formatting.provider": "none"
+  "editor.tabSize": 2,
+  "python.analysis.typeCheckingMode": "basic",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "python.formatting.provider": "none",
+  "python.analysis.autoImportCompletions": true
 }

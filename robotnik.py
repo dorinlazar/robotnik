@@ -2,8 +2,6 @@ import os
 import discord
 from discord.ext import commands
 import yaml
-from roboapi import MessageHandler
-from botfuncs.justwatchbot import JustWatchBot
 from botfuncs.ytsearch import YTSearch
 from botfuncs.rssbot import RssBot
 
@@ -15,25 +13,15 @@ class RoboClient(commands.Bot):
             command_prefix="!",
             intents=discord.Intents(messages=True, guilds=True),
         )
-        self.__handlers = {}
         self.__owner = owner
         self.__guild_id = discord.Object(id=guildid) if guildid is not None else None
-        self.__twitter_cog = None
         self.__rss_cog = None
-        print("Owner:", owner)
+        print("Owner:", self.__owner)
 
     async def setup_hook(self):
         if self.__guild_id is not None:
             self.tree.copy_global_to(guild=self.__guild_id)
             await self.tree.sync(guild=self.__guild_id)
-
-    def register(self, t: MessageHandler):
-        sc = t.shortcode()
-        assert sc not in self.__handlers
-        self.__handlers[sc] = t
-
-    def register_tw(self, x):
-        self.__twitter_cog = x
 
     def register_rss(self, x):
         self.__rss_cog = x
@@ -42,33 +30,18 @@ class RoboClient(commands.Bot):
         return next(c for c in self.get_all_channels() if c.name == name or str(c.id)==name)
 
     async def on_ready(self):
-        if self.__twitter_cog:
-            await self.add_cog(self.__twitter_cog)
-            self.__twitter_cog.timer_function.start()
         if self.__rss_cog:
             await self.add_cog(self.__rss_cog)
             self.__rss_cog.timer_function.start()
 
         print("Logged on as {0}!".format(self.user))
 
-    async def on_message(self, message):
-        if message.author == client.user:
-            return
-        txt = message.content
-        if txt.startswith("!"):
-            pos = txt.find(" ")
-            moniker = txt[1:] if pos == -1 else txt[1:pos]
-            payload = "" if pos == -1 else txt[pos + 1 :].strip()
-            handler = self.__handlers.get(moniker, None)
-            if handler:
-                response = self.__run_command(handler, payload)
-                for line in response:
-                    await message.channel.send(line)
-            elif str(message.author) == self.__owner and txt[1:] == "quit":
-                print("Logging out on request")
-                await self.close()
-                print("Done...")
-            print("Request from {0.author}: {0.content}".format(message))
+    # async def on_message(self, message):
+    #     if message.author == client.user:
+    #         return
+    #     txt = message.content
+    #     if txt.startswith("!"):
+    #         print("Request from {0.author}: {0.content}".format(message))
 
     def __run_command(self, handler, payload):
         try:
@@ -96,7 +69,6 @@ if __name__ == "__main__":
     assert "discord" in cfg
     discordsettings = cfg["discord"]
     assert "key" in discordsettings
-    assert "twitter" in cfg
 
     kwargs = {}
     if "client" in cfg:
@@ -108,8 +80,6 @@ if __name__ == "__main__":
         await interaction.response.send_message(
             f"Hi, {interaction.user.mention}: {what}"
         )
-
-    justwatch = JustWatchBot()
 
     @client.tree.command()
     async def movie(interaction: discord.Interaction, what: str, country: str = "RO"):
@@ -135,13 +105,13 @@ if __name__ == "__main__":
 
     @client.tree.command()
     async def yt(interaction: discord.Interaction, what: str):
-        await interaction.response.send_message(ytclient.on_message(what))
+        await interaction.response.send_message(ytclient.on_request(what))
 
     rssbot = RssBot(client, os.path.expanduser("~/.robotnik.rss.gdbm"))
 
     @client.tree.command()
     async def addsite(
-        interaction: discord.Interaction, what: str, where: str = "#shorts"
+        interaction: discord.Interaction, what: str, where: str = "<#shorts>"
     ):
         await interaction.response.send_message(rssbot.add_site(what, where))
 
