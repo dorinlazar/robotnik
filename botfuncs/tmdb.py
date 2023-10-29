@@ -7,8 +7,8 @@ class Tmdb(object):
         self.__api_key = api_key
 
     def search_movie(self, name: str, country: str, show_max: int) -> list[str]:
-        if show_max > 10:
-            show_max = 10
+        if show_max > 9:
+            show_max = 9
         if show_max < 3:
             show_max = 3
 
@@ -52,10 +52,10 @@ class Tmdb(object):
             answer.append(f"  {overview}")
             response = requests.get(url, params=query, headers=headers)
             if response.ok:
-                streaming_info = json.loads(response.text)["watch/providers"]
-                if country in streaming_info:
+                streaming_info = json.loads(response.text)["watch/providers"]["results"]
+                if country in streaming_info and "flatrate" in streaming_info[country]:
                     services: list[str] = []
-                    for item in streaming_info[country]["buy"]:
+                    for item in streaming_info[country]["flatrate"]:
                         services.append(item["provider_name"])
                     srvlist = ", ".join(services)
                     link = streaming_info[country]["link"]
@@ -67,8 +67,8 @@ class Tmdb(object):
         return answer
 
     def search_tv(self, name: str, country: str, show_max: int) -> list[str]:
-        if show_max > 10:
-            show_max = 10
+        if show_max > 9:
+            show_max = 9
         if show_max < 3:
             show_max = 3
 
@@ -113,7 +113,7 @@ class Tmdb(object):
             response = requests.get(url, params=query, headers=headers)
             if response.ok:
                 streaming_info = json.loads(response.text)["watch/providers"]["results"]
-                if country in streaming_info:
+                if country in streaming_info and "flatrate" in streaming_info[country]:
                     services: list[str] = []
                     for item in streaming_info[country]["flatrate"]:
                         services.append(item["provider_name"])

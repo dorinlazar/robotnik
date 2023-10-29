@@ -146,10 +146,8 @@ class RssParser:
 
     def __start_element(self, name: str, attrs: dict[str, str]):
         if name == "feed" and attrs.get("xmlns", "") == "http://www.w3.org/2005/Atom":
-            print("Using ATOM reader")
             self.__system = create_system("ATOM")
         if name == "rss" and attrs.get("version", "") == "2.0":
-            print("Using RSS reader")
             self.__system = create_system("RSS")
         if not self.__in_channel:
             self.__in_channel = name == self.__system.channel_tag_name
@@ -161,7 +159,6 @@ class RssParser:
         if self.__in_item:
             if name == "link" and attrs.get("rel", "alternate") == "alternate":
                 self.__current_element.link = attrs.get("href", "")
-                print(f"Adding {self.__current_element.link}")
             if name == "enclosure" and not self.__current_element.link:
                 self.__current_element.link = attrs.get("url", "")
         self.__current_data = ""

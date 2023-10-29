@@ -110,7 +110,7 @@ if __name__ == "__main__":
         interaction: discord.Interaction,
         what: str,
         country: str = "RO",
-        show_max: int = 5,
+        show_max: int = 3,
     ):
         result = tmdb_client.search_movie(name=what, country=country, show_max=show_max)
         if not result:
@@ -122,7 +122,7 @@ if __name__ == "__main__":
         interaction: discord.Interaction,
         what: str,
         country: str = "RO",
-        show_max: int = 5,
+        show_max: int = 3,
     ):
         result = tmdb_client.search_tv(name=what, country=country, show_max=show_max)
         if not result:
@@ -145,7 +145,7 @@ if __name__ == "__main__":
 
     @client.tree.command()
     async def addfeed(
-        interaction: discord.Interaction, what: str, where: str = "#shorts"
+        interaction: discord.Interaction, what: str, where: str = "<#shorts>"
     ):
         await interaction.response.send_message(rssbot.add_feed(what, where))
 
