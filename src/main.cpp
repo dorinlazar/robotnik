@@ -2,8 +2,7 @@
 
 #include <CLI/CLI.hpp>
 
-int main(int argc, char **argv)
-{
+int main(int argc, char** argv) {
   CLI::App app{"Robotnik C++ roboțel for discord"};
 
   std::string filename;
