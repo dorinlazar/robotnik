@@ -1,4 +1,5 @@
-set(SOURCES main.cpp robotnik.cpp robotnik.hpp)
+set(SOURCES main.cpp robotnik.cpp robotnik.hpp bot_feature.hpp echo_feature.cpp
+            echo_feature.hpp)
 
 find_package(CLI11 REQUIRED)
 find_package(yaml-cpp REQUIRED)
