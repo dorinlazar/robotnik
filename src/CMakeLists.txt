@@ -1,3 +1,5 @@
+add_subdirectory(rssparser)
+
 set(SOURCES
     main.cpp
     robotnik.cpp
@@ -6,13 +8,15 @@ set(SOURCES
     echo_feature.cpp
     echo_feature.hpp
     rss_feature.cpp
-    rss_feature.hpp)
+    rss_feature.hpp
+    rssparser/article.hpp
+    )
 
 find_package(CLI11 REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
 include_directories(third_party/DPP/include)
 
-add_executable(robotnikpp ${SOURCES})
+add_executable(robotnikpp ${SOURCES} )
 
-target_link_libraries(robotnikpp PRIVATE CLI11::CLI11 dpp yaml-cpp)
+target_link_libraries(robotnikpp PRIVATE roborssparser CLI11::CLI11 dpp yaml-cpp)
