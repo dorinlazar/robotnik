@@ -1,7 +1,7 @@
 #include "article.hpp"
 #include "feed_digest.hpp"
+#include "expat_parser.hpp"
 
-#include <expatpp.h>
 #include <memory>
 #include <vector>
 
@@ -18,12 +18,21 @@ struct FeedSystem {
 FeedSystem AtomSystem = {FeedSystemType::Atom, "feed", "entry", "updated", "id", "published"};
 FeedSystem RssSystem = {FeedSystemType::Rss, "channel", "item", "lastBuildDate", "guid", "pubDate"};
 
-class FeedParser : public expatpp {
-public:
-  FeedParser() : expatpp(false) {}
+std::string GetOrDefault(const std::map<std::string, std::string>& attributes, const std::string& key,
+                         const std::string& default_value = "") {
+  auto it = attributes.find(key);
+  if (it == attributes.end()) {
+    return default_value;
+  }
+  return it->second;
+}
 
-  void startElement(const XML_Char* name_ptr, const XML_Char** atts) override {
-    std::string name(name_ptr);
+class FeedParser : public XmlParser {
+public:
+  FeedParser() {}
+  ~FeedParser() override = default;
+
+  void StartElement(const std::string& name, const std::map<std::string, std::string>& attributes) override {
     if (!m_feed_system) {
       if (name == "rss") {
         m_feed_system = std::make_unique<FeedSystem>(RssSystem);
@@ -37,12 +46,11 @@ public:
       return;
     }
     if (m_in_item) {
-      xmlpp::Attr attrs(atts);
-      if (name == "link" && attrs("rel") == "" || attrs("rel") == "alternate") {
-        // if name
-        //   == "link" and attrs.get("rel", "alternate") == "alternate" : self.__current_element.link =
-        //       attrs.get("href", "") if name == "enclosure" and not self.__current_element.link
-        //       : self.__current_element.link = attrs.get("url", "")
+      if (name == "link" && GetOrDefault(attributes, "rel", "alternate") == "alternate") {
+        m_current_article.link = GetOrDefault(attributes, "href");
+      }
+      if (name == "enclosure" && m_current_article.link.empty()) {
+        m_current_article.link = GetOrDefault(attributes, "url");
       }
     } else {
       m_in_item = name == m_feed_system->item_name;
@@ -52,28 +60,28 @@ public:
     }
 
     m_current_data = "";
-    if (currentElement == "item") {
-      currentArticle = Article();
-    }
   }
 
-  void endElement(const XML_Char* name) override {
-    if (name == std::string("item")) {
-      articles.push_back(currentArticle);
-    }
-    currentElement = "";
-  }
+  void EndElement(const std::string& name) override {}
+  void CharacterData(const std::string& data) override {}
 
-  void charData(const XML_Char* s, int len) override {
-    std::string data(s, len);
-    if (currentElement == "title") {
-      currentArticle.title += data;
-    } else if (currentElement == "link") {
-      currentArticle.link += data;
-    } else if (currentElement == "description") {
-      currentArticle.description += data;
-    }
-  }
+  // void endElement(const XML_Char* name) override {
+  //   if (name == std::string("item")) {
+  //     articles.push_back(currentArticle);
+  //   }
+  //   currentElement = "";
+  // }
+
+  // void charData(const XML_Char* s, int len) override {
+  //   std::string data(s, len);
+  //   if (currentElement == "title") {
+  //     currentArticle.title += data;
+  //   } else if (currentElement == "link") {
+  //     currentArticle.link += data;
+  //   } else if (currentElement == "description") {
+  //     currentArticle.description += data;
+  //   }
+  // }
 
 private:
   std::unique_ptr<FeedSystem> m_feed_system;
