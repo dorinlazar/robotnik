@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <vector>
+#include <print>
 
 enum class FeedSystemType { Atom, Rss };
 struct FeedSystem {
@@ -33,6 +34,8 @@ public:
   ~FeedParser() override = default;
 
   void StartElement(const std::string& name, const std::map<std::string, std::string>& attributes) override {
+    m_current_element = name;
+    m_current_data = "";
     if (!m_feed_system) {
       if (name == "rss") {
         m_feed_system = std::make_unique<FeedSystem>(RssSystem);
@@ -58,19 +61,55 @@ public:
         m_current_article = Article();
       }
     }
-
-    m_current_data = "";
   }
 
-  void EndElement(const std::string& name) override {}
-  void CharacterData(const std::string& data) override {}
+  // if self.__in_item:
+  //     if name == self.__system.item_name:
+  //         self.__in_item = False
+  //         if self.__current_element and self.__current_element.link:
+  //             self.__feed_digest.articles.append(self.__current_element)
+  //         else:
+  //             print("Current element is not good")
+  //     else:
+  //         match (name):
+  //             case "link":
+  //                 if not self.__current_element.link and self.__current_data:
+  //                     self.__current_element.link = self.__current_data
+  //             case self.__system.publish_item_date_name:
+  //                 self.__current_element.pub_date = dtparser.parse(
+  //                     self.__current_data
+  //                 ).replace(tzinfo=tzutc())
+  //             case "updated":
+  //                 self.__current_element.pub_date = dtparser.parse(
+  //                     self.__current_data
+  //                 ).replace(tzinfo=tzutc())
+  //             case self.__system.guid_name:
+  //                 self.__current_element.guid = self.__current_data
+  //             case "title":
+  //                 f = HtmlTextFilter()
+  //                 f.feed(self.__current_data)
+  //                 self.__current_element.title = f.text
+  // else:
+  //     if name == self.__system.last_build_date_name:
+  //         self.__feed_digest.build_date = dtparser.parse(
+  //             self.__current_data
+  //         ).replace(tzinfo=tzutc())
+  // if self.__in_channel and name == self.__system.channel_tag_name:
+  //     self.__in_channel = False
 
-  // void endElement(const XML_Char* name) override {
-  //   if (name == std::string("item")) {
-  //     articles.push_back(currentArticle);
-  //   }
-  //   currentElement = "";
-  // }
+  void EndElement(const std::string& name) override {
+    if (m_in_item) {
+      if (name == m_feed_system->item_name) {
+        m_in_item = false;
+        if (!m_current_article.link.empty()) {
+          m_articles.push_back(m_current_article);
+        } else {
+          std::print("Current element is not good");
+        }
+      }
+    }
+  }
+  void CharacterData(const std::string& data) override { m_current_data += data; }
 
   // void charData(const XML_Char* s, int len) override {
   //   std::string data(s, len);
@@ -88,6 +127,7 @@ private:
   bool m_in_channel{false};
   bool m_in_item{false};
   std::string m_current_data;
+  std::string m_current_element;
   std::vector<Article> m_articles;
   Article m_current_article;
 };

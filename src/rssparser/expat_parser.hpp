@@ -15,4 +15,13 @@ class ExpatParser {
 public:
   ExpatParser(std::shared_ptr<XmlParser> parser);
   void Parse(const std::string& data);
+
+  void OnStartElement(const std::string& name, const std::map<std::string, std::string>& attrs) {
+    m_parser->StartElement(name, attrs);
+  }
+  void OnEndElement(const std::string& name) { m_parser->EndElement(name); }
+  void OnCharacterData(const std::string& data) { m_parser->CharacterData(data); }
+
+private:
+  std::shared_ptr<XmlParser> m_parser;
 };
