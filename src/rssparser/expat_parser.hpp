@@ -6,9 +6,9 @@
 class XmlParser {
 public:
   virtual ~XmlParser() = default;
-  virtual void StartElement(const std::string& name, const std::map<std::string, std::string>& attrs) = 0;
-  virtual void EndElement(const std::string& name) = 0;
-  virtual void CharacterData(const std::string& data) = 0;
+  virtual bool StartElement(const std::string& name, const std::map<std::string, std::string>& attrs) = 0;
+  virtual bool EndElement(const std::string& name) = 0;
+  virtual bool CharacterData(const std::string& data) = 0;
 };
 
 class ExpatParser {

@@ -33,96 +33,97 @@ public:
   FeedParser() {}
   ~FeedParser() override = default;
 
-  void StartElement(const std::string& name, const std::map<std::string, std::string>& attributes) override {
-    m_current_element = name;
-    m_current_data = "";
+  bool StartElement(const std::string& name, const std::map<std::string, std::string>& attributes) override {
     if (!m_feed_system) {
-      if (name == "rss") {
-        m_feed_system = std::make_unique<FeedSystem>(RssSystem);
-      } else if (name == "feed") {
-        m_feed_system = std::make_unique<FeedSystem>(AtomSystem);
-      }
-      return;
+      return UpdateFeedSystem(name);
     }
     if (!m_in_channel) {
-      m_in_channel = name == m_feed_system->channel_tag_name;
-      return;
+      return StartChannel(name);
     }
-    if (m_in_item) {
-      if (name == "link" && GetOrDefault(attributes, "rel", "alternate") == "alternate") {
-        m_current_article.link = GetOrDefault(attributes, "href");
-      }
-      if (name == "enclosure" && m_current_article.link.empty()) {
-        m_current_article.link = GetOrDefault(attributes, "url");
-      }
-    } else {
-      m_in_item = name == m_feed_system->item_name;
-      if (m_in_item) {
-        m_current_article = Article();
-      }
+    if (!m_in_item) {
+      return StartItem(name);
     }
+    return ProcessStartElementInItem(name, attributes);
   }
 
-  // if self.__in_item:
-  //     if name == self.__system.item_name:
-  //         self.__in_item = False
-  //         if self.__current_element and self.__current_element.link:
-  //             self.__feed_digest.articles.append(self.__current_element)
-  //         else:
-  //             print("Current element is not good")
-  //     else:
-  //         match (name):
-  //             case "link":
-  //                 if not self.__current_element.link and self.__current_data:
-  //                     self.__current_element.link = self.__current_data
-  //             case self.__system.publish_item_date_name:
-  //                 self.__current_element.pub_date = dtparser.parse(
-  //                     self.__current_data
-  //                 ).replace(tzinfo=tzutc())
-  //             case "updated":
-  //                 self.__current_element.pub_date = dtparser.parse(
-  //                     self.__current_data
-  //                 ).replace(tzinfo=tzutc())
-  //             case self.__system.guid_name:
-  //                 self.__current_element.guid = self.__current_data
-  //             case "title":
-  //                 f = HtmlTextFilter()
-  //                 f.feed(self.__current_data)
-  //                 self.__current_element.title = f.text
-  // else:
-  //     if name == self.__system.last_build_date_name:
-  //         self.__feed_digest.build_date = dtparser.parse(
-  //             self.__current_data
-  //         ).replace(tzinfo=tzutc())
-  // if self.__in_channel and name == self.__system.channel_tag_name:
-  //     self.__in_channel = False
-
-  void EndElement(const std::string& name) override {
-    if (m_in_item) {
-      if (name == m_feed_system->item_name) {
-        m_in_item = false;
-        if (!m_current_article.link.empty()) {
-          m_articles.push_back(m_current_article);
-        } else {
-          std::print("Current element is not good");
-        }
-      }
+  bool EndElement(const std::string& name) override {
+    if (!m_in_item) {
+      return ProcessOutOfItemEndElement(name);
     }
+    return ProcessInItemEndElement(name);
   }
-  void CharacterData(const std::string& data) override { m_current_data += data; }
 
-  // void charData(const XML_Char* s, int len) override {
-  //   std::string data(s, len);
-  //   if (currentElement == "title") {
-  //     currentArticle.title += data;
-  //   } else if (currentElement == "link") {
-  //     currentArticle.link += data;
-  //   } else if (currentElement == "description") {
-  //     currentArticle.description += data;
-  //   }
-  // }
+  bool CharacterData(const std::string& data) override {
+    m_current_data += data;
+    return true;
+  }
 
 private:
+  bool UpdateFeedSystem(const std::string& name) {
+    if (name == "rss") {
+      m_feed_system = std::make_unique<FeedSystem>(RssSystem);
+    } else if (name == "feed") {
+      m_feed_system = std::make_unique<FeedSystem>(AtomSystem);
+    }
+    return true;
+  }
+
+  bool StartChannel(const std::string& name) {
+    m_in_channel = name == m_feed_system->channel_tag_name;
+    return true;
+  }
+
+  bool StartItem(const std::string& name) {
+    m_in_item = name == m_feed_system->item_name;
+    if (m_in_item) {
+      m_current_article = Article();
+    }
+    return true;
+  }
+
+  bool ProcessStartElementInItem(const std::string& name, const std::map<std::string, std::string>& attributes) {
+    m_current_element = name;
+    m_current_data = "";
+    if (name == "link" && GetOrDefault(attributes, "rel", "alternate") == "alternate") {
+      m_current_article.link = GetOrDefault(attributes, "href");
+    }
+    if (name == "enclosure" && m_current_article.link.empty()) {
+      m_current_article.link = GetOrDefault(attributes, "url");
+    }
+    return true;
+  }
+
+  bool ProcessOutOfItemEndElement(const std::string& name) {
+    if (m_in_channel) {
+      if (name == m_feed_system->channel_tag_name) {
+        m_in_channel = false;
+      } else if (name == m_feed_system->last_build_date_name) {
+        m_build_date = m_current_data;
+      }
+    }
+    return true;
+  }
+
+  bool ProcessInItemEndElement(const std::string& name) {
+    if (name == m_feed_system->item_name) {
+      m_in_item = false;
+      if (!m_current_article.link.empty()) {
+        m_articles.push_back(m_current_article);
+      }
+    } else if (name == "link") {
+      if (m_current_article.link.empty() && !m_current_data.empty()) {
+        m_current_article.link = m_current_data;
+      }
+    } else if (name == m_feed_system->publish_item_date_name || name == "updated") {
+      m_current_article.pub_date = m_current_data;
+    } else if (name == m_feed_system->guid_name) {
+      m_current_article.guid = m_current_data;
+    } else if (name == "title") {
+      m_current_article.title = m_current_data;
+    }
+    return true;
+  }
+
   std::unique_ptr<FeedSystem> m_feed_system;
   bool m_in_channel{false};
   bool m_in_item{false};
@@ -130,4 +131,5 @@ private:
   std::string m_current_element;
   std::vector<Article> m_articles;
   Article m_current_article;
+  std::string m_build_date;
 };
