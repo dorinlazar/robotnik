@@ -1,6 +1,7 @@
 #include "article.hpp"
 #include "feed_digest.hpp"
 #include "expat_parser.hpp"
+#include "time_converters.hpp"
 
 #include <memory>
 #include <vector>
@@ -98,7 +99,7 @@ private:
       if (name == m_feed_system->channel_tag_name) {
         m_in_channel = false;
       } else if (name == m_feed_system->last_build_date_name) {
-        m_build_date = m_current_data;
+        m_build_date = ConvertRfc822ToTimeStamp(m_current_data);
       }
     }
     return true;
@@ -115,7 +116,7 @@ private:
         m_current_article.link = m_current_data;
       }
     } else if (name == m_feed_system->publish_item_date_name || name == "updated") {
-      m_current_article.pub_date = m_current_data;
+      m_current_article.pub_date = ConvertRfc822ToTimeStamp(m_current_data);
     } else if (name == m_feed_system->guid_name) {
       m_current_article.guid = m_current_data;
     } else if (name == "title") {
@@ -131,5 +132,5 @@ private:
   std::string m_current_element;
   std::vector<Article> m_articles;
   Article m_current_article;
-  std::string m_build_date;
+  time_t m_build_date;
 };
