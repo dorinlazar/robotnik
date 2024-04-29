@@ -41,8 +41,6 @@ void DiscordBot::CommandHandler(const dpp::slashcommand_t& event) {
 }
 
 void DiscordBot::SendMessage(const std::string& message, const std::string& channel) {
-  dpp::message msg;
-  msg.content = message;
-  msg.channel_id = channel;
-  m_bot.message_create(msg);
+  std::println("Sending message on channel: {} {}", message, channel);
+  m_bot.message_create(dpp::message(dpp::snowflake(channel), message));
 }

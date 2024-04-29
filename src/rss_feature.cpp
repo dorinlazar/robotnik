@@ -85,7 +85,7 @@ public:
       std::println("Found {} new articles in {}", new_articles.size(), feed->Url());
       for (const auto& article: new_articles) {
         std::string message = std::format("{} {}", article.title, article.link);
-        m_bot->SendMessage(message, article.target);
+        m_bot->SendMessage(message, feed->Destination());
       }
       if (!new_articles.empty()) {
         m_kvstore->Put(feed->Url(), feed->ToJson());
