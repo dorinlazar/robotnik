@@ -68,6 +68,15 @@
     "print": "cpp",
     "text_encoding": "cpp",
     "cinttypes": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "codecvt": "cpp",
+    "condition_variable": "cpp",
+    "csignal": "cpp",
+    "set": "cpp",
+    "ratio": "cpp",
+    "iomanip": "cpp",
+    "iostream": "cpp",
+    "mutex": "cpp",
+    "semaphore": "cpp"
   }
 }
