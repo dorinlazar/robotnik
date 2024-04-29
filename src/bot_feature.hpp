@@ -7,7 +7,6 @@ struct RobotFeatureOption {
   std::string option_name;
   std::string description;
   bool required;
-  std::string choices;
 };
 
 struct RobotFeatureDescription {

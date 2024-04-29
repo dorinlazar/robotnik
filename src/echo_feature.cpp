@@ -1,13 +1,10 @@
 #include "echo_feature.hpp"
 
 RobotFeatureDescription EchoFeature::Description() const {
-  return RobotFeatureDescription{"echo",
-                                 "Un ecou, că un răsunet nu avem",
-                                 {{.type = dpp::co_string,
-                                   .option_name = "text",
-                                   .description = "The text to echo",
-                                   .required = false,
-                                   .choices = ""}}};
+  return RobotFeatureDescription{
+      "echo",
+      "Un ecou, că un răsunet nu avem",
+      {{.type = dpp::co_string, .option_name = "text", .description = "The text to echo", .required = false}}};
 }
 
 void EchoFeature::HandleCommand(const dpp::slashcommand_t& event) {

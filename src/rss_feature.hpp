@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "bot_feature.hpp"
+class DiscordBot;
 
-void InitializeFeedCollector(const std::string& filename);
+void InitializeFeedCollector(std::shared_ptr<DiscordBot> bot, const std::string& filename);
 
 class RssAddFeature : public IRobotFeature {
 public:

@@ -7,19 +7,29 @@
 #include <ctime>
 #include <nlohmann/json.hpp>
 
-FeedData::FeedData(const std::string& url, const std::string& json_serialized) : m_feed_url(url) {
-  auto parsed = nlohmann::json::parse(json_serialized);
+std::shared_ptr<FeedData> FeedData::Create(const std::string& url, const std::string& destination) {
+  auto feed_data = std::make_shared<FeedData>();
+  feed_data->m_feed_url = url;
+  feed_data->m_destination = destination;
+  return feed_data;
+}
+
+std::shared_ptr<FeedData> FeedData::FromJson(const std::string& url, const std::string& json) {
+  auto feed_data = std::make_shared<FeedData>();
+  auto parsed = nlohmann::json::parse(json);
   if (parsed.contains("updated")) {
-    m_last_updated = parsed["updated"];
+    feed_data->m_last_updated = parsed["updated"];
   }
   if (parsed.contains("dest")) {
-    m_destination = parsed["dest"];
+    feed_data->m_destination = parsed["dest"];
   }
   if (parsed.contains("ids")) {
     for (const auto& article_id: parsed["ids"]) {
-      m_article_ids.insert(article_id);
+      feed_data->m_article_ids.insert(article_id);
     }
   }
+  feed_data->m_feed_url = url;
+  return feed_data;
 }
 
 std::vector<Article> FeedData::GetNewArticles() {
@@ -52,3 +62,7 @@ std::string FeedData::ToJson() const {
   json["ids"] = m_article_ids;
   return json.dump();
 }
+
+const std::string& FeedData::Url() const { return m_feed_url; }
+
+const std::string& FeedData::Destination() const { return m_destination; }

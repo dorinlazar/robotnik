@@ -2,6 +2,8 @@
 #include "echo_feature.hpp"
 #include <CLI/CLI.hpp>
 #include <yaml-cpp/yaml.h>
+#include "rss_feature.hpp"
+#include <unistd.h>
 
 int main(int argc, char** argv) {
   CLI::App app{"Robotnik C++ roboțel for discord"};
@@ -12,8 +14,14 @@ int main(int argc, char** argv) {
   CLI11_PARSE(app, argc, argv);
 
   YAML::Node config = YAML::LoadFile(filename);
-  DiscordBot bot(config["discord"]);
-  bot.RegisterFeature(std::make_shared<EchoFeature>());
-  bot.Start();
+  auto bot = std::make_shared<DiscordBot>(config["discord"]);
+  std::string home = std::getenv("HOME");
+  auto gdbm_file = home + "/.robotnik.rss.gdbm";
+  InitializeFeedCollector(bot, gdbm_file);
+  bot->RegisterFeature(std::make_shared<EchoFeature>());
+  bot->RegisterFeature(std::make_shared<RssAddFeature>());
+  bot->RegisterFeature(std::make_shared<RssDelFeature>());
+  bot->RegisterFeature(std::make_shared<RssListFeature>());
+  bot->Start();
   return 0;
 }

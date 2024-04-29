@@ -18,4 +18,5 @@ public:
   ~DiscordBot();
   void RegisterFeature(std::shared_ptr<IRobotFeature> feature);
   void Start();
+  void SendMessage(const std::string& message, const std::string& channel);
 };

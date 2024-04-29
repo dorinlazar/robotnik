@@ -7,9 +7,9 @@ int main(int argc, char** argv) {
   if (argc == 2) {
     site_feed = argv[1];
   }
-  FeedData parser(site_feed, "{}");
+  auto parser = FeedData::Create(site_feed, "#shorts");
   int index = 0;
-  for (const auto& article: parser.GetNewArticles()) {
+  for (const auto& article: parser->GetNewArticles()) {
     index++;
     std::println("{:02d}. Title: {} published on {} at {}", index, article.title, article.pub_date, article.link);
   }

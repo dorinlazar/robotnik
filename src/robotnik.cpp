@@ -1,4 +1,5 @@
 #include "robotnik.hpp"
+#include <print>
 
 DiscordBot::DiscordBot(const YAML::Node& config)
     : m_token(config["token"].as<std::string>()), m_owner(config["owner"].as<std::string>()),
@@ -16,6 +17,7 @@ void DiscordBot::Start() {
       for (const auto& feature: m_features) {
         auto description = feature->Description();
         dpp::slashcommand cmd(description.moniker, description.description, m_bot.me.id);
+        std::println("Registering command: {} --> {}", description.moniker, description.description);
 
         for (const auto& option: description.options) {
           cmd.add_option(dpp::command_option(option.type, option.option_name, option.description, option.required));
@@ -36,4 +38,11 @@ void DiscordBot::CommandHandler(const dpp::slashcommand_t& event) {
       return;
     }
   }
+}
+
+void DiscordBot::SendMessage(const std::string& message, const std::string& channel) {
+  dpp::message msg;
+  msg.content = message;
+  msg.channel_id = channel;
+  m_bot.message_create(msg);
 }
