@@ -1,5 +1,9 @@
 #pragma once
+#include <vector>
+#include <string>
+
 #include "expat_parser.hpp"
+#include "article.hpp"
 
 enum class FeedSystemType { Atom, Rss };
 struct FeedSystem {

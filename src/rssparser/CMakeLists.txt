@@ -13,3 +13,8 @@ add_library(
   time_converters.hpp
   time_converters.cpp)
 target_link_libraries(roborssparser PUBLIC expat curl)
+
+add_executable(
+  roborssparser_test
+  fetcher_test.cpp)
+target_link_libraries(roborssparser_test PRIVATE roborssparser)
