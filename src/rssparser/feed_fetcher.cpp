@@ -34,6 +34,7 @@ public:
       curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
       curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
       curl_easy_setopt(curl, CURLOPT_WRITEDATA, &result);
+      curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
       auto res = curl_easy_perform(curl);
       curl_easy_cleanup(curl);
     }

@@ -2,9 +2,12 @@
 
 #include <print>
 
-int main() {
-  FeedData parser("https://dorinlazar.ro/index.xml");
-  parser.GetNewArticles();
+int main(int argc, char** argv) {
+  std::string site_feed = "https://dorinlazar.ro/index.xml";
+  if (argc == 2) {
+    site_feed = argv[1];
+  }
+  FeedData parser(site_feed);
   int index = 0;
   for (const auto& article: parser.GetNewArticles()) {
     index++;

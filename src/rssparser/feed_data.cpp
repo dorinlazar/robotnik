@@ -3,11 +3,14 @@
 #include "expat_parser.hpp"
 #include "feed_parser.hpp"
 
+#include <print>
+
 FeedData::FeedData(const std::string& url) : m_feed_url(url) {}
 
 std::vector<Article> FeedData::GetNewArticles() {
   FileFetcher fetcher(m_feed_url);
   auto feed_content = fetcher.FetchFeed();
+  // std::println("Feed content: {}", feed_content);
   if (feed_content.empty()) {
     return {};
   }

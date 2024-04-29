@@ -29,14 +29,12 @@ public:
 
 private:
   bool UpdateFeedSystem(const std::string& name);
-  bool StartChannel(const std::string& name);
   bool StartItem(const std::string& name);
   bool ProcessStartElementInItem(const std::string& name, const std::map<std::string, std::string>& attributes);
   bool ProcessOutOfItemEndElement(const std::string& name);
   bool ProcessInItemEndElement(const std::string& name);
 
   std::unique_ptr<FeedSystem> m_feed_system;
-  bool m_in_channel{false};
   bool m_in_item{false};
   std::string m_current_data;
   std::string m_current_element;

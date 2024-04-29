@@ -27,9 +27,6 @@ bool FeedParser::StartElement(const std::string& name, const std::map<std::strin
   if (!m_feed_system) {
     return UpdateFeedSystem(name);
   }
-  if (!m_in_channel) {
-    return StartChannel(name);
-  }
   if (!m_in_item) {
     return StartItem(name);
   }
@@ -50,15 +47,12 @@ bool FeedParser::CharacterData(const std::string& data) {
 
 bool FeedParser::UpdateFeedSystem(const std::string& name) {
   if (name == "rss") {
+    std::println("Using system: RSS ");
     m_feed_system = std::make_unique<FeedSystem>(RssSystem);
   } else if (name == "feed") {
+    std::println("Using system: Atom");
     m_feed_system = std::make_unique<FeedSystem>(AtomSystem);
   }
-  return true;
-}
-
-bool FeedParser::StartChannel(const std::string& name) {
-  m_in_channel = name == m_feed_system->channel_tag_name;
   return true;
 }
 
@@ -84,10 +78,8 @@ bool FeedParser::ProcessStartElementInItem(const std::string& name,
 }
 
 bool FeedParser::ProcessOutOfItemEndElement(const std::string& name) {
-  if (m_in_channel) {
-    if (name == m_feed_system->channel_tag_name) {
-      m_in_channel = false;
-    } else if (name == m_feed_system->last_build_date_name) {
+  if (!m_in_item) {
+    if (name == m_feed_system->last_build_date_name) {
       m_build_date = ConvertRfc822ToTimeStamp(m_current_data);
     }
   }
@@ -98,7 +90,12 @@ bool FeedParser::ProcessInItemEndElement(const std::string& name) {
   if (name == m_feed_system->item_name) {
     m_in_item = false;
     if (!m_current_article.link.empty()) {
+      std::println("New article: {} {} {} {}", m_current_article.title, m_current_article.guid, m_current_article.link,
+                   m_current_article.pub_date);
+
       m_articles.push_back(m_current_article);
+    } else {
+      std::println("No article found: {} {}", m_current_article.title, m_current_article.guid);
     }
   } else if (name == "link") {
     if (m_current_article.link.empty() && !m_current_data.empty()) {

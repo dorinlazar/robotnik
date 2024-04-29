@@ -1,5 +1,5 @@
 #include "expat_parser.hpp"
-
+#include <print>
 #include <expat.h>
 
 ExpatParser::ExpatParser(std::shared_ptr<XmlParser> parser) : m_parser(parser) {}
@@ -36,6 +36,7 @@ void ExpatParser::Parse(const std::string& data) {
     // Handle parsing error
     const XML_Error code = XML_GetErrorCode(parser);
     const std::string error = XML_ErrorString(code);
-    throw std::runtime_error(error);
+    std::println("An error encountered while parsing data: {}", error);
+    std::println("Erroneous data: {}", data);
   }
 }
