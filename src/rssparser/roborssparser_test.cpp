@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
   if (argc == 2) {
     site_feed = argv[1];
   }
-  FeedData parser(site_feed);
+  FeedData parser(site_feed, "{}");
   int index = 0;
   for (const auto& article: parser.GetNewArticles()) {
     index++;

@@ -3,7 +3,11 @@
 RobotFeatureDescription EchoFeature::Description() const {
   return RobotFeatureDescription{"echo",
                                  "Un ecou, că un răsunet nu avem",
-                                 {{dpp::co_string, "text", "The text to echo", false}}};
+                                 {{.type = dpp::co_string,
+                                   .option_name = "text",
+                                   .description = "The text to echo",
+                                   .required = false,
+                                   .choices = ""}}};
 }
 
 void EchoFeature::HandleCommand(const dpp::slashcommand_t& event) {

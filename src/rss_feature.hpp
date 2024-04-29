@@ -1,5 +1,8 @@
 #pragma once
+#include <string>
 #include "bot_feature.hpp"
+
+void InitializeFeedCollector(const std::string& filename);
 
 class RssAddFeature : public IRobotFeature {
 public:
@@ -23,10 +26,4 @@ public:
 
   RobotFeatureDescription Description() const override;
   void HandleCommand(const dpp::slashcommand_t& event) override;
-};
-
-class FeedCollection {
-public:
-  FeedCollection& Instance();
-  void AddFeed(const std::string& url, const std::string& channel);
 };

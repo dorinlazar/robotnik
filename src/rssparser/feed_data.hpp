@@ -9,14 +9,14 @@
 
 class FeedData {
 public:
-  FeedData(const std::string& url);
+  FeedData(const std::string& url, const std::string& json_serialized);
 
   std::vector<Article> GetNewArticles();
+  std::string ToJson() const;
 
 private:
   std::string m_feed_url;
   std::set<std::string> m_article_ids;
   time_t m_last_updated = 0;
-  time_t m_last_touched = 0;
   std::string m_destination = "<#shorts>";
 };
