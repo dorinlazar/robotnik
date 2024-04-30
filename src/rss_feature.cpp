@@ -203,4 +203,9 @@ void RssListFeature::HandleCommand(const dpp::slashcommand_t& event) {
   }
 };
 
-void RssListFeature::Tick() { FeedCollection::Instance().RefreshFeeds(); }
+void RssListFeature::Tick() {
+  static int counter = 0;
+  if (counter++ % 20 == 0) {
+    FeedCollection::Instance().RefreshFeeds();
+  }
+}
