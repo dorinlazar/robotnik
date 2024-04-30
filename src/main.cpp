@@ -4,11 +4,13 @@
 #include <yaml-cpp/yaml.h>
 #include "rss_feature.hpp"
 #include <unistd.h>
+#include <print>
 
 int main(int argc, char** argv) {
   CLI::App app{"Robotnik C++ roboțel for discord"};
 
   std::string home = std::getenv("HOME");
+  std::println("Home: {}", home);
   std::string filename = home + "/.robotnik.yml";
   app.add_option("-f,--file", filename, "The configuration file");
 
