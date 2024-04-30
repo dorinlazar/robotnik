@@ -105,7 +105,9 @@ public:
   }
 
   void UseBot(std::shared_ptr<DiscordBot> bot) { m_bot = bot; }
-  void StartFeedThread() { m_thread = std::make_unique<std::jthread>(RefreshThread); }
+  void StartFeedThread() {
+    // m_thread = std::make_unique<std::jthread>(RefreshThread);
+  }
 
 private:
   std::unique_ptr<KVStore> m_kvstore;
@@ -147,6 +149,10 @@ void RssAddFeature::HandleCommand(const dpp::slashcommand_t& event) {
   }
 }
 
+void RssAddFeature::Tick() {
+  // Do nothing
+}
+
 RobotFeatureDescription RssDelFeature::Description() const {
   return RobotFeatureDescription{
       .moniker = "rssdel",
@@ -164,6 +170,10 @@ void RssDelFeature::HandleCommand(const dpp::slashcommand_t& event) {
   } else {
     event.reply("Feed not found!");
   }
+}
+
+void RssDelFeature::Tick() {
+  // Do nothing
 }
 
 RobotFeatureDescription RssListFeature::Description() const {
@@ -192,3 +202,5 @@ void RssListFeature::HandleCommand(const dpp::slashcommand_t& event) {
     event.reply(reply);
   }
 };
+
+void RssListFeature::Tick() { FeedCollection::Instance().RefreshFeeds(); }

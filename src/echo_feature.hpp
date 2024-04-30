@@ -7,4 +7,5 @@ public:
 
   RobotFeatureDescription Description() const override;
   void HandleCommand(const dpp::slashcommand_t& event) override;
+  void Tick() override;
 };

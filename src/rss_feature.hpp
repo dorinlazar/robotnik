@@ -12,6 +12,7 @@ public:
 
   RobotFeatureDescription Description() const override;
   void HandleCommand(const dpp::slashcommand_t& event) override;
+  void Tick() override;
 };
 
 class RssDelFeature : public IRobotFeature {
@@ -20,6 +21,7 @@ public:
 
   RobotFeatureDescription Description() const override;
   void HandleCommand(const dpp::slashcommand_t& event) override;
+  void Tick() override;
 };
 
 class RssListFeature : public IRobotFeature {
@@ -28,4 +30,5 @@ public:
 
   RobotFeatureDescription Description() const override;
   void HandleCommand(const dpp::slashcommand_t& event) override;
+  void Tick() override;
 };

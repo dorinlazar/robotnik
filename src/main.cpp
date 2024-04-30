@@ -8,14 +8,14 @@
 int main(int argc, char** argv) {
   CLI::App app{"Robotnik C++ roboțel for discord"};
 
-  std::string filename;
+  std::string home = std::getenv("HOME");
+  std::string filename = home + "/.robotnik.yml";
   app.add_option("-f,--file", filename, "The configuration file");
 
   CLI11_PARSE(app, argc, argv);
 
   YAML::Node config = YAML::LoadFile(filename);
   auto bot = std::make_shared<DiscordBot>(config["discord"]);
-  std::string home = std::getenv("HOME");
   auto gdbm_file = home + "/.robotnik.rss.gdbm";
   InitializeFeedCollector(bot, gdbm_file);
   bot->RegisterFeature(std::make_shared<EchoFeature>());

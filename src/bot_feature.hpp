@@ -20,4 +20,5 @@ public:
   virtual ~IRobotFeature() = default;
   virtual RobotFeatureDescription Description() const = 0;
   virtual void HandleCommand(const dpp::slashcommand_t& event) = 0;
+  virtual void Tick() = 0;
 };

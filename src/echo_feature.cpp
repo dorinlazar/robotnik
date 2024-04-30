@@ -11,3 +11,7 @@ void EchoFeature::HandleCommand(const dpp::slashcommand_t& event) {
   auto text = std::get<std::string>(event.get_parameter("text"));
   event.reply("Pong: " + text + "!");
 }
+
+void EchoFeature::Tick() {
+  // Do nothing
+}

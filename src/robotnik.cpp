@@ -26,6 +26,13 @@ void DiscordBot::Start() {
         m_bot.global_command_create(cmd);
       }
     }
+    m_bot.start_timer(
+        [this](const dpp::timer& timer) {
+          for (const auto& feature: m_features) {
+            feature->Tick();
+          }
+        },
+        60);
   });
 
   m_bot.start(dpp::st_wait);
@@ -41,6 +48,12 @@ void DiscordBot::CommandHandler(const dpp::slashcommand_t& event) {
 }
 
 void DiscordBot::SendMessage(const std::string& message, const std::string& channel) {
-  std::println("Sending message on channel: {} {}", message, channel);
-  m_bot.message_create(dpp::message(dpp::snowflake(channel), message));
+  std::println("Sending message '{}' on channel {}", message, channel);
+  std::string ch = channel;
+  if (ch.starts_with("<#")) {
+    ch = ch.substr(2, ch.size() - 3);
+  }
+  dpp::message msg(dpp::snowflake(ch), message);
+  std::println("Sending message '{}' on channel {}", msg.content, msg.channel_id.str());
+  m_bot.message_create(msg);
 }
