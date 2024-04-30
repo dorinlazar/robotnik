@@ -43,6 +43,11 @@
       "jobs": 8
     },
     {
+      "name": "limited",
+      "configurePreset": "default",
+      "jobs": 1
+    },
+    {
       "name": "coverage",
       "configurePreset": "coverage",
       "jobs": 8
