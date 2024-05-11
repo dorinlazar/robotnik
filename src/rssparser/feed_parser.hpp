@@ -9,6 +9,7 @@ enum class FeedSystemType { Atom, Rss };
 struct FeedSystem {
   const FeedSystemType type;
   const std::string channel_tag_name;
+  const std::string channel_title_name;
   const std::string item_name;
   const std::string last_build_date_name;
   const std::string guid_name;
@@ -27,6 +28,8 @@ public:
 
   const std::vector<Article>& GetArticles() const;
 
+  const std::string& Title() const;
+
 private:
   bool UpdateFeedSystem(const std::string& name);
   bool StartItem(const std::string& name);
@@ -41,4 +44,5 @@ private:
   std::vector<Article> m_articles;
   Article m_current_article;
   time_t m_build_date;
+  std::string m_title;
 };

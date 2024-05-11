@@ -6,7 +6,8 @@
 KVStore::KVStore(const std::string& filename) : m_filename(filename) {}
 
 void KVStore::Put(const std::string& key, const std::string& value) {
-  std::println("Writing down key: {} value: {}", key, value);
+  std::lock_guard<std::mutex> lock(m_mutex);
+  // std::println("Writing down key: {} value: {}", key, value);
   GDBM_FILE db = gdbm_open(m_filename.c_str(), 0, GDBM_WRCREAT, 0666, nullptr);
   if (!db) {
     std::println("Unable to open GDBM file: {}", m_filename);
@@ -19,10 +20,11 @@ void KVStore::Put(const std::string& key, const std::string& value) {
   v.dsize = value.size();
   gdbm_store(db, k, v, GDBM_REPLACE);
   gdbm_close(db);
-  std::println("Done writing down key: {} value: {}", key, value);
+  // std::println("Done writing down key: {} value: {}", key, value);
 }
 
 std::vector<KVItem> KVStore::GetAll() {
+  std::lock_guard<std::mutex> lock(m_mutex);
   std::vector<KVItem> items;
   GDBM_FILE db = gdbm_open(m_filename.c_str(), 0, GDBM_READER, 0666, nullptr);
   if (!db) {
@@ -43,6 +45,7 @@ std::vector<KVItem> KVStore::GetAll() {
 }
 
 void KVStore::Remove(const std::string& key) {
+  std::lock_guard<std::mutex> lock(m_mutex);
   GDBM_FILE db = gdbm_open(m_filename.c_str(), 0, GDBM_WRITER, 0666, nullptr);
   datum k;
   k.dptr = const_cast<char*>(key.c_str());

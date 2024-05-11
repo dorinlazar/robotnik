@@ -18,8 +18,12 @@ public:
   std::string ToJson() const;
   const std::string& Url() const;
   const std::string& Destination() const;
+  const std::string& Title() const;
+  bool Rare() const;
 
 private:
+  bool m_rare;
+  std::string m_title;
   std::string m_feed_url;
   std::set<std::string> m_article_ids;
   time_t m_last_updated = 0;

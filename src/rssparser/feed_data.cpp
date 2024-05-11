@@ -28,6 +28,12 @@ std::shared_ptr<FeedData> FeedData::FromJson(const std::string& url, const std::
       feed_data->m_article_ids.insert(article_id);
     }
   }
+  if (parsed.contains("title")) {
+    feed_data->m_title = parsed["title"];
+  }
+  if (parsed.contains("rare")) {
+    feed_data->m_rare = parsed["rare"];
+  }
   feed_data->m_feed_url = url;
   return feed_data;
 }
@@ -35,9 +41,10 @@ std::shared_ptr<FeedData> FeedData::FromJson(const std::string& url, const std::
 std::vector<Article> FeedData::GetNewArticles() {
   auto current_time = ::time(nullptr);
 
+  std::println("Checking for new articles in {} ({})", m_title, m_feed_url);
+
   FileFetcher fetcher(m_feed_url);
   auto feed_content = fetcher.FetchFeed();
-  // std::println("Feed content: {}", feed_content);
   if (feed_content.empty()) {
     return {};
   }
@@ -45,12 +52,18 @@ std::vector<Article> FeedData::GetNewArticles() {
   auto feed_parser = std::make_shared<FeedParser>();
   ExpatParser(feed_parser).Parse(feed_content);
   std::vector<Article> articles;
-  for (const auto& article: feed_parser->GetArticles()) {
+  auto all_articles = feed_parser->GetArticles();
+  if (all_articles.empty()) {
+    return {};
+  }
+  m_article_ids.clear();
+  for (const auto& article: all_articles) {
     if (!m_article_ids.contains(article.guid)) {
       articles.push_back(article);
-      m_article_ids.insert(article.guid);
     }
+    m_article_ids.insert(article.guid);
   }
+  m_title = feed_parser->Title();
   m_last_updated = current_time;
   return articles;
 }
@@ -60,6 +73,7 @@ std::string FeedData::ToJson() const {
   json["updated"] = m_last_updated;
   json["dest"] = m_destination;
   json["ids"] = m_article_ids;
+  json["title"] = m_title;
   return json.dump();
 }
 

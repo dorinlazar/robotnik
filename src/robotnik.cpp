@@ -26,13 +26,13 @@ void DiscordBot::Start() {
         m_bot.global_command_create(cmd);
       }
     }
-    m_bot.start_timer(
-        [this](const dpp::timer& timer) {
-          for (const auto& feature: m_features) {
-            feature->Tick();
-          }
-        },
-        60);
+    // m_bot.start_timer(
+    //     [this](const dpp::timer& timer) {
+    //       for (const auto& feature: m_features) {
+    //         feature->Tick();
+    //       }
+    //     },
+    //     60);
   });
 
   m_bot.start(dpp::st_wait);

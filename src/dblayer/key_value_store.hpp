@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <mutex>
 
 struct KVItem {
   std::string key;
@@ -19,4 +20,5 @@ public:
 
 private:
   const std::string& m_filename;
+  std::mutex m_mutex;
 };

@@ -9,8 +9,14 @@
 #include "time_converters.hpp"
 #include "feed_parser.hpp"
 
-FeedSystem AtomSystem = {FeedSystemType::Atom, "feed", "entry", "updated", "id", "published"};
-FeedSystem RssSystem = {FeedSystemType::Rss, "channel", "item", "lastBuildDate", "guid", "pubDate"};
+FeedSystem AtomSystem = {FeedSystemType::Atom,
+                         "feed",
+                         "title"
+                         "entry",
+                         "updated",
+                         "id",
+                         "published"};
+FeedSystem RssSystem = {FeedSystemType::Rss, "channel", "title", "item", "lastBuildDate", "guid", "pubDate"};
 
 FeedParser::~FeedParser() = default;
 
@@ -47,10 +53,10 @@ bool FeedParser::CharacterData(const std::string& data) {
 
 bool FeedParser::UpdateFeedSystem(const std::string& name) {
   if (name == "rss") {
-    std::println("Using system: RSS ");
+    // std::println("Using system: RSS ");
     m_feed_system = std::make_unique<FeedSystem>(RssSystem);
   } else if (name == "feed") {
-    std::println("Using system: Atom");
+    // std::println("Using system: Atom");
     m_feed_system = std::make_unique<FeedSystem>(AtomSystem);
   }
   return true;
@@ -82,6 +88,9 @@ bool FeedParser::ProcessOutOfItemEndElement(const std::string& name) {
     if (name == m_feed_system->last_build_date_name) {
       m_build_date = ConvertRfc822ToTimeStamp(m_current_data);
     }
+    if (name == m_feed_system->channel_title_name) {
+      m_title = m_current_data;
+    }
   }
   return true;
 }
@@ -90,12 +99,13 @@ bool FeedParser::ProcessInItemEndElement(const std::string& name) {
   if (name == m_feed_system->item_name) {
     m_in_item = false;
     if (!m_current_article.link.empty()) {
-      std::println("New article: {} {} {} {}", m_current_article.title, m_current_article.guid, m_current_article.link,
-                   m_current_article.pub_date);
+      // std::println("New article: {} {} {} {}", m_current_article.title, m_current_article.guid,
+      // m_current_article.link,
+      //              m_current_article.pub_date);
 
       m_articles.push_back(m_current_article);
     } else {
-      std::println("No article found: {} {}", m_current_article.title, m_current_article.guid);
+      // std::println("No article found: {} {}", m_current_article.title, m_current_article.guid);
     }
   } else if (name == "link") {
     if (m_current_article.link.empty() && !m_current_data.empty()) {
@@ -112,3 +122,5 @@ bool FeedParser::ProcessInItemEndElement(const std::string& name) {
 }
 
 const std::vector<Article>& FeedParser::GetArticles() const { return m_articles; }
+
+const std::string& FeedParser::Title() const { return m_title; }

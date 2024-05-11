@@ -42,6 +42,7 @@ public:
 
     std::println("Creating entry for feed: {} in channel: {}", url, channel);
     auto feed_data = FeedData::Create(url, channel);
+    feed_data->GetNewArticles();
     std::println("Storing entry for feed: {} in channel: {}", url, channel);
     m_kvstore->Put(url, feed_data->ToJson());
     std::println("Feed added: {}", url);
@@ -105,9 +106,7 @@ public:
   }
 
   void UseBot(std::shared_ptr<DiscordBot> bot) { m_bot = bot; }
-  void StartFeedThread() {
-    // m_thread = std::make_unique<std::jthread>(RefreshThread);
-  }
+  void StartFeedThread() { m_thread = std::make_unique<std::jthread>(RefreshThread); }
 
 private:
   std::unique_ptr<KVStore> m_kvstore;
@@ -203,9 +202,4 @@ void RssListFeature::HandleCommand(const dpp::slashcommand_t& event) {
   }
 };
 
-void RssListFeature::Tick() {
-  static int counter = 0;
-  if (counter++ % 67 == 0) {
-    FeedCollection::Instance().RefreshFeeds();
-  }
-}
+void RssListFeature::Tick() {}

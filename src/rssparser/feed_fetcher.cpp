@@ -3,6 +3,7 @@
 
 #include <curl/curl.h>
 #include <map>
+#include <print>
 #include <optional>
 
 class CurlLibrary {
@@ -31,7 +32,9 @@ public:
       for (const auto& [key, value]: headers) {
         chunk = curl_slist_append(chunk, (key + ": " + value).c_str());
       }
-      curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
+      if (chunk) {
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
+      }
       curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
       curl_easy_setopt(curl, CURLOPT_WRITEDATA, &result);
       curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
@@ -49,7 +52,9 @@ time_t FileFetcher::LastModified() const { return m_last_modified; }
 std::string FileFetcher::FetchFeed() {
   std::map<std::string, std::string> headers;
   if (m_last_modified != 0) {
-    headers["If-Modified-Since"] = ConvertTimeStampToRfc822(m_last_modified);
+    const auto value = ConvertTimeStampToRfc822(m_last_modified);
+    headers["If-Modified-Since"] = value;
+    std::println("Using If-Modified-Since: {}", value);
   }
   time_t request_time = time(nullptr);
   auto result = CurlLibrary::GetInstance().FetchFile(m_url, headers);
