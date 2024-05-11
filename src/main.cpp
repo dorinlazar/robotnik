@@ -5,6 +5,7 @@
 #include "rss_feature.hpp"
 #include <unistd.h>
 #include <print>
+#include <systemd/sd-daemon.h>
 
 int main(int argc, char** argv) {
   CLI::App app{"Robotnik C++ roboțel for discord"};
@@ -24,6 +25,8 @@ int main(int argc, char** argv) {
   bot->RegisterFeature(std::make_shared<RssAddFeature>());
   bot->RegisterFeature(std::make_shared<RssDelFeature>());
   bot->RegisterFeature(std::make_shared<RssListFeature>());
+  sd_notify(0, "READY=1");
   bot->Start();
+  sd_notify(0, "STOPPING=1");
   return 0;
 }

@@ -20,4 +20,4 @@ include_directories(third_party/DPP/include)
 
 add_executable(robotnikpp ${SOURCES} )
 
-target_link_libraries(robotnikpp PRIVATE roborssparser robodblayer CLI11::CLI11 dpp yaml-cpp gdbm)
+target_link_libraries(robotnikpp PRIVATE roborssparser robodblayer CLI11::CLI11 dpp yaml-cpp gdbm systemd pthread)
