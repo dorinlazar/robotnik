@@ -6,6 +6,7 @@
 #include <print>
 #include <ctime>
 #include <nlohmann/json.hpp>
+#include <ranges>
 
 std::shared_ptr<FeedData> FeedData::Create(const std::string& url, const std::string& destination) {
   auto feed_data = std::make_shared<FeedData>();
@@ -31,15 +32,25 @@ std::shared_ptr<FeedData> FeedData::FromJson(const std::string& url, const std::
   if (parsed.contains("title")) {
     feed_data->m_title = parsed["title"];
   }
-  if (parsed.contains("rare")) {
-    feed_data->m_rare = parsed["rare"];
+  if (parsed.contains("rarity")) {
+    feed_data->m_rarity_score = parsed["rarity"];
   }
+
   feed_data->m_feed_url = url;
   return feed_data;
 }
 
 std::vector<Article> FeedData::GetNewArticles() {
   auto current_time = ::time(nullptr);
+
+  if (m_rarity_score > 0) {
+    m_recheck_counter++;
+    if (m_recheck_counter < m_rarity_score) {
+      std::println("Skipping for new articles in {} ({})", m_title, m_feed_url);
+      return {};
+    }
+    m_recheck_counter = 0;
+  }
 
   std::println("Checking for new articles in {} ({})", m_title, m_feed_url);
 
@@ -66,6 +77,7 @@ std::vector<Article> FeedData::GetNewArticles() {
     m_article_ids.insert(article.guid);
   }
   m_title = feed_parser->Title();
+  UpdateRarity(all_articles);
   m_last_updated = current_time;
   return articles;
 }
@@ -82,3 +94,32 @@ std::string FeedData::ToJson() const {
 const std::string& FeedData::Url() const { return m_feed_url; }
 
 const std::string& FeedData::Destination() const { return m_destination; }
+
+void FeedData::UpdateRarity(const std::vector<Article>& articles) {
+  // Determine last 10 articles timestamps
+  const size_t last_articles_count = 10;
+  std::array<time_t, last_articles_count> last_article_times;
+  for (size_t i = 0; i < last_articles_count; i++) {
+    last_article_times[i] = 0;
+  }
+
+  for (const auto& article: articles) {
+    auto iterator = std::ranges::min_element(last_article_times);
+    if (article.pub_date > *iterator) {
+      *iterator = article.pub_date;
+    }
+  }
+  auto min_time = *std::ranges::min_element(last_article_times);
+  auto max_time = *std::ranges::max_element(last_article_times);
+  auto time_diff = (max_time - min_time) / 10;
+  if (time_diff < 3600) { // 1h
+    m_rarity_score = 1;
+  } else if (time_diff < 86400) { // 1d
+    m_rarity_score = 3;
+  } else if (time_diff < 604800) { // 1w
+    m_rarity_score = 5;
+  } else {
+    m_rarity_score = 100;
+  }
+  std::print("Using rarity score: {} for {}", m_rarity_score, m_title);
+}

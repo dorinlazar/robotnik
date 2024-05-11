@@ -22,7 +22,10 @@ public:
   bool Rare() const;
 
 private:
-  bool m_rare;
+  void UpdateRarity(const std::vector<Article>& articles);
+
+  int64_t m_recheck_counter = 0;
+  int64_t m_rarity_score = 0;
   std::string m_title;
   std::string m_feed_url;
   std::set<std::string> m_article_ids;

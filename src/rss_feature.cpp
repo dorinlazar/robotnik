@@ -100,7 +100,7 @@ public:
       FeedCollection::Instance().RefreshFeeds();
       std::unique_lock<std::mutex> lock(FeedCollection::Instance().m_mutex);
       std::println("Waiting for next refresh. ");
-      FeedCollection::Instance().m_cv.wait_for(lock, std::chrono::seconds(20),
+      FeedCollection::Instance().m_cv.wait_for(lock, std::chrono::seconds(527),
                                                [&stop_token] { return stop_token.stop_requested(); });
     }
   }
