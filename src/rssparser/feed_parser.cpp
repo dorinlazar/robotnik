@@ -30,6 +30,7 @@ std::string GetOrDefault(const std::map<std::string, std::string>& attributes, c
 }
 
 bool FeedParser::StartElement(const std::string& name, const std::map<std::string, std::string>& attributes) {
+  m_current_data = "";
   if (!m_feed_system) {
     return UpdateFeedSystem(name);
   }
