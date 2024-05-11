@@ -56,11 +56,13 @@ std::vector<Article> FeedData::GetNewArticles() {
   if (all_articles.empty()) {
     return {};
   }
-  m_article_ids.clear();
   for (const auto& article: all_articles) {
     if (!m_article_ids.contains(article.guid)) {
       articles.push_back(article);
     }
+  }
+  m_article_ids.clear();
+  for (const auto& article: all_articles) {
     m_article_ids.insert(article.guid);
   }
   m_title = feed_parser->Title();
