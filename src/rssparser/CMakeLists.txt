@@ -5,7 +5,6 @@ add_library(
   expat_parser.cpp
   feed_data.cpp
   feed_data.hpp
-  feed_digest.hpp
   feed_fetcher.cpp
   feed_fetcher.hpp
   feed_parser.cpp
