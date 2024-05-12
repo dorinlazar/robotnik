@@ -131,7 +131,7 @@ void FeedData::UpdateRarity(const std::vector<Article>& articles) {
   } else if (time_diff < 604800) { // 1w
     m_rarity_score = 5;
   } else {
-    m_rarity_score = 100;
+    m_rarity_score = 30;
   }
   if (old_rarity != m_rarity_score) {
     std::println("Rarity score changed from {} to {} for {} ({})", old_rarity, m_rarity_score, m_title, m_feed_url);
