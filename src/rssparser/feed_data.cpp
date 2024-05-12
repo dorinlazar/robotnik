@@ -57,6 +57,9 @@ std::vector<Article> FeedData::GetNewArticles() {
   FileFetcher fetcher(m_feed_url);
   auto feed_content = fetcher.FetchFeed();
   if (feed_content.empty()) {
+    if (m_recheck_counter < 20) {
+      UpdateRarity({});
+    }
     return {};
   }
 
@@ -110,18 +113,18 @@ void FeedData::UpdateRarity(const std::vector<Article>& articles) {
     }
   }
   auto n_articles_considered = last_articles_count;
-  auto max_time = *std::ranges::max_element(last_article_times);
+  auto max_time = time(nullptr);
   for (auto& timestamp: last_article_times) {
     if (timestamp == 0) {
       timestamp = max_time;
       n_articles_considered--;
     }
   }
+  time_t min_time = *std::ranges::min_element(last_article_times);
   if (n_articles_considered == 0) {
-    std::println("No rarity updates for {} ({}) (no articles? bad timestamps?)", m_title, m_feed_url);
-    return;
+    n_articles_considered = 1;
+    min_time = m_last_updated;
   }
-  auto min_time = *std::ranges::min_element(last_article_times);
   auto time_diff = (max_time - min_time) / n_articles_considered;
   auto old_rarity = m_rarity_score;
   if (time_diff < 3600) { // 1h
