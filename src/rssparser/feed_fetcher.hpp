@@ -7,7 +7,7 @@ public:
   explicit FileFetcher(const std::string& url, time_t last_modified = 0);
 
   time_t LastModified() const;
-  std::string FetchFeed();
+  std::string FetchFeed(bool force = false);
 
 private:
   std::string m_url;

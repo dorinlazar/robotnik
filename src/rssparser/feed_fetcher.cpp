@@ -49,9 +49,9 @@ FileFetcher::FileFetcher(const std::string& url, time_t last_modified) : m_url(u
 
 time_t FileFetcher::LastModified() const { return m_last_modified; }
 
-std::string FileFetcher::FetchFeed() {
+std::string FileFetcher::FetchFeed(bool force) {
   std::map<std::string, std::string> headers;
-  if (m_last_modified != 0) {
+  if (m_last_modified != 0 && !force) {
     const auto value = ConvertTimeStampToRfc822(m_last_modified);
     headers["If-Modified-Since"] = value;
     std::println("Using If-Modified-Since: {}", value);

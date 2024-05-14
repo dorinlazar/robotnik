@@ -42,7 +42,7 @@ public:
 
     std::println("Creating entry for feed: {} in channel: {}", url, channel);
     auto feed_data = FeedData::Create(url, channel);
-    feed_data->GetNewArticles();
+    feed_data->GetNewArticles(true);
     std::println("Storing entry for feed: {} in channel: {}", url, channel);
     m_kvstore->Put(url, feed_data->ToJson());
     std::println("Feed added: {}", url);
@@ -82,7 +82,8 @@ public:
     }
     std::println("Processing {} feeds", feeds_to_process.size());
     for (auto& feed: feeds_to_process) {
-      auto new_articles = feed->GetNewArticles();
+      bool force = (m_forced_counter++ % 300) == 0;
+      auto new_articles = feed->GetNewArticles(force);
       std::println("Found {} new articles in {}", new_articles.size(), feed->Url());
       for (const auto& article: new_articles) {
         std::string message = std::format("{} {}", article.title, article.link);
@@ -115,6 +116,7 @@ private:
   std::condition_variable m_cv;
   std::unique_ptr<std::jthread> m_thread;
   std::shared_ptr<DiscordBot> m_bot;
+  int64_t m_forced_counter = 0;
 };
 
 void InitializeFeedCollector(std::shared_ptr<DiscordBot> bot, const std::string& filename) {

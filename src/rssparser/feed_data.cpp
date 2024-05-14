@@ -40,7 +40,7 @@ std::shared_ptr<FeedData> FeedData::FromJson(const std::string& url, const std::
   return feed_data;
 }
 
-std::vector<Article> FeedData::GetNewArticles() {
+std::vector<Article> FeedData::GetNewArticles(bool force) {
   auto current_time = ::time(nullptr);
 
   if (m_rarity_score > 0) {
@@ -55,7 +55,7 @@ std::vector<Article> FeedData::GetNewArticles() {
   std::println("Checking for new articles in {} ({})", m_title, m_feed_url);
 
   FileFetcher fetcher(m_feed_url);
-  auto feed_content = fetcher.FetchFeed();
+  auto feed_content = fetcher.FetchFeed(force);
   if (feed_content.empty()) {
     if (m_recheck_counter < 20) {
       UpdateRarity({});
@@ -136,7 +136,5 @@ void FeedData::UpdateRarity(const std::vector<Article>& articles) {
   } else {
     m_rarity_score = 30;
   }
-  if (old_rarity != m_rarity_score) {
-    std::println("Rarity score changed from {} to {} for {} ({})", old_rarity, m_rarity_score, m_title, m_feed_url);
-  }
+  std::println("Rarity score update: from {} to {} for {} ({})", old_rarity, m_rarity_score, m_title, m_feed_url);
 }

@@ -14,7 +14,7 @@ public:
   static std::shared_ptr<FeedData> FromJson(const std::string& url, const std::string& json);
   static std::shared_ptr<FeedData> Create(const std::string& url, const std::string& destination);
 
-  std::vector<Article> GetNewArticles();
+  std::vector<Article> GetNewArticles(bool force = false);
   std::string ToJson() const;
   const std::string& Url() const;
   const std::string& Destination() const;
