@@ -82,7 +82,8 @@ public:
     }
     std::println("Processing {} feeds", feeds_to_process.size());
     for (auto& feed: feeds_to_process) {
-      bool force = (m_forced_counter++ % 300) == 0;
+      bool force = (m_forced_counter++ % 3000) == 0;
+      std::println("Processing feed: {} with force: {}", feed->Url(), force);
       auto new_articles = feed->GetNewArticles(force);
       std::println("Found {} new articles in {}", new_articles.size(), feed->Url());
       for (const auto& article: new_articles) {

@@ -35,8 +35,10 @@ std::shared_ptr<FeedData> FeedData::FromJson(const std::string& url, const std::
   if (parsed.contains("rarity")) {
     feed_data->m_rarity_score = parsed["rarity"];
   }
-
   feed_data->m_feed_url = url;
+  if (feed_data->m_feed_url.contains("rachelbythebay.com")) {
+    feed_data->m_rarity_score = 20;
+  }
   return feed_data;
 }
 
