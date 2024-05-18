@@ -20,10 +20,11 @@ public:
   const std::string& Destination() const;
   const std::string& Title() const;
   bool Rare() const;
+  bool Updated() const;
 
 private:
   void UpdateRarity(const std::vector<Article>& articles);
-
+  bool m_updated = false;
   int64_t m_recheck_counter = 10000;
   int64_t m_rarity_score = 0;
   std::string m_title;

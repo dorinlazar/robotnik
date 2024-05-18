@@ -124,3 +124,5 @@ bool FeedParser::ProcessInItemEndElement(const std::string& name) {
 const std::vector<Article>& FeedParser::GetArticles() const { return m_articles; }
 
 const std::string& FeedParser::Title() const { return m_title; }
+
+time_t FeedParser::BuildDate() const { return m_build_date; }

@@ -90,7 +90,7 @@ public:
         std::string message = std::format("{} {}", article.title, article.link);
         m_bot->SendMessage(message, feed->Destination());
       }
-      if (!new_articles.empty()) {
+      if (feed->Updated()) {
         m_kvstore->Put(feed->Url(), feed->ToJson());
       }
     }

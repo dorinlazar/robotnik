@@ -29,6 +29,7 @@ public:
   const std::vector<Article>& GetArticles() const;
 
   const std::string& Title() const;
+  time_t BuildDate() const;
 
 private:
   bool UpdateFeedSystem(const std::string& name);
@@ -43,6 +44,6 @@ private:
   std::string m_current_element;
   std::vector<Article> m_articles;
   Article m_current_article;
-  time_t m_build_date;
+  time_t m_build_date = 0;
   std::string m_title;
 };

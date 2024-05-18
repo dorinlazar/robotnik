@@ -43,6 +43,7 @@ std::shared_ptr<FeedData> FeedData::FromJson(const std::string& url, const std::
 }
 
 std::vector<Article> FeedData::GetNewArticles(bool force) {
+  m_updated = false;
   auto current_time = ::time(nullptr);
 
   if (m_rarity_score > 0) {
@@ -81,9 +82,15 @@ std::vector<Article> FeedData::GetNewArticles(bool force) {
   for (const auto& article: all_articles) {
     m_article_ids.insert(article.guid);
   }
-  m_title = feed_parser->Title();
+  if (m_title != feed_parser->Title()) {
+    m_updated = true;
+    m_title = feed_parser->Title();
+  }
   UpdateRarity(all_articles);
-  m_last_updated = current_time;
+  m_last_updated = feed_parser->BuildDate();
+  if (!articles.empty()) {
+    m_updated = true;
+  }
   return articles;
 }
 
@@ -138,5 +145,11 @@ void FeedData::UpdateRarity(const std::vector<Article>& articles) {
   } else {
     m_rarity_score = 30;
   }
+  if (old_rarity != m_rarity_score) {
+    m_updated = true;
+  }
   std::println("Rarity score update: from {} to {} for {} ({})", old_rarity, m_rarity_score, m_title, m_feed_url);
 }
+
+bool FeedData::Rare() const { return m_rarity_score > 0; }
+bool FeedData::Updated() const { return m_updated; }
