@@ -35,6 +35,8 @@ public:
       if (chunk) {
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
       }
+      curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);
+      curl_easy_setopt(curl, CURLOPT_USERAGENT, "Robotnik Discordia/1.0");
       curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
       curl_easy_setopt(curl, CURLOPT_WRITEDATA, &result);
       curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
@@ -49,16 +51,15 @@ FileFetcher::FileFetcher(const std::string& url, time_t last_modified) : m_url(u
 
 time_t FileFetcher::LastModified() const { return m_last_modified; }
 
-std::string FileFetcher::FetchFeed(bool force) {
+std::string FileFetcher::FetchFeed() {
   std::map<std::string, std::string> headers;
-  if (m_last_modified != 0 && !force) {
+  if (m_last_modified != 0) {
     const auto value = ConvertTimeStampToRfc822(m_last_modified);
     headers["If-Modified-Since"] = value;
-    std::println("Using If-Modified-Since: {}", value);
   }
   time_t request_time = time(nullptr);
   auto result = CurlLibrary::GetInstance().FetchFile(m_url, headers);
-  if (result) {
+  if (result.has_value() && !result->empty()) {
     m_last_modified = request_time;
     return *result;
   }

@@ -32,37 +32,18 @@ std::shared_ptr<FeedData> FeedData::FromJson(const std::string& url, const std::
   if (parsed.contains("title")) {
     feed_data->m_title = parsed["title"];
   }
-  if (parsed.contains("rarity")) {
-    feed_data->m_rarity_score = parsed["rarity"];
-  }
   feed_data->m_feed_url = url;
-  if (feed_data->m_feed_url.contains("rachelbythebay.com")) {
-    feed_data->m_rarity_score = 20;
-  }
   return feed_data;
 }
 
-std::vector<Article> FeedData::GetNewArticles(bool force) {
+std::vector<Article> FeedData::GetNewArticles() {
   m_updated = false;
-  auto current_time = ::time(nullptr);
-
-  if (m_rarity_score > 0) {
-    m_recheck_counter++;
-    if (m_recheck_counter < m_rarity_score) {
-      std::println("Skipping for new articles in {} ({})", m_title, m_feed_url);
-      return {};
-    }
-    m_recheck_counter = 0;
-  }
-
   std::println("Checking for new articles in {} ({})", m_title, m_feed_url);
 
-  FileFetcher fetcher(m_feed_url);
-  auto feed_content = fetcher.FetchFeed(force);
+  auto current_time = ::time(nullptr);
+  FileFetcher fetcher(m_feed_url, m_last_updated);
+  auto feed_content = fetcher.FetchFeed();
   if (feed_content.empty()) {
-    if (m_recheck_counter < 20) {
-      UpdateRarity({});
-    }
     return {};
   }
 
@@ -86,7 +67,6 @@ std::vector<Article> FeedData::GetNewArticles(bool force) {
     m_updated = true;
     m_title = feed_parser->Title();
   }
-  UpdateRarity(all_articles);
   m_last_updated = feed_parser->BuildDate();
   if (!articles.empty()) {
     m_updated = true;
@@ -107,49 +87,4 @@ const std::string& FeedData::Url() const { return m_feed_url; }
 
 const std::string& FeedData::Destination() const { return m_destination; }
 
-void FeedData::UpdateRarity(const std::vector<Article>& articles) {
-  // Determine last 10 articles timestamps
-  const size_t last_articles_count = 10;
-  std::array<time_t, last_articles_count> last_article_times;
-  for (size_t i = 0; i < last_articles_count; i++) {
-    last_article_times[i] = 0;
-  }
-
-  for (const auto& article: articles) {
-    auto iterator = std::ranges::min_element(last_article_times);
-    if (article.pub_date > *iterator) {
-      *iterator = article.pub_date;
-    }
-  }
-  auto n_articles_considered = last_articles_count;
-  auto max_time = time(nullptr);
-  for (auto& timestamp: last_article_times) {
-    if (timestamp == 0) {
-      timestamp = max_time;
-      n_articles_considered--;
-    }
-  }
-  time_t min_time = *std::ranges::min_element(last_article_times);
-  if (n_articles_considered == 0) {
-    n_articles_considered = 1;
-    min_time = m_last_updated;
-  }
-  auto time_diff = (max_time - min_time) / n_articles_considered;
-  auto old_rarity = m_rarity_score;
-  if (time_diff < 3600) { // 1h
-    m_rarity_score = 1;
-  } else if (time_diff < 86400) { // 1d
-    m_rarity_score = 3;
-  } else if (time_diff < 604800) { // 1w
-    m_rarity_score = 5;
-  } else {
-    m_rarity_score = 30;
-  }
-  if (old_rarity != m_rarity_score) {
-    m_updated = true;
-  }
-  std::println("Rarity score update: from {} to {} for {} ({})", old_rarity, m_rarity_score, m_title, m_feed_url);
-}
-
-bool FeedData::Rare() const { return m_rarity_score > 0; }
 bool FeedData::Updated() const { return m_updated; }

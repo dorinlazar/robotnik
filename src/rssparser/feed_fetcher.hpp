@@ -4,10 +4,10 @@
 
 class FileFetcher {
 public:
-  explicit FileFetcher(const std::string& url, time_t last_modified = 0);
+  explicit FileFetcher(const std::string& url, time_t last_modified);
 
   time_t LastModified() const;
-  std::string FetchFeed(bool force = false);
+  std::string FetchFeed();
 
 private:
   std::string m_url;

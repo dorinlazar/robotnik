@@ -42,7 +42,6 @@ public:
 
     std::println("Creating entry for feed: {} in channel: {}", url, channel);
     auto feed_data = FeedData::Create(url, channel);
-    feed_data->GetNewArticles(true);
     std::println("Storing entry for feed: {} in channel: {}", url, channel);
     m_kvstore->Put(url, feed_data->ToJson());
     std::println("Feed added: {}", url);
@@ -82,9 +81,7 @@ public:
     }
     std::println("Processing {} feeds", feeds_to_process.size());
     for (auto& feed: feeds_to_process) {
-      bool force = (m_forced_counter++ % 3000) == 0;
-      std::println("Processing feed: {} with force: {}", feed->Url(), force);
-      auto new_articles = feed->GetNewArticles(force);
+      auto new_articles = feed->GetNewArticles();
       std::println("Found {} new articles in {}", new_articles.size(), feed->Url());
       for (const auto& article: new_articles) {
         std::string message = std::format("{} {}", article.title, article.link);
@@ -97,12 +94,14 @@ public:
   }
 
   static void RefreshThread(std::stop_token stop_token) {
+    std::println("Starting refresh thread. See you in an hour.");
+    std::this_thread::sleep_for(std::chrono::seconds(3600));
     while (!stop_token.stop_requested()) {
       std::println("Refreshing feeds.");
       FeedCollection::Instance().RefreshFeeds();
       std::unique_lock<std::mutex> lock(FeedCollection::Instance().m_mutex);
       std::println("Waiting for next refresh. ");
-      FeedCollection::Instance().m_cv.wait_for(lock, std::chrono::seconds(527),
+      FeedCollection::Instance().m_cv.wait_for(lock, std::chrono::seconds(3600),
                                                [&stop_token] { return stop_token.stop_requested(); });
     }
   }
@@ -145,7 +144,7 @@ void RssAddFeature::HandleCommand(const dpp::slashcommand_t& event) {
 
   std::println("Adding feed: {} to channel: {}", url, channel);
   if (FeedCollection::Instance().AddFeed(url, channel)) {
-    event.reply("Feed added!");
+    event.reply(std::format("Feed {} added! Will be added with the next scan to channel {}", url, channel));
   } else {
     event.reply("Feed already exists!");
   }
