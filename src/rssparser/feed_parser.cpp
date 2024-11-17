@@ -63,9 +63,11 @@ bool FeedParser::UpdateFeedSystem(const std::string& name) {
 }
 
 bool FeedParser::StartItem(const std::string& name) {
-  m_in_item = name == m_feed_system->item_name;
-  if (m_in_item) {
-    m_current_article = Article();
+  if (m_feed_system != nullptr) {
+    m_in_item = name == m_feed_system->item_name;
+    if (m_in_item) {
+      m_current_article = Article();
+    }
   }
   return true;
 }
@@ -84,7 +86,7 @@ bool FeedParser::ProcessStartElementInItem(const std::string& name,
 }
 
 bool FeedParser::ProcessOutOfItemEndElement(const std::string& name) {
-  if (!m_in_item) {
+  if (!m_in_item && m_feed_system != nullptr) {
     if (name == m_feed_system->last_build_date_name) {
       m_build_date = ConvertRfc822ToTimeStamp(m_current_data);
     }
@@ -96,6 +98,9 @@ bool FeedParser::ProcessOutOfItemEndElement(const std::string& name) {
 }
 
 bool FeedParser::ProcessInItemEndElement(const std::string& name) {
+  if (m_feed_system == nullptr) {
+    return true;
+  }
   if (name == m_feed_system->item_name) {
     m_in_item = false;
     if (!m_current_article.link.empty()) {
